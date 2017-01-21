@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # A Blank PhoneGap App
 
 ## Usage
@@ -12,3 +13,6 @@ In your browser, open the file:
 
     /www/index.html
 
+=======
+# ProjectCode
+>>>>>>> 1e70362320f073ad6a910e32e4ebad251b83f489
