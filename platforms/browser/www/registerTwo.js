@@ -1,4 +1,3 @@
-
 function register()
 {
     event.preventDefault();
@@ -10,14 +9,8 @@ function register()
             async: false})
             .done(function(response) {
                 console.log(response);
-                //alert("RESPONSE: " + response);
-                //console.log("THE ORIGINAL RESPONSE" + response);
+
                 var result = JSON.parse(response);
-                //var ok = "ok";
-                //var exists = "Username already exists";
-                //var emptyFields = "Empty fields";
-                
-                //console.log("The response from api was: "+result["status"]);
             
                 if (result["status"] == "ok") 
                 {

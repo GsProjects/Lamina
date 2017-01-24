@@ -1,10 +1,10 @@
-function register()
+function animalProfile()
 {
     event.preventDefault();
     
         $.ajax({
-            url: "http://gProject.pythonanywhere.com/register",
-            data: $('#registerForm').serialize(),
+            url: "http://gProject.pythonanywhere.com/animalProfile",
+            data: $('#profileForm').serialize(),
             type: 'POST',
             async: false})
             .done(function(response) {
@@ -15,22 +15,22 @@ function register()
                 if (result["status"] == "ok") 
                 {
                     console.log("yurt 1");
-                    alert("Registration successful");
+                    alert("Animal profile updated");
                      window.location.replace("home.html");
                    
                 } 
-                else if(result["status"] == "Username already exists") 
+                else if(result["status"] == "Animal id already exists") 
                 {
                     console.log("yurt 2" + result["status"]);
-                    alert("The user name already exists please try again");
-                    window.location.replace ("register.html");
+                    alert("The animal id already exists please try again");
+                    window.location.replace ("addAnimalProfile.html");
                    
                 }
                 else if(result["status"] == "Empty fields")
                 {
                     console.log("yurt 3");
                     alert("Please fill in all the fields");
-                    window.location.replace ("register.html");
+                    window.location.replace ("addAnimalProfile.html");
                 
             }
         })
@@ -38,6 +38,5 @@ function register()
 };
 function back()
 {
-    window.location.replace ("index.html");
+    window.location.replace ("home.html");
 };
-

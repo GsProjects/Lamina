@@ -6,27 +6,29 @@ cnx2 = mysql.connector.connect(host= 'gProject.mysql.pythonanywhere-services.com
 
 app = Flask(__name__)
 @app.route('/userlogin',methods=['POST','GET'])
-def func():
+def func3():
     x='You are in login'
     print(x)
 
     tempUser = request.form['userName']
     tempPassword = request.form['userPassword']
-    
-
 
     username = tempUser.lower()
     password = tempPassword.lower()
-    
+
     if(username == '' or password == '' ):
         Result = json.dumps({"status": "Empty fields"})
         return Result
     else:
         exists = check_existance(username)
+        print("CONTENTS Exists :" + str(exists))
         if(len(exists) == 1):
             temp=exists[0]
             data=temp[2]
-            if(oldPassword == data[0]):
+            print("CONTENTS DATA[0] :" + str(data))
+            if(password == data[0]):
+                session['user'] = username
+                session['userPassword'] = password
                 overallResult = json.dumps({"status": "successful"})
                 return overallResult
             else:
@@ -44,8 +46,6 @@ def check_existance(username:str):
     result = cursor.fetchall()
     cursor.close()
     return result
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

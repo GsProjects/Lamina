@@ -141,3 +141,13 @@
 	border-color: #fff;
     margin-top: 0% 
 }
+.select
+{
+    font-family: 'Rajdhani', sans-serif;
+	border-color: Black;
+	margin-left: 25%;
+	margin-right: 25%;
+	width: 50%;
+	margin-bottom: 2.5%;
+	border-radius: 10px;
+}

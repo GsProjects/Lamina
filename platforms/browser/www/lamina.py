@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request,json
+from flask import Flask, render_template, request,json,session
 import mysql.connector
 
 
 cnx2 = mysql.connector.connect(host= 'gProject.mysql.pythonanywhere-services.com', user= 'gProject', password= '_mf698t_', database= 'gProject$Lamina')
 
 app = Flask(__name__)
-app.secret_key = 'b\x808\xa7\x84\x1e\xfc\x96\xc0\xbf\xb1\x80>\x97c**I\xb1\xaf\x94U\xaaz\xbb
-'
+app.secret_key='F12Zr47j\3yX R~X@H!jmM]Lwf/,?KT'
+
 @app.route('/register',methods=['POST','GET'])
 def func():
     x='You are in register'
@@ -27,11 +27,13 @@ def func():
         return Result
     else:
         exists = check_existance(username)
-        if(len(exists) == 1):
+        if(len(exists) <= 1):
             ids = get_current_id()
 
             result = add_user(str(username), str(password),str(confirmedPassword))
 
+            session['user'] = username
+            session['userPassword'] = password
             overallResult = json.dumps({"status": "ok"})
             return overallResult
         else:
@@ -66,7 +68,7 @@ def check_existance(username:str):
     result = cursor.fetchall()
     cursor.close()
     return result
-    
+
 @app.route('/changePassword',methods=['POST','GET'])
 def func2():
     x='You are in change password'
@@ -90,7 +92,7 @@ def func2():
     else:
         exists = check_existance(user)
 
-        if(len(exists) == 1):
+        if(len(exists) <= 1):
             temp=exists[0]
             data=temp[2]
             if(oldPassword == data[0]):
@@ -142,29 +144,31 @@ def check_existance(user:str):
     result = cursor.fetchall()
     cursor.close()
     return result
-    
+
 @app.route('/userlogin',methods=['POST','GET'])
-def func():
+def func3():
     x='You are in login'
     print(x)
 
-     tempUser = request.form['userName']
+    tempUser = request.form['userName']
     tempPassword = request.form['userPassword']
-    
-
 
     username = tempUser.lower()
     password = tempPassword.lower()
-    
+
     if(username == '' or password == '' ):
         Result = json.dumps({"status": "Empty fields"})
         return Result
     else:
         exists = check_existance(username)
+        print("CONTENTS Exists :" + str(exists))
         if(len(exists) == 1):
             temp=exists[0]
             data=temp[2]
-            if(oldPassword == data[0]):
+            print("CONTENTS DATA[0] :" + str(data))
+            if(password == data[0]):
+                session['user'] = username
+                session['userPassword'] = password
                 overallResult = json.dumps({"status": "successful"})
                 return overallResult
             else:
@@ -182,6 +186,77 @@ def check_existance(username:str):
     result = cursor.fetchall()
     cursor.close()
     return result
+
+
+@app.route('/animalProfile',methods=['POST','GET'])
+def func4():
+    x='You are in animalProfile'
+    print(x)
+
+    tempAnimalIdentifier = request.form['animalID']
+    tempType= request.form['animalType']
+    tempBreed = request.form['animalBreed']
+    tempWeight = request.form['animalWeight']
+    tempGender= request.form['animalGender']
+
+
+    animalIdentifier = tempAnimalIdentifier.lower()
+    animalType = tempType.lower()
+    animalBreed = tempBreed.lower()
+    animalWeight = tempWeight.lower()
+    animalGender = tempGender.lower()
+    owner = session['user']
+
+    print("THE SESSION USERNAME IS : " + owner)
+
+
+    if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender ==''):
+        Result = json.dumps({"status": "Empty fields"})
+        return Result
+    else:
+        exists = check_animal_existance(animalIdentifier)
+        if(len(exists) <= 1):
+            ids = get_current_id()
+
+            #TODO get owner id and add to argument list
+            result = update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner)
+
+            overallResult = json.dumps({"status": "ok"})
+            return overallResult
+        else:
+            overallResult = json.dumps({"status": "Animal id already exists"})
+            return overallResult
+
+
+def get_current_id():
+    cursor = cnx2.cursor()
+    query = ("SELECT MAX(id) from Animal")
+    cursor.execute(query)
+    theID = cursor.fetchone()
+    result = theID[0]
+    cursor.close()
+    return result
+
+
+#TODO change update_animal_profile argument list
+def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner):
+    cursor = cnx2.cursor()
+    query = ("Insert into Animal (animalIdentifier , typeAnimal, breedAnimal, weightAnimal,genderAnimal,ownerID) values(%s, %s, %s,%s, %s, %s)")
+    cursor.execute(query,(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner))
+    cnx2.commit()
+    cursor.close()
+    return True
+
+#TODO parameter list
+def check_animal_existance(animalIdentifier:str):
+    cursor = cnx2.cursor()
+    query = ("Select * from Animal where animalIdentifier = %s")
+    cursor.execute(query,(animalIdentifier, ))
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
+
 
 
 

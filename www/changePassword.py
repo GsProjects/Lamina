@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request,json
+from requests import Session
 import mysql.connector
 
 
@@ -28,7 +29,7 @@ def func2():
     else:
         exists = check_existance(user)
 
-        if(len(exists) == 1):
+        if(len(exists) <= 1):
             temp=exists[0]
             data=temp[2]
             if(oldPassword == data[0]):
@@ -80,8 +81,6 @@ def check_existance(user:str):
     result = cursor.fetchall()
     cursor.close()
     return result
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

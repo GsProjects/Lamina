@@ -25,11 +25,13 @@ def func():
         return Result
     else:
         exists = check_existance(username)
-        if(len(exists) == 1):
+        if(len(exists) <= 1):
             ids = get_current_id()
 
             result = add_user(str(username), str(password),str(confirmedPassword))
 
+            session['user'] = username
+            session['userPassword'] = password
             overallResult = json.dumps({"status": "ok"})
             return overallResult
         else:
@@ -64,8 +66,6 @@ def check_existance(username:str):
     result = cursor.fetchall()
     cursor.close()
     return result
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
