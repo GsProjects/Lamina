@@ -9,6 +9,9 @@ app = Flask(__name__)
 def func4():
     x='You are in animalProfile'
     print(x)
+    
+    #TODO if the tracking id entered is already associated with another user then prompt them to enter another one so a user cant track other peoples pets/animals to get a rough approximation of their location
+    
 
     tempAnimalIdentifier = request.form['animalID']
     tempType= request.form['animalType']

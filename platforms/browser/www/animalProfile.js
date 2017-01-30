@@ -21,18 +21,21 @@ function animalProfile()
                 } 
                 else if(result["status"] == "Animal id already exists") 
                 {
-                    console.log("yurt 2" + result["status"]);
                     alert("The animal id already exists please try again");
                     window.location.replace ("addAnimalProfile.html");
                    
                 }
                 else if(result["status"] == "Empty fields")
                 {
-                    console.log("yurt 3");
                     alert("Please fill in all the fields");
                     window.location.replace ("addAnimalProfile.html");
-                
-            }
+                }
+                 else if(result["status"] == "logged out")
+                {
+                    alert("You need to login");
+                    window.location.replace ("index.html");
+                         
+                }
         })
         
 };

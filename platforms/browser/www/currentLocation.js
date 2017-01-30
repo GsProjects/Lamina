@@ -1,16 +1,16 @@
-function animalProfile()
+function location()
 {
     event.preventDefault();
     
         $.ajax({
             url: "http://gProject.pythonanywhere.com/animalProfile",
-            data: $('#profileForm').serialize(),
-            type: 'POST',
+            type: 'GET',
             async: false})
             .done(function(response) {
                 console.log(response);
 
                 var result = JSON.parse(response);
+                console.log("result")
             
                 if (result["status"] == "ok") 
                 {
