@@ -1,10 +1,11 @@
-function location()
+function animal_location()
 {
-    event.preventDefault();
+    //event.preventDefault();
+    console.log("In currentLocation.js");
     
         $.ajax({
-            url: "http://gProject.pythonanywhere.com/animalProfile",
-            type: 'GET',
+            url: "http://gProject.pythonanywhere.com/currentLocation",
+            type: 'POST',
             async: false})
             .done(function(response) {
                 console.log(response);
@@ -12,30 +13,7 @@ function location()
                 var result = JSON.parse(response);
                 console.log("result")
             
-                if (result["status"] == "ok") 
-                {
-                    console.log("yurt 1");
-                    alert("Animal profile updated");
-                     window.location.replace("home.html");
-                   
-                } 
-                else if(result["status"] == "Animal id already exists") 
-                {
-                    alert("The animal id already exists please try again");
-                    window.location.replace ("addAnimalProfile.html");
-                   
-                }
-                else if(result["status"] == "Empty fields")
-                {
-                    alert("Please fill in all the fields");
-                    window.location.replace ("addAnimalProfile.html");
-                }
-                 else if(result["status"] == "logged out")
-                {
-                    alert("You need to login");
-                    window.location.replace ("index.html");
-                         
-                }
+                
         })
         
 };

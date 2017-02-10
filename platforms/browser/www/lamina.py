@@ -34,6 +34,7 @@ def func():
 
             session['user'] = username
             session['userPassword'] = password
+            session['loggedIn'] = 'true'
             overallResult = json.dumps({"status": "ok"})
             return overallResult
         else:
@@ -161,14 +162,13 @@ def func3():
         return Result
     else:
         exists = check_existance(username)
-        print("CONTENTS Exists :" + str(exists))
         if(len(exists) == 1):
             temp=exists[0]
             data=temp[2]
-            print("CONTENTS DATA[0] :" + str(data))
             if(password == data[0]):
                 session['user'] = username
                 session['userPassword'] = password
+                session['loggedIn'] = 'true'
                 overallResult = json.dumps({"status": "successful"})
                 return overallResult
             else:
@@ -200,35 +200,41 @@ def func4():
     tempGender= request.form['animalGender']
 
 
+
     animalIdentifier = tempAnimalIdentifier.lower()
     animalType = tempType.lower()
     animalBreed = tempBreed.lower()
     animalWeight = tempWeight.lower()
     animalGender = tempGender.lower()
+    trackingNumber = request.form['trackingNum']
     owner = session['user']
 
     print("THE SESSION USERNAME IS : " + owner)
 
+    if(session['loggedIn'] == 'true'):
 
-    if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender ==''):
-        Result = json.dumps({"status": "Empty fields"})
-        return Result
-    else:
-        exists = check_animal_existance(animalIdentifier)
-        if(len(exists) <= 1):
-            ids = get_current_id()
-
-            #TODO get owner id and add to argument list
-            result = update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner)
-
-            overallResult = json.dumps({"status": "ok"})
-            return overallResult
+        if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender =='' or trackingNumber ==''):
+            Result = json.dumps({"status": "Empty fields"})
+            return Result
         else:
-            overallResult = json.dumps({"status": "Animal id already exists"})
-            return overallResult
+            exists = check_animal_existance(animalIdentifier)
+            if(len(exists) <= 1):
+                ids = get_current_animal_id()
+
+                #TODO what if animal id is already in database should be unique
+                result = update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber)
+
+                overallResult = json.dumps({"status": "ok"})
+                return overallResult
+            else:
+                overallResult = json.dumps({"status": "Animal id already exists"})
+                return overallResult
+    else:
+        Result = json.dumps({"status": "logged out"})
+        return Result
 
 
-def get_current_id():
+def get_current_animal_id():
     cursor = cnx2.cursor()
     query = ("SELECT MAX(id) from Animal")
     cursor.execute(query)
@@ -239,10 +245,10 @@ def get_current_id():
 
 
 #TODO change update_animal_profile argument list
-def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner):
+def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber):
     cursor = cnx2.cursor()
-    query = ("Insert into Animal (animalIdentifier , typeAnimal, breedAnimal, weightAnimal,genderAnimal,ownerID) values(%s, %s, %s,%s, %s, %s)")
-    cursor.execute(query,(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner))
+    query = ("Insert into Animal (animalIdentifier , typeAnimal, breedAnimal, weightAnimal,genderAnimal,ownerID,trackingID) values(%s,%s, %s, %s,%s, %s, %s)")
+    cursor.execute(query,(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber))
     cnx2.commit()
     cursor.close()
     return True
@@ -256,9 +262,32 @@ def check_animal_existance(animalIdentifier:str):
     cursor.close()
     return result
 
+@app.route('/currentLocation',methods=['POST','GET'])
+def func5():
+    x='You are in currentLocation'
+    print(x)
+
+    #need to join id in Tracking id in Coordinates table to id in Animal table then take the latest gps result
+
+    location = get_current_location(session['user'])
+    print('yurt' + str(location))
+
+    return location
+
+
+
+def get_current_location(userID:str):
+    cursor = cnx2.cursor()
+    query = ("Select * from currentCoordinates where username = %s")
+    cursor.execute(query,(username, ))
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
 
 
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+

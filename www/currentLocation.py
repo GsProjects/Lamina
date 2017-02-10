@@ -14,7 +14,7 @@ def func3():
     
     location = get_current_location(session['user'])
     
-    return location
+    return json.dumps({"status": location})
     
 
 
