@@ -5,13 +5,14 @@ function animal_location()
     
         $.ajax({
             url: "http://gProject.pythonanywhere.com/currentLocation",
-            type: 'POST',
-            async: false})
+            type: 'GET',
+            async: true})
             .done(function(response) {
+                console.log("YURT");
                 console.log(response);
 
                 var result = JSON.parse(response);
-                console.log("result")
+                console.log(result);
             
                 
         })

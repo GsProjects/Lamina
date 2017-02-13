@@ -33,6 +33,15 @@ function register()
                     window.location.replace ("register.html");
                 
             }
+            else if(result["status"] == "You are already logged in as another user")
+                {
+                    console.log("yurt 3");
+                    alert("You are already logged in as another user");
+                    window.location.replace ("index.html");
+                
+            }
+            
+         
         })
         
 };

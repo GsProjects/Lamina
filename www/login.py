@@ -1,41 +1,34 @@
-from flask import Flask, render_template, request,json
-import mysql.connector
+from flask import Flask,session,json
+from connector import create_connection
+cnx2 = create_connection()
 
-
-cnx2 = mysql.connector.connect(host= 'gProject.mysql.pythonanywhere-services.com', user= 'gProject', password= '_mf698t_', database= 'gProject$Lamina')
-
-app = Flask(__name__)
-@app.route('/userlogin',methods=['POST','GET'])
-def func3():
+def login(username,password,session):
     x='You are in login'
     print(x)
 
-    tempUser = request.form['userName']
-    tempPassword = request.form['userPassword']
-
-    username = tempUser.lower()
-    password = tempPassword.lower()
-
     if(username == '' or password == '' ):
         Result = json.dumps({"status": "Empty fields"})
+        cnx2.close()
         return Result
     else:
         exists = check_existance(username)
-        print("CONTENTS Exists :" + str(exists))
         if(len(exists) == 1):
             temp=exists[0]
             data=temp[2]
-            print("CONTENTS DATA[0] :" + str(data))
             if(password == data[0]):
                 session['user'] = username
                 session['userPassword'] = password
+                session['loggedIn'] = 'true'
                 overallResult = json.dumps({"status": "successful"})
+                cnx2.close()
                 return overallResult
             else:
                 overallResult = json.dumps({"status": "Incorrect Password"})
+                cnx2.close()
                 return overallResult
         else:
             overallResult = json.dumps({"status": "Incorrect user name"})
+            cnx2.close()
             return overallResult
 
 
@@ -46,6 +39,3 @@ def check_existance(username:str):
     result = cursor.fetchall()
     cursor.close()
     return result
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -36,6 +36,13 @@ function animalProfile()
                     window.location.replace ("index.html");
                          
                 }
+             else if(result["status"] == "Session timed out, please log in again")
+                {
+                    alert("You need to login");
+                    window.location.replace ("index.html");
+                         
+                }
+            
         })
         
 };
