@@ -23,7 +23,6 @@ def change_password(user, password, confirmedPassword, oldPassword):
                      userID = get_user_id(user)
                 else:
                     overallResult = json.dumps({"status": "Old password is incorrect"})
-                    print(overallResult)
                     return overallResult
 
                 if(password == confirmedPassword):
@@ -31,11 +30,9 @@ def change_password(user, password, confirmedPassword, oldPassword):
                     result = update_user(str(user), str(password),str(confirmedPassword),userID)
 
                     overallResult = json.dumps({"status": "updated"})
-                    print(overallResult)
                     return overallResult
                 else:
                     overallResult = json.dumps({"status": "The new passwords do not match"})
-                    print(overallResult)
                     return overallResult
 
 

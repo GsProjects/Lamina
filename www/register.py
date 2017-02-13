@@ -5,25 +5,23 @@ from connector import create_connection
 
 #cnx2 = mysql.connector.connect(host= 'gProject.mysql.pythonanywhere-services.com', user= 'gProject', password= '_mf698t_', database= 'gProject$Lamina')
 
-def register(username,password,confirmedPassword,session):
+def register(username,password,confirmedPassword):
     x='You are in register'
     print(x)
-    if session['loggedIn'] == False:
-        if(username == '' or password == '' or confirmedPassword == ''):
-            Result = json.dumps({"status": "Empty fields"})
-            return Result
+    if(username == '' or password == '' or confirmedPassword == ''):
+        Result = json.dumps({"status": "Empty fields"})
+        return Result
+    else:
+        exists = check_existance(username)
+        if(len(exists) <= 1):
+            ids = get_current_id()
+
+            result = add_user(str(username), str(password),str(confirmedPassword))
+            overallResult = json.dumps({"status": "ok"})
+            return overallResult
         else:
-            exists = check_existance(username)
-            if(len(exists) <= 1):
-                ids = get_current_id()
-
-                result = add_user(str(username), str(password),str(confirmedPassword))
-
-                overallResult = json.dumps({"status": "ok"})
-                return overallResult
-            else:
-                overallResult = json.dumps({"status": "Username already exists"})
-                return overallResult
+            overallResult = json.dumps({"status": "Username already exists"})
+            return overallResult
 
 
 
