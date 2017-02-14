@@ -122,7 +122,7 @@ def func5():
     print(x)
     result = location(session['user'])
     print('THE RESULT' + str(result))
-    return json.dumps(result)
+    return json.dumps({"data":str(result)})#mysql datetime objects not json serializeable
 
 
 
