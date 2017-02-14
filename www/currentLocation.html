@@ -24,9 +24,8 @@
 
         <div class="map" id ="map">
                 <script>
-                   var gps =[];
-    var coordinate_array = JSON.parse(window.localStorage.getItem("coordinates"));
-    console.log(coordinate_array);
+                   var gps =JSON.parse(window.localStorage.getItem("coordinates"));
+                    var coordinate_array;
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
                     var map = new mapboxgl.Map({
@@ -38,45 +37,51 @@
 
 
     map.on('load', function () {
-        var i = 0;
+        var i = 0; 
+        var outer_loop = 0;
         var id_value =0;
-        while(i<coordinate_array.length)
-        {    
+        //TODO seperate out each array of coordinates
+        while(outer_loop <= gps.length)
+            {
+                coordinate_array = gps[outer_loop];
+                while(i<coordinate_array.length)
+                {    
 
-        map.addLayer({
-            "id": coordinate_array[i+2],
-            "type": "symbol",
-            "source": {
-                "type": "geojson",
-                "data": {
-                    "type": "FeatureCollection",
-                    "features": [{
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "Point",
-                            "cluster":true,
-                            "coordinates": [parseFloat(coordinate_array[i]),parseFloat(coordinate_array[i+1])]
-                        },
-                        "properties": {
-                            "title": coordinate_array[i+2],
-                            "icon": "dog-park"
+                map.addLayer({
+                    "id": coordinate_array[i+2],
+                    "type": "symbol",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": [{
+                                "type": "Feature",
+                                "geometry": {
+                                    "type": "Point",
+                                    "cluster":true,
+                                    "coordinates": [parseFloat(coordinate_array[i]),parseFloat(coordinate_array[i+1])]
+                                },
+                                "properties": {
+                                    "title": coordinate_array[i+2],
+                                    "icon": "dog-park"
 
+                                }
+                            }]
                         }
-                    }]
+                    },
+                    "layout": {
+                        "icon-image": "{icon}-15",
+                        "text-field": "{title}",
+                        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                        "text-offset": [0, 0.6],
+                        "text-anchor": "top"
+                    }
+                });
+                i = 4;
+                console.log(coordinate_array[i])
+
                 }
-            },
-            "layout": {
-                "icon-image": "{icon}-15",
-                "text-field": "{title}",
-                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset": [0, 0.6],
-                "text-anchor": "top"
             }
-        });
-        i = 4;
-        console.log(coordinate_array[i])
-       
-        }
     });
     
                    

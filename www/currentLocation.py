@@ -12,15 +12,20 @@ def location(user):
     animals= []
     coordinates= []
     for items in locations:
-            trackID.add(items)
-            animals = get_associated_animals(trackID)
+        trackID.add(items[1])
     
-    print('Animals: ' + str(animals))
+    
+    for ids in trackID:
+        animals.append( get_associated_animals(ids) )
 
+    
     for animal in animals:
-        max_id = get_max_id(animal[7])
-        currentlocation = get_latest_location(max_id)
-        coordinates.append(currentlocation)
+        for elements in animal:    
+            print(animal)
+            max_id = get_max_id(elements[7])
+            currentlocation = get_latest_location(max_id)
+            coordinates.append(currentlocation)
+        
     #get max id for each animal tracking id
 
     return coordinates

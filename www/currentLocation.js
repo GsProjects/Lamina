@@ -24,7 +24,8 @@ function process_data(location_data)
 {
     var result = JSON.parse(location_data);
     console.log(result);
-    var coordinates_to_string = result[0].toString();
+    //var coordinates_to_string = result[0].toString();
+    var coordinates_to_string = result.toString();
     var coordinate_array = coordinates_to_string.split(",");
     window.localStorage.setItem("coordinates", JSON.stringify(coordinate_array));
   }
