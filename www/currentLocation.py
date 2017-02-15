@@ -6,7 +6,6 @@ def location(user):
     x='You are in currentLocation'
     print(x)
 
-    #need to join id in Tracking id in Coordinates table to id in Animal table then take the latest gps result
     locations = get_current_location(user)#get all locations associated with the current user
     trackID = set()
     animals= []
@@ -14,17 +13,16 @@ def location(user):
     for items in locations:
         trackID.add(items[1])
     
-    
     for ids in trackID:
         animals.append( get_associated_animals(ids) )
-
+        
     
     for animal in animals:
-        for elements in animal:    
-            print(animal)
+        for elements in animal:
             max_id = get_max_id(elements[7])
             currentlocation = get_latest_location(max_id)
             coordinates.append(currentlocation)
+            coordinates.append(' ')
         
     #get max id for each animal tracking id
 
