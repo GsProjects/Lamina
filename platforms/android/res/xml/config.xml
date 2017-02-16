@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.phonegap.animalTracker" version="1.1.0" xmlns="http://www.w3.org/ns/widgets">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>Lamina</name>
+    <description>
+        A blank PhoneGap app.
+    </description>
+    <author email="support@phonegap.com" href="http://phonegap.com">
+        PhoneGap Team
+    </author>
+    <content src="index.html" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
+    <access origin="*" />
+    <icon src="icon.png" />
+    <icon platform="android" qualifier="ldpi" src="icon.png" />
+    <icon platform="android" qualifier="mdpi" src="icon.png" />
+    <icon platform="android" qualifier="hdpi" src="icon.png" />
+    <icon platform="android" qualifier="xhdpi" src="icon.png" />
+    <icon platform="android" qualifier="xxhdpi" src="icon.png" />
+    <icon platform="android" qualifier="fr-xxhdpi" src="icon.png" />
+    <preference name="loglevel" value="DEBUG" />
+</widget>
