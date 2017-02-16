@@ -13,21 +13,19 @@
          <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
         <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.js'></script>
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.css' rel='stylesheet' />
-        <script src="currentMap.js"></script>
+        <script type="text/javascript" src="backButton.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         
         <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
     </head>
-    <body class="body">
+    <body class="body" onload="onLoad()">
 
         <div class="map" id ="map">
                 <script>
                     var gps = JSON.parse(window.localStorage.getItem("coordinates"));  
-                    console.log("§§§§§§§§§§§§§§§§§§§§§§§§§");
-                    console.log(gps[0]);
-
                     var gps =JSON.parse(window.localStorage.getItem("coordinates"));                    
                     var coordinate_array;
 
@@ -44,23 +42,12 @@
         var i = 0; 
         var outer_loop = 0;
         var id_value =0;
-        //TODO seperate out each array of coordinates
-        
-        //console.log("Separated:  "+ separated_coordinates);
-        //need to loop through splices
+      
         while(outer_loop != gps.length)
             {
                 
                 var separated_coordinates = gps.splice(outer_loop,outer_loop+4);
-                //console.log("outerloop start: " + outer_loop);
-       
-                /*console.log(separated_coordinates[0]);
-                console.log(separated_coordinates[1]);
-                console.log(separated_coordinates[2]);
-                console.log(separated_coordinates[3]);
-                console.log("i:  " + i);*/
-                
-                
+            
                             id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
                             console.log(id_value);
                             map.addLayer({
@@ -93,12 +80,10 @@
                                     "text-anchor": "top"
                                 }
                             });
-                                //i = 4;
-                                //console.log("i:  " + i);
+
                                 id_value = 0;
             
                 
-            console.log("outerloop: " + outer_loop);
         }
          
     });

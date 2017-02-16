@@ -13,26 +13,29 @@
          <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
         <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.js'></script>
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.css' rel='stylesheet' />
+        <script type="text/javascript" src="backButton.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         
         <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
     </head>
-    <body class="body">
+    <body class="body" onload="onLoad()">
 
         <div class="map" id ="map">
                 <script>
-                    var gps =JSON.parse(window.localStorage.getItem("analyse_coordinates"));
-                    console.log("gps:  "+ gps);
-                    var coordinate_array;
+                    var the_gps =JSON.parse(window.localStorage.getItem("analyse_coordinates"));
+                    var coordinate_array = Object.values(the_gps);
+                    var temp_start = coordinate_array[0];
+                    var start_coordinates = Object.values(temp_start);
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
                     var map = new mapboxgl.Map({
                         container: 'map', // container id
                         style: 'mapbox://styles/mapbox/satellite-v9', //stylesheet location
-                        center: [-6.934135900000001,52.8365072], // starting position longitude followed by latitude
-                        zoom: 5 // starting zoom
+                        center: [start_coordinates[0],start_coordinates[1]], // starting position longitude followed by latitude
+                        zoom: 18 // starting zoom
                     });
 
 
@@ -40,59 +43,53 @@
         var i = 0; 
         var outer_loop = 0;
         var id_value =0;
-        //TODO seperate out each array of coordinates
-    
-        //need to loop through splices
-        while(outer_loop != gps.length)
+        
+        while(outer_loop != coordinate_array.length)
             {
                 
-                var separated_coordinates = gps.splice(outer_loop,outer_loop+4);
-                //console.log("outerloop start: " + outer_loop);
-       
-                console.log(separated_coordinates[0]);
-                console.log(separated_coordinates[1]);
-                console.log(separated_coordinates[2]);
-                console.log(separated_coordinates[3]);
-                
-                
-                            id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
-                            
-                            map.addLayer({
-                                "id": id_value,
-                                "type": "symbol",
-                                "source": {
-                                    "type": "geojson",
-                                    "data": {
-                                        "type": "FeatureCollection",
-                                        "features": [{
-                                            "type": "Feature",
-                                            "geometry": {
-                                                "type": "Point",
-                                                "cluster":true,
-                                                "coordinates": [parseFloat(separated_coordinates[i]),parseFloat(separated_coordinates[i+1])]
-                                            },
-                                            "properties": {
-                                                "title": separated_coordinates[i+2],
-                                                "icon": "dog-park"
+                var temp = coordinate_array[outer_loop];
+                var separated_coordinates = Object.values(temp);
+                if(separated_coordinates.length > 1)
+                    {
+                       
 
+                                    id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
+
+                                    map.addLayer({
+                                        "id": id_value,
+                                        "type": "symbol",
+                                        "source": {
+                                            "type": "geojson",
+                                            "data": {
+                                                "type": "FeatureCollection",
+                                                "features": [{
+                                                    "type": "Feature",
+                                                    "geometry": {
+                                                        "type": "Point",
+                                                        "cluster":true,
+                                                        "coordinates": [parseFloat(separated_coordinates[i]),parseFloat(separated_coordinates[i+1])]
+                                                    },
+                                                    "properties": {
+                                                        "title": separated_coordinates[i+2],
+                                                        "icon": "dog-park"
+
+                                                    }
+                                                }]
                                             }
-                                        }]
-                                    }
-                                },
-                                "layout": {
-                                    "icon-image": "{icon}-15",
-                                    "text-field": "{title}",
-                                    "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                                    "text-offset": [0, 0.6],
-                                    "text-anchor": "top"
-                                }
-                            });
-                                //i = 4;
-                                //console.log("i:  " + i);
-                                id_value = 0;
-            
-                
-            console.log("outerloop: " + outer_loop);
+                                        },
+                                        "layout": {
+                                            "icon-image": "{icon}-15",
+                                            "text-field": "{title}",
+                                            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                                            "text-offset": [0, 0.6],
+                                            "text-anchor": "top"
+                                        }
+                                    });
+                                        id_value = 0;
+                    }
+            outer_loop = outer_loop + 1;
+                    
+            console.log("outerloop: " + outer_loop);       
         }
          
     });
