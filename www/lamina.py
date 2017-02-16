@@ -5,6 +5,7 @@ from changePassword import change_password
 from connector import create_connection
 from login import login
 from animalProfile import add_animal
+from analyse_paths import analyse
 global session
 #import mysql.connector
 
@@ -124,10 +125,18 @@ def func5():
     
     return json.dumps(result)#mysql datetime objects not json serializeable
 
+@app.route('/analyse_paths',methods=['POST','GET'])
+def func6():
+    x='You are in analyse_paths'
+    print(x)
+    result = analyse(session['user'])
+    
+    return json.dumps(result)#mysql datetime objects not json serializeable
+
 
 
 @app.route('/logout',methods=['POST','GET'])
-def func6():
+def func7():
     global session
     print(session['loggedIn'])
     if session['loggedIn'] == 'true':
