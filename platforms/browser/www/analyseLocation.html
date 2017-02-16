@@ -47,12 +47,11 @@
         var coordinate =0;
         var outer_loop = 0;
         var id_value =0;
-        
-        while(outer_loop != coordinate_array.length)
         var individual_coordinates = []
         var all_coordinates =[]
         
-       /* while(outer_loop != coordinate_array.length)
+        
+        while(outer_loop < coordinate_array.length)
             {
                 
                 var temp = coordinate_array[outer_loop];
@@ -60,9 +59,7 @@
                 if(separated_coordinates.length > 1)
                     {
                        
-
                                     id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
-
                                     map.addLayer({
                                         "id": id_value,
                                         "type": "symbol",
@@ -80,28 +77,6 @@
                                                     "properties": {
                                                         "title": separated_coordinates[i+2],
                                                         "icon": "dog-park"
-
-
-                                    id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
-
-                                    /*map.addLayer({
-                                        "id": id_value,
-                                        "type": "symbol",
-                                        "source": {
-                                            "type": "geojson",
-                                            "data": {
-                                                "type": "FeatureCollection",
-                                                "features": [{
-                                                    "type": "Feature",
-                                                    "geometry": {
-                                                        "type": "Point",
-                                                        "cluster":true,
-                                                        "coordinates": [parseFloat(separated_coordinates[i]),parseFloat(separated_coordinates[i+1])]
-                                                    },
-                                                    "properties": {
-                                                        "title": separated_coordinates[i+2],
-                                                        "icon": "dog-park"
-
                                                     }
                                                 }]
                                             }
@@ -114,25 +89,26 @@
                                             "text-anchor": "top"
                                         }
                                     });
-
                                         id_value = 0;
                     }
             outer_loop = outer_loop + 1;
                     
-            console.log("outerloop: " + outer_loop);       
         }
-         
-
-        }*/
+        console.log("AFTER FIRST LAYER");  
+        //#############################################                         
+                 
+    
+        
+       //#############################################
+        var separated_coordinates=[]
+        i = 0; 
+        iter = 0;
+        coordinate =0;
+        outer_loop = 0;
+        id_value =0;
         
         
         
-        /*console.log("coordinate_array[0]:" + coordinate_array[0]);
-        console.log("coordinate_array[1]:" + coordinate_array[1]);
-        console.log("coordinate_array[2]:" + coordinate_array[2]);
-        console.log("coordinate_array[3]:" + coordinate_array[3]);
-        console.log("coordinate_array[4]:" + coordinate_array[4]);
-        console.log("coordinate_array[5]:" + coordinate_array[5]);*/
         while(outer_loop != coordinate_array.length)
             {
                 var temp = coordinate_array[outer_loop];
@@ -181,10 +157,8 @@
                 id_value = 0;
                 iter = iter+ 1;
                 coordinate = iter;
-                console.log("iter: " + iter);
-                console.log("coordinate: " + coordinate);
-                break;
-                
+                console.log("INSIDE SECOND LAYER ");
+                                
             }
      
     });
