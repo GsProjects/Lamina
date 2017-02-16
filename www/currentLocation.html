@@ -24,7 +24,9 @@
 
         <div class="map" id ="map">
                 <script>
-                   var gps =JSON.parse(window.localStorage.getItem("coordinates"));
+                    var gps = JSON.parse(window.localStorage.getItem("coordinates"));  
+                    console.log("§§§§§§§§§§§§§§§§§§§§§§§§§");
+                    console.log(gps[0]);
                     var coordinate_array;
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
@@ -41,47 +43,62 @@
         var outer_loop = 0;
         var id_value =0;
         //TODO seperate out each array of coordinates
-        while(outer_loop <= gps.length)
+        
+        //console.log("Separated:  "+ separated_coordinates);
+        //need to loop through splices
+        while(outer_loop != gps.length)
             {
-                coordinate_array = gps[outer_loop];
-                while(i<coordinate_array.length)
-                {    
+                
+                var separated_coordinates = gps.splice(outer_loop,outer_loop+4);
+                //console.log("outerloop start: " + outer_loop);
+       
+                /*console.log(separated_coordinates[0]);
+                console.log(separated_coordinates[1]);
+                console.log(separated_coordinates[2]);
+                console.log(separated_coordinates[3]);
+                console.log("i:  " + i);*/
+                
+                
+                            id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
+                            console.log(id_value);
+                            map.addLayer({
+                                "id": id_value,
+                                "type": "symbol",
+                                "source": {
+                                    "type": "geojson",
+                                    "data": {
+                                        "type": "FeatureCollection",
+                                        "features": [{
+                                            "type": "Feature",
+                                            "geometry": {
+                                                "type": "Point",
+                                                "cluster":true,
+                                                "coordinates": [parseFloat(separated_coordinates[i]),parseFloat(separated_coordinates[i+1])]
+                                            },
+                                            "properties": {
+                                                "title": separated_coordinates[i+2],
+                                                "icon": "dog-park"
 
-                map.addLayer({
-                    "id": coordinate_array[i+2],
-                    "type": "symbol",
-                    "source": {
-                        "type": "geojson",
-                        "data": {
-                            "type": "FeatureCollection",
-                            "features": [{
-                                "type": "Feature",
-                                "geometry": {
-                                    "type": "Point",
-                                    "cluster":true,
-                                    "coordinates": [parseFloat(coordinate_array[i]),parseFloat(coordinate_array[i+1])]
+                                            }
+                                        }]
+                                    }
                                 },
-                                "properties": {
-                                    "title": coordinate_array[i+2],
-                                    "icon": "dog-park"
-
+                                "layout": {
+                                    "icon-image": "{icon}-15",
+                                    "text-field": "{title}",
+                                    "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                                    "text-offset": [0, 0.6],
+                                    "text-anchor": "top"
                                 }
-                            }]
-                        }
-                    },
-                    "layout": {
-                        "icon-image": "{icon}-15",
-                        "text-field": "{title}",
-                        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                        "text-offset": [0, 0.6],
-                        "text-anchor": "top"
-                    }
-                });
-                i = 4;
-                console.log(coordinate_array[i])
-
-                }
-            }
+                            });
+                                //i = 4;
+                                //console.log("i:  " + i);
+                                id_value = 0;
+            
+                
+            console.log("outerloop: " + outer_loop);
+        }
+         
     });
     
                    

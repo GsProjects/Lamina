@@ -121,8 +121,8 @@ def func5():
     x='You are in currentLocation'
     print(x)
     result = location(session['user'])
-    print('THE RESULT' + str(result))
-    return json.dumps({"data":str(result)})#mysql datetime objects not json serializeable
+    
+    return json.dumps(result)#mysql datetime objects not json serializeable
 
 
 
