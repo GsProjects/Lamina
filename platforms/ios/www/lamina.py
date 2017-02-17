@@ -146,6 +146,11 @@ def func7():
     else:
         overallResult = json.dumps({"status": "Logout failed"})
         return overallResult
+    
+@app.route('/test',methods=['POST','GET'])
+def func8():
+    print('IN NANOTRACKER TEST:')
+   
 
 
 if __name__ == "__main__":

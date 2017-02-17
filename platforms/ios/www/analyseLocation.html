@@ -28,7 +28,6 @@
                     var the_gps =JSON.parse(window.localStorage.getItem("analyse_coordinates"));
                     var coordinate_array = Object.values(the_gps);
 
-                     console.log("coordinate_array: " + coordinate_array);
                     var temp_start = coordinate_array[0];
                     var start_coordinates = Object.values(temp_start);
 
@@ -43,40 +42,52 @@
 
     map.on('load', function () {
         
-        //TODO need to seperate out each animal so each animals paths are not joined
-        //coordinate_array: -6.093005,54.875786,test_animal, ,-6.092887,54.875908,test_animal, ,-6.093084,54.875816,test_animal, ,-6.093122,54.875874,test_animal_2, ,-6.9341,52.8365,test_animal_2
-        //need separate out based out animal id 
+
         
-        var i = 0; 
-        var iter = 0;
-        var coordinate =0;
-        var outer_loop = 0;
-        var id_value =0;
-        var individual_coordinates = [];
-        var all_coordinates =[];
+        var i = 0;
+        var ii = 0;
+        var animal_ids=[];
         
         
-        
-        while(outer_loop != coordinate_array.length)
+        //GET UNIQUE ANIMAL ID'S
+        for(i;i<coordinate_array.length;i++)
             {
-                var temp = coordinate_array[outer_loop];
-                var separated_coordinates = Object.values(temp);
-                if(separated_coordinates.length > 1)
+                var temp_object = coordinate_array[i];
+                var temp_array = Object.values(temp_object);
+                
+                if(temp_array.length == 3)
                     {
-                        individual_coordinates.push(separated_coordinates[0],separated_coordinates[1]);
-                        all_coordinates.push(individual_coordinates);
-                        individual_coordinates =[];
+                        if(animal_ids.indexOf(temp_array[2]) == -1 | animal_ids.length == 0)
+                            {
+                                animal_ids.push(temp_array[2]);
+                            }
                     }
-            
-                outer_loop = outer_loop+1;
+                
             }
-
         
-        while(iter < all_coordinates.length -1)
-            {       
+        i = 0;//reset value of i
+        var animal_coordintes=[];
+        
+        for(i;i<animal_ids.length;i++)
+            {
+                //FOR EACH ANIMAL ID GET THE COORDINATES ASSOCIATED WITH IT AND STORE IN AN ARRAY OF ARRAYS
+                var animal = animal_ids[i];
+                
+                ii = 0;
+                for(ii;ii<coordinate_array.length;ii++)
+                    {
+                        var temp_object = coordinate_array[ii];
+                        var temp_array = Object.values(temp_object);
+                        if(temp_array.length == 3 & temp_array[2] == animal )
+                            {
+                                animal_coordintes.push([temp_array[0],temp_array[1]]);
+                            }
 
-                       id_value = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
-                        console.log(id_value);
+                    }
+
+                
+                id_value = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
+                        
                                 map.addLayer({
                                         "id": id_value,
                                         "type": "line",
@@ -87,7 +98,7 @@
                                                 "properties": {},
                                                 "geometry": {
                                                     "type": "LineString",
-                                                    "coordinates":all_coordinates
+                                                    "coordinates":animal_coordintes
                                                 }
                                             }
                                         },
@@ -103,36 +114,12 @@
                         
                             
                 id_value = 0;
-                iter = iter+ 1;
-                coordinate = iter;
-                console.log("INSIDE FIRST LAYER ");
-                                
-            }
-        
-        
-        
-         //#############################################                         
-                 
-    
-        
-       //#############################################
-        var separated_coordinates=[]
-        i = 0; 
-        iter = 0;
-        coordinate =0;
-        outer_loop = 0;
-        id_value =0;
-        
-         while(outer_loop < coordinate_array.length)
-            {
                 
-                var temp = coordinate_array[outer_loop];
-                var separated_coordinates = Object.values(temp);
-                if(separated_coordinates.length > 1)
+                for(ii=0;ii <animal_coordintes.length; ii++)
                     {
-                       
-                                    id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
-                                    map.addLayer({
+                        id_value = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
+                        var separated_coordinates = Object.values(animal_coordintes[ii])
+                        map.addLayer({
                                         "id": id_value,
                                         "type": "symbol",
                                         "source": {
@@ -144,10 +131,10 @@
                                                     "geometry": {
                                                         "type": "Point",
                                                         "cluster":true,
-                                                        "coordinates": [parseFloat(separated_coordinates[i]),parseFloat(separated_coordinates[i+1])]
+                                                        "coordinates": [parseFloat(separated_coordinates[0]),parseFloat(separated_coordinates[1])]
                                                     },
                                                     "properties": {
-                                                        "title": separated_coordinates[i+2],
+                                                        "title": animal,
                                                         "icon": "dog-park"
                                                     }
                                                 }]
@@ -161,17 +148,14 @@
                                             "text-anchor": "top"
                                         }
                                     });
-                                        id_value = 0;
+                        id_value = 0;
                     }
-            outer_loop = outer_loop + 1;
-                    
-        }
-        console.log("AFTER SECOND LAYER");
+                animal_coordintes.length = 0;
+                ii =0;
+                
+            }
         
         
-        
-        
-     
     });
                     
     
