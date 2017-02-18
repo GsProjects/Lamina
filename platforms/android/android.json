@@ -11,6 +11,28 @@
                         {
                             "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Sms\"><param name=\"android-package\" value=\"com.cordova.plugins.sms.Sms\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.SEND_SMS\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.telephony\" android:required=\"false\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -19,6 +41,9 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.animalTracker"
+        },
+        "cordova-sms-plugin": {
             "PACKAGE_NAME": "com.phonegap.animalTracker"
         }
     },
@@ -29,9 +54,18 @@
             "file": "plugins/cordova-plugin-whitelist/whitelist.js",
             "pluginId": "cordova-plugin-whitelist",
             "runs": true
+        },
+        {
+            "id": "cordova-sms-plugin.Sms",
+            "file": "plugins/cordova-sms-plugin/www/sms.js",
+            "pluginId": "cordova-sms-plugin",
+            "clobbers": [
+                "window.sms"
+            ]
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-whitelist": "1.1.0"
+        "cordova-plugin-whitelist": "1.1.0",
+        "cordova-sms-plugin": "0.1.11"
     }
 }

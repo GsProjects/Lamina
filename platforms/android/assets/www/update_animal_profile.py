@@ -1,0 +1,25 @@
+from flask import Flask,json
+from connector import create_connection
+def get_animal_profiles(owner):
+    animal_data =[]
+    animals = associated_animal_info(owner)
+    print('animals: ' + str(animals))
+    
+    for items in animals:
+        print('Items: ' + str(items))
+        animal_data.append(items)
+        animal_data.append(' ')
+    
+    print('animal_data: ' + str(animal_data))
+    return animal_data
+    
+    
+def associated_animal_info(owner:str):
+    cnx2 = create_connection()
+    cursor = cnx2.cursor()
+    query = ("Select * from Animal where ownerID = %s")
+    cursor.execute(query,(owner, ))
+    result = cursor.fetchall()
+    cursor.close()
+    cnx2.close()
+    return result

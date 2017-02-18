@@ -14,5 +14,6 @@ function onLoad() {
     //
     function onBackKeyDown() 
     {
-       history.go(-1);
+
+        window.location.replace("home.html");
     }

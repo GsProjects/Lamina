@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="html">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"/>
+        <title>Lamina</title>
+        <link rel="stylesheet" type="text/css" href="loginform.css">
+        <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap.css">
+        <link href="https://fonts.googleapis.com/css?family=Rajdhani:300" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>
+        <script type="text/javascript" src="backButton.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script type="text/javascript" src="change_gps_config.js"></script>
+
+    </head>
+    <body class="body" onload="load_data();">
+        <h1 class="heading"><img src="Logo.png" class="logo"></h1>
+        <div class="mainBody">
+            
+        <label class="labels" >Select an animal</label>
+                
+                <select type="choose" name = "animal" required class="select" id="animal">
+                </select>
+        <br>
+        <label class="labels">Times Metric</label>
+                
+                <select type="choose" name = "metric" required class="select" id="metric">
+                    <option value="seconds">Seconds</option>
+                    <option value="minutes">Minutes</option>
+                </select>
+        <br>
+        <label class="labels">Intermittent Retrieval Times</label>
+                
+                <input type="number" name = "time" required class="select" id="time" placeholder ="5">
+                </input>
+        
+        <button class="btn btn-default btn-lg a" id="updateGps" onclick="change_gps()">Update Gps Configuration</button>
+        </div>
+            
+    </body>
+</html>

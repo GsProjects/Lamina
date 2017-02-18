@@ -17,6 +17,8 @@
 		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
 		277F2ED30BF44E358F3C21CA /* CDVNavigationWhitelistPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C82EA0AA660E4D4886413F1E /* CDVNavigationWhitelistPlugin.m */; };
+		CA313111BB344D9C9745FC0E /* Sms.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B2DED0743F48DBAD0F0F8D /* Sms.m */; };
+		DE1B19A595EE4F9D8BD75064 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B321765B8149ACB4832F5F /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,9 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		C82EA0AA660E4D4886413F1E /* CDVNavigationWhitelistPlugin.m */ = {isa = PBXFileReference; name = "CDVNavigationWhitelistPlugin.m"; path = "cordova-plugin-whitelist/CDVNavigationWhitelistPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		7E8EF5D7633748F5BAE64B2B /* CDVNavigationWhitelistPlugin.h */ = {isa = PBXFileReference; name = "CDVNavigationWhitelistPlugin.h"; path = "cordova-plugin-whitelist/CDVNavigationWhitelistPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		01B2DED0743F48DBAD0F0F8D /* Sms.m */ = {isa = PBXFileReference; name = "Sms.m"; path = "cordova-sms-plugin/Sms.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A6B19119284A498FA56F5FE5 /* Sms.h */ = {isa = PBXFileReference; name = "Sms.h"; path = "cordova-sms-plugin/Sms.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		E2B321765B8149ACB4832F5F /* MessageUI.framework */ = {isa = PBXFileReference; name = "MessageUI.framework"; path = "System/Library/Frameworks/MessageUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +72,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				DE1B19A595EE4F9D8BD75064 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +143,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E2B321765B8149ACB4832F5F /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,6 +171,8 @@
 			children = (
 				C82EA0AA660E4D4886413F1E /* CDVNavigationWhitelistPlugin.m */,
 				7E8EF5D7633748F5BAE64B2B /* CDVNavigationWhitelistPlugin.h */,
+				01B2DED0743F48DBAD0F0F8D /* Sms.m */,
+				A6B19119284A498FA56F5FE5 /* Sms.h */,
 			);
 			name = Plugins;
 			path = "Lamina/Plugins";
@@ -277,6 +286,7 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				277F2ED30BF44E358F3C21CA /* CDVNavigationWhitelistPlugin.m in Sources */,
+				CA313111BB344D9C9745FC0E /* Sms.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

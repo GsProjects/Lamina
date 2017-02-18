@@ -6,6 +6,8 @@ from connector import create_connection
 from login import login
 from animalProfile import add_animal
 from analyse_paths import analyse
+from update_gps_config import associated_animals
+from update_animal_profile import get_animal_profiles
 global session
 #import mysql.connector
 
@@ -129,6 +131,7 @@ def func5():
 def func6():
     x='You are in analyse_paths'
     print(x)
+    global session
     result = analyse(session['user'])
     
     return json.dumps(result)#mysql datetime objects not json serializeable
@@ -147,11 +150,43 @@ def func7():
         overallResult = json.dumps({"status": "Logout failed"})
         return overallResult
     
-@app.route('/test',methods=['POST','GET'])
+@app.route('/update_gps',methods=['POST','GET'])
 def func8():
-    print('IN NANOTRACKER TEST:')
+    global session
+    print('In update gps')
+    if session['loggedIn'] == 'true':
+        result = associated_animals(session['user'])
+        if result != [[]]:
+            print(result)
+            return json.dumps(result)
+        else:
+            overallResult = json.dumps({"status": "No animals"})
+            return overallResult      
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
+        
+        
+@app.route('/update_animals',methods=['POST','GET'])
+def func9():
+    global session
+    print('In update animals')
+    if session['loggedIn'] == 'true':
+        result = get_animal_profiles(session['user'])
+        if result != [[]]:
+            print(result)
+            return json.dumps(result)
+        else:
+            overallResult = json.dumps({"status": "No animals"})
+            return overallResult      
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
+            
+    
+       
+        
    
-
 
 if __name__ == "__main__":
     app.run(debug=True)

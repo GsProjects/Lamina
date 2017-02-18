@@ -9,11 +9,24 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.phonegap.animalTracker"
+        },
+        "cordova-sms-plugin": {
+            "PACKAGE_NAME": "com.phonegap.animalTracker"
         }
     },
     "dependent_plugins": {},
-    "modules": [],
+    "modules": [
+        {
+            "file": "plugins/cordova-sms-plugin/www/sms.js",
+            "id": "cordova-sms-plugin.Sms",
+            "pluginId": "cordova-sms-plugin",
+            "clobbers": [
+                "window.sms"
+            ]
+        }
+    ],
     "plugin_metadata": {
-        "cordova-plugin-whitelist": "1.1.0"
+        "cordova-plugin-whitelist": "1.1.0",
+        "cordova-sms-plugin": "0.1.11"
     }
 }

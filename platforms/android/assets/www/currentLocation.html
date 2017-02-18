@@ -25,7 +25,6 @@
 
         <div class="map" id ="map">
                 <script>
-                    var gps = JSON.parse(window.localStorage.getItem("coordinates"));  
                     var gps =JSON.parse(window.localStorage.getItem("coordinates"));                    
                     var coordinate_array;
 
@@ -90,7 +89,7 @@
     
                    
                     
-                   
+                   window.localStorage.clear();
                    
                 </script>
           

@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.phonegap.animalTracker"
+        },
+        "cordova-sms-plugin": {
+            "PACKAGE_NAME": "com.phonegap.animalTracker"
         }
     },
     "dependent_plugins": {}
