@@ -195,15 +195,11 @@ def func10():
     animalGender= request.form['animalGender'].lower()
     trackingNumber = request.form['trackingNum']
     oldtrackingNumber = request.form['oldTrackingId']
-    
-    
+    oldanimalIdentifier = request.form['oldanimalIdentifier'].lower()
+
     if session['loggedIn'] == 'true':
-        result = update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-        if result == True:
-            overallResult = json.dumps({"status": "Updated"})
-            return overallResult
-        else:
-            return result
+        result = update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber,oldanimalIdentifier,session['user'])
+        return result
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult

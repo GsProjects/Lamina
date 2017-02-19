@@ -61,6 +61,7 @@ function populate_fields()
                             $("#animalGender").val(temp_array[4]);
                             $("#trackingNum").val(temp_array[5]);
                             $("#oldTrackingId").val(temp_array[5]);
+                            $("#oldanimalIdentifier").val(temp_array[0]);
                         }
 
                 }

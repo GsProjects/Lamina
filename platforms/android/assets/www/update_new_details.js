@@ -1,15 +1,12 @@
 function update_details()
 {
-    console.log("Update animals details in database");
-    event.preventDefault();
-    
         $.ajax({
             url: "http://gProject.pythonanywhere.com/update_animals_details",
             data: $('#updateProfileForm').serialize(),
             type: 'POST',
             async: false})
             .done(function(response) {
-                console.log("RESPONSE"+response);
+                console.log("RESPONSE: "+response);
 
                 var result = JSON.parse(response);
                 
@@ -22,15 +19,25 @@ function update_details()
                                  window.location.replace("index.html");
 
                             }
-                        if (result["status"] == "Updated") 
+                        if (result["status"] == "Updated Successfully") 
                             {
-                                alert("Aniaml details updated successfully");
+                                alert("Animal details updated successfully");
                                  window.location.replace("home.html");
 
                             } 
                         if (result["status"] == "Empty fields") 
                             {
                                 alert("Please fill in all the fields");
+                                 window.location.replace("update_animal_profile.html");
+                            }
+                        if (result["status"] == "Tracking number already in use") 
+                            {
+                                alert("Tracking number already in use.");
+                                 window.location.replace("update_animal_profile.html");
+                            } 
+                        if (result["status"] == "Animal ID associated with another animal") 
+                            {
+                                alert("Animal ID associated with another animal");
                                  window.location.replace("update_animal_profile.html");
                             } 
                         

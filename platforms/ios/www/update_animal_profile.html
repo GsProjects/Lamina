@@ -18,7 +18,7 @@
         <br>
         <div class="mainBody">
             <script type="text/javascript" src="cordova.js"></script>
-            <form id="updateProfileForm" method="post" >
+            <form id="updateProfileForm" >
                 <label class="labels">Update Animal</label>
                 <select type="choose" name = "animal" required class="select" id="animal" onchange="populate_fields()">
                 </select>
@@ -49,13 +49,15 @@
                 
                 <label class="labels">Gender</label>
                 
-                <input type="text" name = "animalGender" required class="input" id="animalGender" pattern="[M,F]{1}"  placeholder="M or F">
+                <input type="text" name = "animalGender" required class="input" id="animalGender" pattern="[mfMF]{1}"  placeholder="M or F">
                 
                 <label class="labels">Trackers Sim Card Number)</label>
                 
                 <input type="text" name = "trackingNum" required class="input" id="trackingNum" pattern="[0-9]{10}"  placeholder="0851234567">
                 
                 <input type="hidden" name ="oldTrackingId" required class="input" id="oldTrackingId">
+                
+                 <input type="hidden" name ="oldanimalIdentifier" required class="input" id="oldanimalIdentifier">
                 
                 <button class="btn btn-default btn-lg a" id="registerButton" onclick=update_details()>Update Animal</button>
                 

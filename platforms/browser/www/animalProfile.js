@@ -1,7 +1,6 @@
 function animalProfile()
 {
     event.preventDefault();
-    
         $.ajax({
             url: "http://gProject.pythonanywhere.com/animalProfile",
             data: $('#profileForm').serialize(),
@@ -14,7 +13,6 @@ function animalProfile()
             
                 if (result["status"] == "ok") 
                 {
-                    console.log("yurt 1");
                     alert("Animal profile updated");
                      window.location.replace("home.html");
                    
