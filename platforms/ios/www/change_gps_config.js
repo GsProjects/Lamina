@@ -1,10 +1,5 @@
-//user selects an animal time metric and interval 
-//validate user actually selects an animal
-//send the selected animal time metric and interval to function and get the trackingid associated with the animal
-//when user clicks update button construct sms and send to the trackingid
 function load_data()
 {
-    //load data into new select field
     //TODO need fix local storage clear
     /*var test = JSON.parse(window.localStorage.getItem("analyse_coordinates"));
     console.log("test:" +test);*/

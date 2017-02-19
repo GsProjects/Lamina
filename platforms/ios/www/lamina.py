@@ -8,6 +8,7 @@ from animalProfile import add_animal
 from analyse_paths import analyse
 from update_gps_config import associated_animals
 from update_animal_profile import get_animal_profiles
+from update_details import update_animal_details
 global session
 #import mysql.connector
 
@@ -179,6 +180,30 @@ def func9():
         else:
             overallResult = json.dumps({"status": "No animals"})
             return overallResult      
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
+    
+@app.route('/update_animals_details',methods=['POST','GET'])
+def func10():
+    global session
+    print('In update animals details')
+    animalIdentifier = request.form['animalID'].lower()
+    animalType= request.form['animalType'].lower()
+    animalBreed = request.form['animalBreed'].lower()
+    animalWeight = request.form['animalWeight'].lower()
+    animalGender= request.form['animalGender'].lower()
+    trackingNumber = request.form['trackingNum']
+    oldtrackingNumber = request.form['oldTrackingId']
+    
+    
+    if session['loggedIn'] == 'true':
+        result = update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
+        if result == True:
+            overallResult = json.dumps({"status": "Updated"})
+            return overallResult
+        else:
+            return result
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult

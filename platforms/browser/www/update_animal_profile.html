@@ -11,13 +11,18 @@
        <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
     
          <script type="text/javascript" src="process_animal_update.js"></script>
+        <script type="text/javascript" src="update_new_details.js"></script>
     </head>
-    <body class="body" onload="process_animal()">
+    <body class="body" onload="process_animal();">
         <h1 class="heading"><img src="Logo.png" class="logo"></h1>
         <br>
         <div class="mainBody">
             <script type="text/javascript" src="cordova.js"></script>
-            <form id="profileForm" method="post" >
+            <form id="updateProfileForm" method="post" >
+                <label class="labels">Update Animal</label>
+                <select type="choose" name = "animal" required class="select" id="animal" onchange="populate_fields()">
+                </select>
+                
                 <label class="labels">Animal ID</label>
                 
                 <input type="text" name = "animalID" required class="input" id="animalID">
@@ -50,7 +55,9 @@
                 
                 <input type="text" name = "trackingNum" required class="input" id="trackingNum" pattern="[0-9]{10}"  placeholder="0851234567">
                 
-                <button class="btn btn-default btn-lg a" id="registerButton" onclick=animalProfile()>Update Animal</button>
+                <input type="hidden" name ="oldTrackingId" required class="input" id="oldTrackingId">
+                
+                <button class="btn btn-default btn-lg a" id="registerButton" onclick=update_details()>Update Animal</button>
                 
                 <button class="btn btn-default btn-lg a" id="backButton" onclick=back()>Back</button>
             </form> 
