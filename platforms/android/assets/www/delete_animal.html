@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="html">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Lamina</title>
+        <link rel="stylesheet" type="text/css" href="loginform.css">
+        <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap.css">
+        <link href="https://fonts.googleapis.com/css?family=Rajdhani:300" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+    
+        <script type="text/javascript" src="delete_animal.js"></script>
+        <script type="text/javascript" src="process_delete.js"></script>
+        
+
+    </head>
+    <body class="body" onload="process_animal_delete();">
+        <h1 class="heading"><img src="Logo.png" class="logo"></h1>
+        <br>
+        <div class="mainBody">
+            <form id ="delete_form">
+            
+            
+                <label class="labels">Delete Animal</label>
+                <select type="choose" name = "animal" required class="select" id="animal" onchange="populate_fields()">
+                </select>
+                
+                <input type="hidden" name ="trackingNum" required class="input" id="trackingNum">
+                
+            
+                <button class="btn btn-default btn-lg a" id="registerButton" onclick=remove_animal()>Delete Animal</button>
+                
+                <button class="btn btn-default btn-lg a" id="backButton" onclick=back()>Back</button>
+            </form>
+
+        </div>    
+    </body>
+</html> 

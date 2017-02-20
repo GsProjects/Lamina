@@ -9,6 +9,7 @@ from analyse_paths import analyse
 from update_gps_config import associated_animals
 from update_animal_profile import get_animal_profiles
 from update_details import update_animal_details
+from delete_animal import remove_profiles
 global session
 #import mysql.connector
 
@@ -174,8 +175,7 @@ def func9():
     print('In update animals')
     if session['loggedIn'] == 'true':
         result = get_animal_profiles(session['user'])
-        if result != [[]]:
-            print(result)
+        if len(result) != 0:
             return json.dumps(result)
         else:
             overallResult = json.dumps({"status": "No animals"})
@@ -204,7 +204,20 @@ def func10():
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult
             
+@app.route('/delete_details',methods=['POST','GET'])
+def func11():
+    global session
+    print('In delete_details')
+    animalIdentifier = request.form['animal'].lower()
+    trackingNumber = request.form['trackingNum']
     
+    if session['loggedIn'] == 'true':
+        result = remove_profiles(animalIdentifier, trackingNumber, session['user'])
+        overallResult = json.dumps({"status": "Animal profile deleted successfully"})
+        return overallResult      
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
        
         
    
