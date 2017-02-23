@@ -8,21 +8,26 @@
         <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="bootstrap.css">
         <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
-         <script type="text/javascript" src="currentLocation.js"></script>
+        <script type="text/javascript" src="currentLocation.js"></script>
         <script type="text/javascript" src="logout.js"></script>
         <script type="text/javascript" src="animal_Paths.js"></script>
         <script type="text/javascript" src="update_gps.js"></script>
         <script type="text/javascript" src="update_animal.js"></script>
-        <script type="text/javascript" src="get_delete_details.js"></script>
+        <script type="text/javascript" src="get_delete_details.js">
+        </script>
+        <script type="text/javascript" src="populate_details.js">
+        </script>
+
+        
     </head>
     <body class="body">
         
         <button class=" a menubutton button1" id="addAnimalProfileButton" onclick="window.location='addAnimalProfile.html';">Add Animal Profile</button>
-        <button class=" a menubutton button2" id="createBoundaryButton" onclick="window.location='currentLocation.html';">Create Boundary</button>
+        <button class=" a menubutton button2" id="createBoundaryButton" >Create Boundary</button>
         <button class=" a menubutton button3" id="currentLocationButton"  onclick="animal_location()">Current Location</button>
         <button class=" a menubutton button4" id="latestPathButton" onclick="animal_paths()">Analyse Paths</button>
         <button class=" a menubutton button5" id="gpsConfigurationButton" onclick="update_gps()">GPS Configuration</button>
-        <button class=" a menubutton button6" id="myProfileButton">My Profile</button>
+        <button class=" a menubutton button6" id="myProfileButton" onclick="populate_animals()">My Profile</button>
         <button class=" a menubutton button6" id="myProfileButton"  onclick="get_animals()">Update Animal Profile</button>
         <button class=" a menubutton button7" id="myProfileButton"  onclick="delete_details()">Delete Animal Profile</button>
         <button class=" a menubutton button7" id="myProfileButton"  onclick="logout_user()">Logout</button>

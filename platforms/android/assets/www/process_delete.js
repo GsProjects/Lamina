@@ -8,7 +8,7 @@ function remove_animal()
             type: 'POST',
             async: false})
             .done(function(response) {
-                console.log("RESPONSE: "+response);
+                console.log(response);
 
                 var result = JSON.parse(response);
                 
@@ -17,22 +17,19 @@ function remove_animal()
                         
                         if (result["status"] == "Your session has timed out, please log in again") 
                             {
-                                console.log("session");
                                 alert("Your session has timed out, please log in again");
                                  window.location.replace("index.html");
 
                             }
                         if (result["status"] == "Animal profile deleted successfully") 
                             {
-                                console.log("success");
                                 alert("Animal profile deleted successfully");
                                  window.location.replace("home.html");
 
                             } 
                         if (result["status"] == "Empty fields") 
                             {
-                                console.log("empty");
-                                alert("Please fill in all the fields");
+                                alert("Please select an animal");
                                  window.location.replace("delete_animal.html");
                             }
  

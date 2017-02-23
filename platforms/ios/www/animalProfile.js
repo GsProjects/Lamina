@@ -13,7 +13,7 @@ function animalProfile()
             
                 if (result["status"] == "ok") 
                 {
-                    alert("Animal profile updated");
+                    alert("Animal profile added successfully");
                      window.location.replace("home.html");
                    
                 } 

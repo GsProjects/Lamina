@@ -10,6 +10,10 @@ from update_gps_config import associated_animals
 from update_animal_profile import get_animal_profiles
 from update_details import update_animal_details
 from delete_animal import remove_profiles
+from graph_movement import get_graph_details
+from graph_data import graph_info
+from bson import json_util
+
 global session
 #import mysql.connector
 
@@ -213,14 +217,59 @@ def func11():
     
     if session['loggedIn'] == 'true':
         result = remove_profiles(animalIdentifier, trackingNumber, session['user'])
-        overallResult = json.dumps({"status": "Animal profile deleted successfully"})
-        return overallResult      
+        return result     
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult
+    
+@app.route('/get_animal_data',methods=['POST','GET'])
+def func12():
+    global session
+    print('In graph details')
+    
+    if session['loggedIn'] == 'true':
+        result = get_graph_details(session['user'])
+        print(result)
+        if len(result) != 0:
+            return json.dumps(result)
+        else:
+            overallResult = json.dumps({"status": "No animals"})
+            return overallResult      
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
+    
+    
+@app.route('/get_graph_data',methods=['POST','GET'])
+def func13():
+    global session
+    print('In graph data')
+    animalIdentifier = request.form['animal'].lower()
+    trackingNumber = request.form['trackingNum']
+    print('ANIMAL IDENTIFIER: ' + str(animalIdentifier))
+    print('TRACKING NUMBER: ' + str(trackingNumber))
+
+    if session['loggedIn'] == 'true':
+        result = graph_info(animalIdentifier,trackingNumber,session['user'])
+        print('RESULTs: ' + str(result))
+        return json.dumps(result)   
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
+    
+
+@app.route('/test',methods=['POST','GET'])
+def func14():
+    global session
+    print('In TEST')
+    payload = request.get_data()
+    print('payload: ' + str(payload))
+    
+
        
         
    
+
 
 if __name__ == "__main__":
     app.run(debug=True)

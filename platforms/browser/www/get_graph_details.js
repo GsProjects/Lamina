@@ -1,10 +1,10 @@
-function remove_animal()
+function get_graph_data()
 {
     event.preventDefault();
 
     $.ajax({
-            url: "http://gProject.pythonanywhere.com/delete_details",
-            data: $('#delete_form').serialize(),
+            url: "http://gProject.pythonanywhere.com/get_graph_data",
+            data: $('#graph_form').serialize(),
             type: 'POST',
             async: false})
             .done(function(response) {
@@ -21,19 +21,20 @@ function remove_animal()
                                  window.location.replace("index.html");
 
                             }
-                        if (result["status"] == "Animal profile deleted successfully") 
-                            {
-                                alert("Animal profile deleted successfully");
-                                 window.location.replace("home.html");
-
-                            } 
+                       
                         if (result["status"] == "Empty fields") 
                             {
-                                alert("Please select an animal");
-                                 window.location.replace("delete_animal.html");
-                            }
+                                alert("Please select an animal"); window.location.replace("myprofile.html");
+
+                            } 
  
-                    }    
+                    }
+                else
+                {
+                    console.log("GRAPH DATA: " + result);
+                    window.localStorage.setItem('graph_Data',JSON.stringify(result));
+                    window.location.replace("myprofile.html");
+                }
                
         })
 }

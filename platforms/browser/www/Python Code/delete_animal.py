@@ -5,10 +5,11 @@ def remove_profiles(animalIdentifier, trackingNumber,owner):
     if animalIdentifier =='' or trackingNumber == '':
         overallResult = json.dumps({"status": "Empty fields"})
         return overallResult
-    
-    delete_animal(trackingNumber)
-    delete_animal_coordinates(trackingNumber)
-    return True
+    else:
+        delete_animal(trackingNumber)
+        delete_animal_coordinates(trackingNumber)
+        overallResult = json.dumps({"status": "Animal profile deleted successfully"})
+        return overallResult
     
     
 def delete_animal(trackingNumber:str):
