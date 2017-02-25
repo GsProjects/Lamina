@@ -1,11 +1,12 @@
 function animal_paths()
 {
-    //event.preventDefault();
+    event.preventDefault();
     console.log("In animal_paths.js");
     
         $.ajax({
             url: "http://gProject.pythonanywhere.com/analyse_paths",
-            type: 'GET',
+            type: 'POST',
+            data: $('#select_form').serialize(),
             async: true})
             .done(function(response) {
                 console.log("THE RESPONSE: " + response);
@@ -24,4 +25,4 @@ function back()
 function process_path_data(location_paths)
 {
     window.localStorage.setItem("analyse_coordinates", JSON.stringify(location_paths));
-  }
+}

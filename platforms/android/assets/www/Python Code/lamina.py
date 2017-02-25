@@ -138,7 +138,15 @@ def func6():
     x='You are in analyse_paths'
     print(x)
     global session
-    result = analyse(session['user'])
+    animalIdentifier = request.form['animal'].lower()
+    trackingNumber = request.form['trackingNum']
+    
+    second_animalIdentifier = request.form['animalTwo'].lower()
+    second_trackingNumber = request.form['trackingNumTwo']
+    
+    
+    
+    result = analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,session['user'])
     
     return json.dumps(result)#mysql datetime objects not json serializeable
 
@@ -246,12 +254,9 @@ def func13():
     print('In graph data')
     animalIdentifier = request.form['animal'].lower()
     trackingNumber = request.form['trackingNum']
-    print('ANIMAL IDENTIFIER: ' + str(animalIdentifier))
-    print('TRACKING NUMBER: ' + str(trackingNumber))
 
     if session['loggedIn'] == 'true':
         result = graph_info(animalIdentifier,trackingNumber,session['user'])
-        print('RESULTs: ' + str(result))
         return json.dumps(result)   
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})

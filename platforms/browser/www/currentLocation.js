@@ -1,11 +1,12 @@
 function animal_location()
 {
-    //event.preventDefault();
+    event.preventDefault();
     console.log("In currentLocation.js");
     
         $.ajax({
             url: "http://gProject.pythonanywhere.com/currentLocation",
-            type: 'GET',
+            type: 'POST',
+            data: $('#select_form').serialize(),
             async: true})
             .done(function(response) {
                 console.log(response);

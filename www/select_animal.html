@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="html">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Lamina</title>
+        <link rel="stylesheet" type="text/css" href="loginform.css">
+        <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap.css">
+        <link href="https://fonts.googleapis.com/css?family=Rajdhani:300" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="process_select.js"></script>
+        <script type="text/javascript" src="animal_Paths.js"></script>
+
+    </head>
+    <body class="body" onload="process_animal()">
+        <h1 class="heading"><img src="Logo.png" class="logo"></h1>
+        <br>
+        <div class="mainBody">
+            <form id ="select_form">
+            
+            
+                <label class="labels">Select Animal</label>
+                <select type="choose" name = "animal" required class="select" id="animal" onchange="populate_select()">
+                </select>
+                
+                <input type="hidden" name ="trackingNum" required class="input" id="trackingNum">
+                
+                <label class="labels">Select Another Animal</label>
+                <select type="choose" name = "animalTwo" required class="select" id="animalTwo" onchange="populate_select()">
+                </select>
+                
+                 <input type="hidden" name ="trackingNumTwo" required class="input" id="trackingNumTwo">
+                
+            
+                <button class="btn btn-default btn-lg a" id="registerButton" onclick="animal_paths()">Submit </button>
+                
+                <button class="btn btn-default btn-lg a" id="backButton" onclick=back()>Back</button>
+            </form>
+
+        </div>    
+    </body>
+</html> 
