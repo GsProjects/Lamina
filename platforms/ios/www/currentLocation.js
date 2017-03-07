@@ -1,7 +1,6 @@
 function animal_location()
 {
     event.preventDefault();
-    console.log("In currentLocation.js");
     
         $.ajax({
             url: "http://gProject.pythonanywhere.com/currentLocation",

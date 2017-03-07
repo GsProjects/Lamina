@@ -1,9 +1,5 @@
 function load_data()
-{
-    //TODO need fix local storage clear
-    /*var test = JSON.parse(window.localStorage.getItem("analyse_coordinates"));
-    console.log("test:" +test);*/
-    
+{    
     var animal_data = JSON.parse(window.localStorage.getItem("associated_animals"));
     
     var animal_array = Object.values(animal_data);
@@ -78,15 +74,14 @@ function change_gps()
 
                 }
         }
-    console.log("Phone no. : " + phone_number);
     var message ="interval:"
     message = message + time + ','
-    console.log("The message is: " + message);
     
     //https://github.com/cordova-sms/cordova-sms-plugin
 
     var success = function () { alert('Message sent successfully'); };
-    var error = function (e) { alert('Message Failed:' + e); };       SMS.sendSMS(phone_number, message, success, error);
+    var error = function (e) { alert('Message Failed:' + e); };       
+    SMS.sendSMS(phone_number, message, success, error);
     window.location.replace("home.html");
 }
     

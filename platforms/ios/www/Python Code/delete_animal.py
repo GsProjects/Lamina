@@ -1,5 +1,7 @@
 from flask import Flask,json
 from connector import create_connection
+
+
 def remove_profiles(animalIdentifier, trackingNumber,owner):
     
     if animalIdentifier =='' or trackingNumber == '':
@@ -20,6 +22,7 @@ def delete_animal(trackingNumber:str):
     cnx2.commit()
     cursor.close()
     cnx2.close()
+    
     
 def delete_animal_coordinates(trackingNumber:str):
     cnx2 = create_connection()

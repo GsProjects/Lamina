@@ -16,8 +16,6 @@ function process_animal()
 
                 }
         }
-    console.log("Parsed array: " + parsed_array);
-    
     var select_tag = document.getElementById("animal");
     var option;
     option = document.createElement("option");
@@ -35,8 +33,6 @@ function process_animal()
 function populate_select()
 {
     var animal_data = JSON.parse(window.localStorage.getItem("animals"));
-    console.log(animal_data);
-    
     var animal_array = Object.values(animal_data);
     var choice = document.getElementById("animal").value;
     
@@ -49,14 +45,10 @@ function populate_select()
                 {
                     if(temp_array[1] == choice)
                         {
-                           
                             $("#trackingNum").val(temp_array[7]);   
                         }
-
                 }
         }
-    
-   
 }
 function back()
 {

@@ -19,13 +19,18 @@
         <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+        .mapboxgl-popup 
+        {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
     </style>
     </head>
     <body class="body" onload="onLoad()">
 
         <div class="map" id ="map">
                 <script>
-                    var gps =JSON.parse(window.localStorage.getItem("coordinates"));                    
+                    var gps =JSON.parse(window.localStorage.getItem("coordinates"));            
                     var coordinate_array;
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
@@ -40,15 +45,20 @@
     map.on('load', function () {
         var i = 0; 
         var outer_loop = 0;
-        var id_value =0;
+        var id_value ="";
+        var details ="";
+        var id_array =[];
       
-        while(outer_loop != gps.length)
+        while(outer_loop < gps.length)
             {
                 
-                var separated_coordinates = gps.splice(outer_loop,outer_loop+4);
+                var separated_coordinates = gps.splice(outer_loop,outer_loop+6);
+                console.log("Separated: " + separated_coordinates);
             
-                            id_value= id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
-                            console.log(id_value);
+                            details = "Time: "+ separated_coordinates[i+2] + " Date: " + separated_coordinates[i+3];
+                                                
+                            id_value = separated_coordinates[i+4].toString();
+                            id_array.push(id_value);
                             map.addLayer({
                                 "id": id_value,
                                 "type": "symbol",
@@ -64,7 +74,8 @@
                                                 "coordinates": [parseFloat(separated_coordinates[i]),parseFloat(separated_coordinates[i+1])]
                                             },
                                             "properties": {
-                                                "title": separated_coordinates[i+2],
+                                                "description": details,
+                                                "title": separated_coordinates[i+4],
                                                 "icon": "dog-park"
 
                                             }
@@ -78,21 +89,36 @@
                                     "text-offset": [0, 0.6],
                                     "text-anchor": "top"
                                 }
+                                
                             });
 
-                                id_value = 0;
-            
-                
         }
-         
-    });
-    
-                   
+        console.log("FIRST: " + id_array[i]);
+        for(var i =0; i < id_array.length; i++)
+        {
+            map.on('click', function (e) 
+                           {
+                            var features = map.queryRenderedFeatures(e.point, { layers: id_array[i] });
+
+                            if (!features.length) {
+                                return;
+                            }
+
+                            var feature = features[0];
+                            // Populate the popup and set its coordinates
+                            // based on the feature found.
+                            var popup = new mapboxgl.Popup()
+                                .setLngLat(feature.geometry.coordinates)
+                                .setHTML(feature.properties.description)
+                                .addTo(map);  
+                        });
                     
+        }
+
+    });  
+                
                    window.localStorage.clear();
-                   
                 </script>
-          
         </div>    
     </body>
 </html>

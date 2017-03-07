@@ -2,7 +2,6 @@ function display_coordinates()
 {
     var gps =[];
     var coordinate_array = JSON.parse(window.localStorage.getItem("coordinates"));
-    console.log(coordinate_array);
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
                     var map = new mapboxgl.Map({

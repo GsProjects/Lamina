@@ -12,16 +12,13 @@ from update_details import update_animal_details
 from delete_animal import remove_profiles
 from graph_movement import get_graph_details
 from graph_data import graph_info
-from bson import json_util
+import random
+
 
 global session
-#import mysql.connector
-
-
-#cnx2 = mysql.connector.connect(host= 'gProject.mysql.pythonanywhere-services.com', user= 'gProject', password= '_mf698t_', database= 'gProject$Lamina')
-
 app = Flask(__name__)
-app.secret_key='F12Zr47j\3yX R~X@H!jmM]Lwf/,?KT'
+app.secret_key=str(random.getrandbits(256))
+
 
 @app.route('/register',methods=['POST','GET'])
 def func():
@@ -50,6 +47,7 @@ def func():
         overallResult = json.dumps({"status": "You are already logged in as another user"})
         return overallResult
 
+    
 @app.route('/changePassword',methods=['POST','GET'])
 def func2():
     x='You are in change password'
@@ -75,8 +73,6 @@ def func2():
             return result
 
 
-
-
 @app.route('/userlogin',methods=['POST','GET'])
 def func3():
     x='You are in login'
@@ -96,8 +92,7 @@ def func3():
         else:
             return result
 
-
-
+        
 @app.route('/animalProfile',methods=['POST','GET'])
 def func4():
     x='You are in animalProfile'
@@ -121,10 +116,7 @@ def func4():
         overallResult = json.dumps({"status": "Session timed out, please log in again"})
         return overallResult
 
-
-
-
-
+    
 @app.route('/currentLocation',methods=['POST','GET'])
 def func5():
     x='You are in currentLocation'
@@ -133,23 +125,29 @@ def func5():
     
     return json.dumps(result)#mysql datetime objects not json serializeable
 
+
 @app.route('/analyse_paths',methods=['POST','GET'])
 def func6():
     x='You are in analyse_paths'
     print(x)
     global session
-    animalIdentifier = request.form['animal'].lower()
-    trackingNumber = request.form['trackingNum']
-    
-    second_animalIdentifier = request.form['animalTwo'].lower()
-    second_trackingNumber = request.form['trackingNumTwo']
-    
-    
-    
-    result = analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,session['user'])
-    
-    return json.dumps(result)#mysql datetime objects not json serializeable
+    if session['loggedIn'] == 'true':
+        animalIdentifier = request.form['animal'].lower()
+        trackingNumber = request.form['trackingNum']
 
+        second_animalIdentifier = request.form['animalTwo'].lower()
+        second_trackingNumber = request.form['trackingNumTwo']
+        #start_date = request.form['date']
+        
+        result = analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,session['user'])
+        if result != '':
+            return json.dumps(result)
+        else:
+            return json.dumps({'status':'No Animal Selected'})
+    else:
+        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overallResult
+        
 
 
 @app.route('/logout',methods=['POST','GET'])
@@ -164,6 +162,7 @@ def func7():
         overallResult = json.dumps({"status": "Logout failed"})
         return overallResult
     
+    
 @app.route('/update_gps',methods=['POST','GET'])
 def func8():
     global session
@@ -171,7 +170,6 @@ def func8():
     if session['loggedIn'] == 'true':
         result = associated_animals(session['user'])
         if result != [[]]:
-            print(result)
             return json.dumps(result)
         else:
             overallResult = json.dumps({"status": "No animals"})
@@ -196,6 +194,7 @@ def func9():
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult
     
+    
 @app.route('/update_animals_details',methods=['POST','GET'])
 def func10():
     global session
@@ -215,6 +214,7 @@ def func10():
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult
+    
             
 @app.route('/delete_details',methods=['POST','GET'])
 def func11():
@@ -229,6 +229,7 @@ def func11():
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult
+
     
 @app.route('/get_animal_data',methods=['POST','GET'])
 def func12():
@@ -257,6 +258,7 @@ def func13():
 
     if session['loggedIn'] == 'true':
         result = graph_info(animalIdentifier,trackingNumber,session['user'])
+        print(result)
         return json.dumps(result)   
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
@@ -269,13 +271,8 @@ def func14():
     print('In TEST')
     payload = request.get_data()
     print('payload: ' + str(payload))
+
     
-
-       
-        
-   
-
-
 if __name__ == "__main__":
     app.run(debug=True)
 

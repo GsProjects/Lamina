@@ -14,34 +14,27 @@ function register()
             
                 if (result["status"] == "ok") 
                 {
-                    console.log("yurt 1");
                     alert("Registration successful");
                      window.location.replace("home.html");
                    
                 } 
                 else if(result["status"] == "Username already exists") 
                 {
-                    console.log("yurt 2" + result["status"]);
                     alert("The user name already exists please try again");
                     window.location.replace ("register.html");
                    
                 }
                 else if(result["status"] == "Empty fields")
                 {
-                    console.log("yurt 3");
                     alert("Please fill in all the fields");
                     window.location.replace ("register.html");
                 
             }
             else if(result["status"] == "You are already logged in as another user")
                 {
-                    console.log("yurt 3");
                     alert("You are already logged in as another user");
-                    window.location.replace ("index.html");
-                
+                    window.location.replace ("index.html");      
             }
-            
-         
         })
         
 };

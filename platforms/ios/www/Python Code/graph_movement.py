@@ -1,7 +1,8 @@
 from flask import Flask,json
 from connector import create_connection
+
+
 def get_graph_details(owner):
-    
     result = graph_data(owner)
     print("Graph data: " + str(result))
     return result

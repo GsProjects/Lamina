@@ -1,13 +1,8 @@
 from flask import Flask, render_template, request,json
 from connector import create_connection
-#TODO check that the new animal name and tracking number are not already used
-#animal name and tracking number cant be associated with anyone else
-#
-#
+
 
 def update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber,oldanimalIdentifier,owner):
-
-    
     if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender =='' or trackingNumber ==''):
         Result = json.dumps({"status": "Empty fields"})
         return Result
@@ -79,8 +74,6 @@ def update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,a
             Result = json.dumps({"status": "Updated Successfully"})
             return Result    
             
-     
-
 
 def update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber):
     cnx2 = create_connection()

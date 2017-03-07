@@ -45,7 +45,6 @@ def get_user_id(user):
     return result
 
 
-
 def update_user(user:str, password:str,confirmedPassword:str, userID):
     cnx2 = create_connection()
     cursor = cnx2.cursor()

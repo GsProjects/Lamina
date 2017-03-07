@@ -5,20 +5,20 @@ from connector import create_connection
 def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,user):
     x='You are in analyse'
     print(x)
-    print(animalIdentifier)
-    print(trackingNumber)
-    print(second_animalIdentifier)
-    print(second_trackingNumber)
-
-    locations = get_current_location(trackingNumber,second_trackingNumber)#get all locations associated with the current user
+    
+    if animalIdentifier == '--select an animal--' and second_animalIdentifier == '--select an animal--':
+        return ''
+    
+    locations = get_current_location(trackingNumber,second_trackingNumber)
     trackID = set()
     animals= []
     coordinates= []
     for items in locations:
         coordinates.append(items)
         coordinates.append(' ')
-    
-    print('THE COORDINATES ARE:' + str(coordinates))
+        
+    print('coordinates')    
+    print(coordinates)
     return coordinates
 
 

@@ -1,6 +1,5 @@
 function get_animals()
 {
-    console.log("IN GET ANIMALS");
     event.preventDefault();
     
         $.ajax({
@@ -14,7 +13,6 @@ function get_animals()
                 
                 if(result['status'])
                     {
-                        console.log("IN IF");
                         if (result["status"] == "Your session has timed out, please log in again") 
                             {
                                 alert("Your session has timed out, please log in again");
@@ -29,7 +27,6 @@ function get_animals()
                     }
                 else
                     {
-                        console.log("IN ELSE");
                         window.localStorage.setItem("associated_animals_update", JSON.stringify(result));
                         window.location.replace("update_animal_profile.html");
                     }

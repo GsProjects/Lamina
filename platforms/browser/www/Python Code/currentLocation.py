@@ -16,18 +16,15 @@ def location(user):
     for ids in trackID:
         animals.append( get_associated_animals(ids) )
         
-    
     for animal in animals:
         for elements in animal:
             max_id = get_max_id(elements[7])
             currentlocation = get_latest_location(max_id)
             for items in currentlocation:
                 for elements in items:
-                    coordinates.append(elements)
+                    coordinates.append(str(elements))
             coordinates.append(' ')
-    
-        
-    #get max id for each animal tracking id
+
     return coordinates
    
 
@@ -46,7 +43,7 @@ def get_max_id(trackingID):
 def get_latest_location(max_id):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("SELECT currentCoordinates.longitude,currentCoordinates.latitude, Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.id = %s")
+    query = ("SELECT currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date, Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.id = %s")
     cursor.execute(query,(max_id, ))
     result = cursor.fetchall()
     cursor.close()
@@ -63,6 +60,7 @@ def get_current_location(userID:str):
     cursor.close()
     cnx2.close()
     return result
+
 
 def get_associated_animals(trackID):
     cnx2 = create_connection()

@@ -1,14 +1,11 @@
 function process_animal()
 {
     var animal_data = JSON.parse(window.localStorage.getItem("associated_animals_update"));
-    
     var animal_array = Object.values(animal_data);
     var parsed_array =[]
     for(var i =0; i < animal_array.length;i++)
         {
             var temp_array = Object.values(animal_array[i]);
-            console.log("Temp array[0]: " + temp_array.length);
-        
             if(temp_array.length == 6)
                 {
                     if(parsed_array.indexOf(temp_array[0] == -1 | parsed_array.length ==0))
@@ -18,7 +15,6 @@ function process_animal()
 
                 }
         }
-    console.log("Parsed array: " + parsed_array);
     
     var select_tag = document.getElementById("animal");
     var option;
@@ -37,10 +33,7 @@ function process_animal()
 }
 function populate_fields()
 {
-    console.log("IN POPULATE FIELDS");
-    var animal_data = JSON.parse(window.localStorage.getItem("associated_animals_update"));
-    console.log(animal_data);
-    
+    var animal_data = JSON.parse(window.localStorage.getItem("associated_animals_update"));    
     var animal_array = Object.values(animal_data);
     var choice = document.getElementById("animal").value;
     
@@ -48,8 +41,6 @@ function populate_fields()
     for(var i =0; i < animal_array.length;i++)
         {
             var temp_array = Object.values(animal_array[i]);
-            console.log("Temp array[0]: " + temp_array.length);
-        
             if(temp_array.length == 6)
                 {
                     if(temp_array[0] == choice)
@@ -66,14 +57,8 @@ function populate_fields()
 
                 }
         }
-    
-    
-   
+
 }
-
-
-
-
 function back()
 {
     window.location.replace("home.html");

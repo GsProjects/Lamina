@@ -1,6 +1,5 @@
-function animalProfile()
-{
-    event.preventDefault();
+$("#profileForm").submit(function() {//.submit allows required and pattern attributes work as .submit does not ignore the required or pattern attributes like onclick
+    
         $.ajax({
             url: "http://gProject.pythonanywhere.com/animalProfile",
             data: $('#profileForm').serialize(),
@@ -42,8 +41,7 @@ function animalProfile()
                 }
             
         })
-        
-};
+})
 function back()
 {
     window.location.replace ("home.html");

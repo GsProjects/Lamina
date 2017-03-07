@@ -1,5 +1,7 @@
 from flask import Flask,json
 from connector import create_connection
+
+
 def add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,owner):
     if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender =='' or trackingNumber ==''):
             Result = json.dumps({"status": "Empty fields"})
@@ -9,7 +11,6 @@ def add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender
         if(len(exists) <= 1):
             ids = get_current_animal_id()
 
-            #TODO what if animal id is already in database should be unique
             result = update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber)
 
             overallResult = json.dumps({"status": "ok"})
@@ -17,6 +18,8 @@ def add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender
         else:
             overallResult = json.dumps({"status": "Animal id already exists"})
             return overallResult
+        
+        
 def get_current_animal_id():
     cnx2 = create_connection()
     cursor = cnx2.cursor()
@@ -29,7 +32,6 @@ def get_current_animal_id():
     return result
 
 
-#TODO change update_animal_profile argument list
 def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
@@ -40,7 +42,7 @@ def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight
     cnx2.close()
     return True
 
-#TODO parameter list
+
 def check_animal_existance(animalIdentifier:str):
     cnx2 = create_connection()
     cursor = cnx2.cursor()

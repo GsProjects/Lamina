@@ -6,24 +6,21 @@ function update_details()
             type: 'POST',
             async: false})
             .done(function(response) {
-                console.log("RESPONSE: "+response);
+                console.log(response);
 
                 var result = JSON.parse(response);
                 
                 if(result['status'])
                     {
-                        console.log("IN IF");
                         if (result["status"] == "Your session has timed out, please log in again") 
                             {
                                 alert("Your session has timed out, please log in again");
                                  window.location.replace("index.html");
-
                             }
                         if (result["status"] == "Updated Successfully") 
                             {
                                 alert("Animal details updated successfully");
                                  window.location.replace("home.html");
-
                             } 
                         if (result["status"] == "Empty fields") 
                             {
@@ -39,10 +36,7 @@ function update_details()
                             {
                                 alert("Animal ID associated with another animal");
                                  window.location.replace("update_animal_profile.html");
-                            } 
-                        
-                        
-                    }    
-               
+                            }      
+                    }                  
         })
 }

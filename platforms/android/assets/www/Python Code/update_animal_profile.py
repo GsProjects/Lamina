@@ -1,16 +1,15 @@
 from flask import Flask,json
 from connector import create_connection
+
+
 def get_animal_profiles(owner):
     animal_data =[]
     animals = associated_animal_info(owner)
-    print('animals: ' + str(animals))
     
     for items in animals:
-        print('Items: ' + str(items))
         animal_data.append(items)
         animal_data.append(' ')
     
-    print('animal_data: ' + str(animal_data))
     return animal_data
     
     

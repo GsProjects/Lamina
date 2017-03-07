@@ -1,9 +1,6 @@
 from flask import Flask, render_template, request,json
 from connector import create_connection
-#import mysql.connector
 
-
-#cnx2 = mysql.connector.connect(host= 'gProject.mysql.pythonanywhere-services.com', user= 'gProject', password= '_mf698t_', database= 'gProject$Lamina')
 
 def register(username,password,confirmedPassword):
     x='You are in register'
@@ -24,7 +21,6 @@ def register(username,password,confirmedPassword):
             return overallResult
 
 
-
 def get_current_id():
     cnx2 = create_connection()
     cursor = cnx2.cursor()
@@ -35,7 +31,6 @@ def get_current_id():
     cursor.close()
     cnx2.close()
     return result
-
 
 
 def add_user(username:str, password:str,confirmedPassword:str):

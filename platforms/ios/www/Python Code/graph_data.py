@@ -1,5 +1,7 @@
 from flask import Flask,json
 from connector import create_connection
+
+
 def graph_info(animalIdentifier, trackingNumber,owner):
     newresult=[]
     
@@ -9,7 +11,11 @@ def graph_info(animalIdentifier, trackingNumber,owner):
     else:
         result = animal_graph_data(trackingNumber)
         for items in result:
-            newresult.append(str(items))
+            temp = []
+            for elements in items:
+                temp.append(str(elements))
+            newresult.append(temp)
+    
         return newresult
     
     

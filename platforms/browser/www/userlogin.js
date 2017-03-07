@@ -1,7 +1,6 @@
 function userlogFunction()
 {
     event.preventDefault();
-    console.log("In login");
         $.ajax({
             url: "http://gProject.pythonanywhere.com/userlogin",
             data: $('#loginForm').serialize(),
