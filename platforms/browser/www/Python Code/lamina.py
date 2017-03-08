@@ -137,13 +137,11 @@ def func6():
 
         second_animalIdentifier = request.form['animalTwo'].lower()
         second_trackingNumber = request.form['trackingNumTwo']
-        #start_date = request.form['date']
+        start_date = request.form['date']
         
-        result = analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,session['user'])
-        if result != '':
-            return json.dumps(result)
-        else:
-            return json.dumps({'status':'No Animal Selected'})
+        result = analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber, start_date)
+        return result
+        
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult

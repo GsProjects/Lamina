@@ -30,6 +30,7 @@
 
                     var temp_start = coordinate_array[0];
                     var start_coordinates = Object.values(temp_start);
+                    var id_array =[];
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
                     var map = new mapboxgl.Map({
@@ -41,13 +42,14 @@
 
 
     map.on('load', function () {
-        
 
-        
         var i = 0;
         var ii = 0;
         var animal_ids=[];
+        var details ="";
+        var id_value ="";
         
+        var id =0;
         
         //GET UNIQUE ANIMAL ID'S
         for(i;i<coordinate_array.length;i++)
@@ -55,11 +57,11 @@
                 var temp_object = coordinate_array[i];
                 var temp_array = Object.values(temp_object);
                 
-                if(temp_array.length == 3)
+                if(temp_array.length == 5)
                     {
-                        if(animal_ids.indexOf(temp_array[2]) == -1 | animal_ids.length == 0)
+                        if(animal_ids.indexOf(temp_array[4]) == -1 | animal_ids.length == 0)
                             {
-                                animal_ids.push(temp_array[2]);
+                                animal_ids.push(temp_array[4]);
                             }
                     }
                 
@@ -67,6 +69,7 @@
         
         i = 0;//reset value of i
         var animal_coordintes=[];
+        var animal_data=[];
         
         for(i;i<animal_ids.length;i++)
             {
@@ -78,24 +81,25 @@
                     {
                         var temp_object = coordinate_array[ii];
                         var temp_array = Object.values(temp_object);
-                        if(temp_array.length == 3 & temp_array[2] == animal )
+                        if(temp_array.length == 5 & temp_array[4] == animal )
                             {
+                                animal_data.push([temp_array[0],temp_array[1],temp_array[2],temp_array[3],temp_array[4]]);
                                 animal_coordintes.push([temp_array[0],temp_array[1]]);
                             }
 
                     }
 
-                
-                id_value = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
+                id = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
                         
                                 map.addLayer({
-                                        "id": id_value,
+                                        "id": id,
                                         "type": "line",
                                         "source": {
                                             "type": "geojson",
                                             "data": {
                                                 "type": "Feature",
-                                                "properties": {},
+                                                "properties": {
+                                                },
                                                 "geometry": {
                                                     "type": "LineString",
                                                     "coordinates":animal_coordintes
@@ -113,14 +117,17 @@
                                     });
                         
                             
-                id_value = 0;
-                
-                for(ii=0;ii <animal_coordintes.length; ii++)
+                id = 0;
+                for(ii=0;ii <animal_data.length; ii++)
                     {
-                        id_value = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
-                        var separated_coordinates = Object.values(animal_coordintes[ii])
+                        var separated_coordinates = Object.values(animal_data[ii]) 
+                        id_value = separated_coordinates[4];
+                        id_array.push(id_value);
+                        details = "Time: " + separated_coordinates[2] + " " + "Date: " + separated_coordinates[3]
+                       
+                        id = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
                         map.addLayer({
-                                        "id": id_value,
+                                        "id": id,
                                         "type": "symbol",
                                         "source": {
                                             "type": "geojson",
@@ -134,7 +141,8 @@
                                                         "coordinates": [parseFloat(separated_coordinates[0]),parseFloat(separated_coordinates[1])]
                                                     },
                                                     "properties": {
-                                                        "title": animal,
+                                                        "description": details,
+                                                        "title": id_value,
                                                         "icon": "dog-park"
                                                     }
                                                 }]
@@ -148,23 +156,38 @@
                                             "text-anchor": "top"
                                         }
                                     });
-                        id_value = 0;
+                        id = 0;
                     }
                 animal_coordintes.length = 0;
                 ii =0;
                 
             }
-        
+            for(var i =0; i < id_array.length; i++)
+                {
+                    map.on('click', function (e) 
+                                   {
+                                    var features = map.queryRenderedFeatures(e.point, { layers: id_array[i] });
+
+                                    if (!features.length) {
+                                        return;
+                                    }
+
+                                    var feature = features[0];
+                                    // Populate the popup and set its coordinates
+                                    // based on the feature found.
+                                    var popup = new mapboxgl.Popup()
+                                        .setLngLat(feature.geometry.coordinates)
+                                        .setHTML(feature.properties.description)
+                                        .addTo(map);  
+                                });
+
+                }
+
         
     });
-                    
-    
-                   
-                    
                 window.localStorage.clear();
                    
                 </script>
-          
         </div>    
     </body>
 </html>

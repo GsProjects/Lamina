@@ -22,11 +22,16 @@ function animal_paths()
                                 alert("Your session has timed out, please log in again")
                                 window.location.replace("index.html");
                             }
+                        if (result['status'] == 'No Date Selected')
+                            {
+                                alert("No Date Selected. Please select a date.")
+                                window.location.replace("select_animal.html");
+                            }
                         
                     }
                 else
                 {
-                    process_path_data(result)
+                    process_path_data(response);
                     window.location.replace ("analyseLocation.html");
                 }
     
@@ -38,5 +43,5 @@ function back()
 };
 function process_path_data(location_paths)
 {
-    window.localStorage.setItem("analyse_coordinates", JSON.stringify(location_paths));
+    window.localStorage.setItem("analyse_coordinates", location_paths);
 }

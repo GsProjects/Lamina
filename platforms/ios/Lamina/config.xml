@@ -22,7 +22,7 @@
     <feature name="Sms">
         <param name="ios-package" value="Sms" />
     </feature>
-    <name>Lamina</name>
+    <name>AniMap</name>
     <description>
         A blank PhoneGap app.
     </description>

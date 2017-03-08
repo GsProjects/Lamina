@@ -52,10 +52,8 @@
         while(outer_loop < gps.length)
             {
                 
-                var separated_coordinates = gps.splice(outer_loop,outer_loop+6);
-                console.log("Separated: " + separated_coordinates);
-            
-                            details = "Time: "+ separated_coordinates[i+2] + " Date: " + separated_coordinates[i+3];
+                var separated_coordinates = gps.splice(outer_loop,outer_loop+6);            
+                details = "Time: "+ separated_coordinates[i+2] + " Date: " + separated_coordinates[i+3];
                                                 
                             id_value = separated_coordinates[i+4].toString();
                             id_array.push(id_value);
@@ -93,7 +91,6 @@
                             });
 
         }
-        console.log("FIRST: " + id_array[i]);
         for(var i =0; i < id_array.length; i++)
         {
             map.on('click', function (e) 

@@ -2,31 +2,35 @@ from flask import Flask, render_template, request,json
 from connector import create_connection
 
 
-def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,user):
+def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,start_date):
     x='You are in analyse'
     print(x)
     
     if animalIdentifier == '--select an animal--' and second_animalIdentifier == '--select an animal--':
-        return ''
+        return json.dumps({'status':'No Animal Selected'})
     
-    locations = get_current_location(trackingNumber,second_trackingNumber)
-    trackID = set()
-    animals= []
+    if start_date == '':
+        return json.dumps({'status':'No Date Selected'})
+    
+    locations = get_current_location(trackingNumber,second_trackingNumber,start_date)
+
     coordinates= []
+    temp_list =[]
     for items in locations:
-        coordinates.append(items)
+        for elements in items:
+            temp_list.append(str(elements))
+        coordinates.append(temp_list)
         coordinates.append(' ')
-        
-    print('coordinates')    
-    print(coordinates)
-    return coordinates
+        temp_list =[]
+
+    return json.dumps(coordinates)
 
 
-def get_current_location(trackingNumber,second_trackingNumber):
+def get_current_location(trackingNumber,second_trackingNumber,date):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s or currentCoordinates.trackingID = %s")
-    cursor.execute(query,(trackingNumber,second_trackingNumber))
+    query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s or currentCoordinates.trackingID = %s  and currentCoordinates.date >= %s")
+    cursor.execute(query,(trackingNumber,second_trackingNumber,date))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

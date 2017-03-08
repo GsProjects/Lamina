@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.animalTracker" version="1.1.0">
-    <name>Lamina</name>
+    <name>AniMap</name>
     <description>
         A blank PhoneGap app.
     </description>
