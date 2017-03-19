@@ -25,11 +25,11 @@ function get_graph_data()
                         if (result["status"] == "Empty fields") 
                             {
                                 alert("Please select an animal"); window.location.replace("myprofile.html");
-                            } 
+                            }
+                       
                     }
                 else
                 {
-                    console.log("GRAPH DATA: " + result);
                     window.localStorage.setItem('graph_Data',JSON.stringify(result));
                     window.location.replace("movement_graph.html");
                 }

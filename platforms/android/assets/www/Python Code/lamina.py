@@ -12,10 +12,13 @@ from update_details import update_animal_details
 from delete_animal import remove_profiles
 from graph_movement import get_graph_details
 from graph_data import graph_info
+from insert_coordinates import insert_coord
 import random
 
 
 global session
+
+
 app = Flask(__name__)
 app.secret_key=str(random.getrandbits(256))
 
@@ -30,22 +33,20 @@ def func():
     print('tempUser ' + tempUser)
     tempPassword = request.form['registerUserPassword'].lower()
     tempConfirmedPassword = request.form['confirmRegisterUserPassword'].lower()
-    if session['loggedIn'] != 'true':
-        result = register(tempUser,tempPassword,tempConfirmedPassword)
-        for k,v in json.loads(result).items():
-            if v == 'ok':
-                session['user'] = username
-                session['userPassword'] = password
-                session['loggedIn'] = 'true'
-                return result
-            else:
-                session['user'] = ''
-                session['userPassword'] = ''
-                session['loggedIn'] = 'false'
-                return result
-    else:
-        overallResult = json.dumps({"status": "You are already logged in as another user"})
-        return overallResult
+    
+    result = register(tempUser,tempPassword,tempConfirmedPassword)
+    for k,v in json.loads(result).items():
+        print('Result: ' + str(result))
+        if v == 'ok':
+            session['user'] = tempUser
+            session['userPassword'] = tempPassword
+            session['loggedIn'] = 'true'
+            return result
+        else:
+            session['user'] = ''
+            session['userPassword'] = ''
+            session['loggedIn'] = 'false'
+            return result
 
     
 @app.route('/changePassword',methods=['POST','GET'])
@@ -107,8 +108,6 @@ def func4():
     trackingNumber = request.form['trackingNum']
     owner = session['user']
 
-    print("THE SESSION USERNAME IS : " + owner)
-
     if(session['loggedIn'] == 'true'):
         result = add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,owner)    
         return result
@@ -153,7 +152,7 @@ def func7():
     global session
     print(session['loggedIn'])
     if session['loggedIn'] == 'true':
-        session['loggedIn'] = 'false'
+        session.pop('loggedIn')
         overallResult = json.dumps({"status": "You have logged out successfully"})
         return overallResult
     else:
@@ -253,22 +252,24 @@ def func13():
     print('In graph data')
     animalIdentifier = request.form['animal'].lower()
     trackingNumber = request.form['trackingNum']
+    date = request.form['start_date']
 
     if session['loggedIn'] == 'true':
-        result = graph_info(animalIdentifier,trackingNumber,session['user'])
-        print(result)
+        result = graph_info(animalIdentifier,trackingNumber,date)
         return json.dumps(result)   
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
         return overallResult
     
 
-@app.route('/test',methods=['POST','GET'])
+@app.route('/insert',methods=['POST','GET'])
 def func14():
     global session
-    print('In TEST')
+    print('In Insert')
     payload = request.get_data()
+    insert_coord(payload.decode())
     print('payload: ' + str(payload))
+    return ''
 
     
 if __name__ == "__main__":

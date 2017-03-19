@@ -10,8 +10,10 @@ def register(username,password,confirmedPassword):
         return Result
     else:
         exists = check_existance(username)
-        if(len(exists) <= 1):
+        print('Exists: ' + str(exists))
+        if(len(exists) < 1):
             ids = get_current_id()
+            print('IDs: ' + str(ids))
 
             result = add_user(str(username), str(password),str(confirmedPassword))
             overallResult = json.dumps({"status": "ok"})

@@ -1,17 +1,18 @@
 from flask import Flask, render_template, request,json
 from connector import create_connection
+import datetime
 
 
 def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,start_date):
     x='You are in analyse'
     print(x)
     
-    if animalIdentifier == '--select an animal--' and second_animalIdentifier == '--select an animal--':
+    if animalIdentifier == '--select an animal--' or second_animalIdentifier == '--select an animal--':
         return json.dumps({'status':'No Animal Selected'})
     
     if start_date == '':
         return json.dumps({'status':'No Date Selected'})
-    
+
     locations = get_current_location(trackingNumber,second_trackingNumber,start_date)
 
     coordinates= []
@@ -26,11 +27,11 @@ def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_track
     return json.dumps(coordinates)
 
 
-def get_current_location(trackingNumber,second_trackingNumber,date):
+def get_current_location(trackingNumber,second_trackingNumber,start_date):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s or currentCoordinates.trackingID = %s  and currentCoordinates.date >= %s")
-    cursor.execute(query,(trackingNumber,second_trackingNumber,date))
+    query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s and currentCoordinates.trackingID = %s  and currentCoordinates.date >= %s")
+    cursor.execute(query,(trackingNumber,second_trackingNumber,str(start_date)))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

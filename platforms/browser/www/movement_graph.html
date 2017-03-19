@@ -11,15 +11,88 @@
         <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script src="http://d3js.org/d3.v3.min.js"></script>
-        <script type="text/javascript" src="display_graph.js"></script>
+        <script type="text/javascript" src="backButton.js"></script>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.css' rel='stylesheet' />
+        <style>
+            body { margin:0; padding:0; }
+            #map { position:absolute; top:0; bottom:0; width:100%; }
+            .mapboxgl-popup 
+            {
+                max-width: 400px;
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+        </style>
         
         
         
     </head>
-    <body class="body">
-    <script>
-        
-       
-    </script>
+    <body class="body" onload="onLoad()">
+
+        <div class="map" id ="map">
+                <script>
+                    var gps =JSON.parse(window.localStorage.getItem("graph_Data"));            
+                    var coordinate_array = Object.values(gps);
+                    console.log(coordinate_array);
+                    var start = Object.values(coordinate_array[0])
+                    console.log("start: " + start);
+                    
+
+                mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
+                                var map = new mapboxgl.Map({
+                                    container: 'map', // container id
+                                    style: 'mapbox://styles/garl94/ciya2fzm200692roox15xpp7q', //stylesheet location
+                                    center: [start[0],start[1]], // starting position longitude followed by latitude
+                                    zoom: 10 // starting zoom
+                                });
+
+
+                map.on('load', function () 
+                       {
+                            for(var i = 0; i< coordinate_array.length;i++)
+                                {
+                                    var separated_coordinates = Object.values(coordinate_array[i]);
+                                    console.log(separated_coordinates);
+                                    var id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
+                                    map.addLayer({
+                                        "id": id_value,
+                                        "type": "symbol",
+                                        "source": {
+                                            "type": "geojson",
+                                            "data": {
+                                                "type": "FeatureCollection",
+                                                "features": [{
+                                                    "type": "Feature",
+                                                    "geometry": {
+                                                        "type": "Point",
+                                                        "cluster":true,
+                                                        "coordinates": [parseFloat(separated_coordinates[0]),parseFloat(separated_coordinates[1])]
+                                                    },
+                                                     "properties":{
+                                                        "icon": "triangle"
+                                                     }
+                                                   
+                                                }]
+                                            }
+                                        },
+                                        "layout": {
+                                            "icon-image": "{icon}-15",
+                                            "text-field": "{title}",
+                                            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                                            "text-offset": [0, 0.6],
+                                            "text-anchor": "top"
+                                        }
+                                
+                                    });
+                                }
+                });  
+                        
+
+                    
+
+                window.localStorage.clear();
+                </script>
+        </div>    
     </body>
 </html> 
