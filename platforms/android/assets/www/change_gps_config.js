@@ -38,8 +38,10 @@ function change_gps()
     var animal = document.getElementById("animal").value;
     if(animal == "--Select an Animal--")
         {
-            alert("Please select an animal");
-            window.location.replace("gpsConfiguration.html");
+            bootbox.alert("Please select an animal",function()
+                {
+                    window.location.replace("gpsConfiguration.html");
+                })
         }
     var metric = document.getElementById("metric").value;
     var time = parseInt(document.getElementById("time").value);
@@ -47,8 +49,10 @@ function change_gps()
     
     if(typeof(time) != "number" & Number.isInteger(time) == false)
         {
-            alert("You must enter an integer value");
-            window.location.replace("gpsConfiguration.html");
+            bootbox.alert("You must enter an integer value",function()
+                {
+                    window.location.replace("gpsConfiguration.html");
+                })
         }
     
     if(metric != "seconds")

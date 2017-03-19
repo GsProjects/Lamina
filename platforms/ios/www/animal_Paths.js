@@ -14,20 +14,25 @@ function animal_paths()
                     {
                         if (result['status'] == 'No Animal Selected')
                             {
-                                alert("Please Select An Animal")
-                                window.location.replace("select_animal.html");
+                                bootbox.alert("Please Select An Animal", function()
+                                    {
+                                        window.location.replace("select_animal.html");
+                                    })
                             }
                         if (result['status'] == 'Your session has timed out, please log in again')
                             {
-                                alert("Your session has timed out, please log in again")
-                                window.location.replace("index.html");
+                                bootbox.alert("Your session has timed out, please log in again", function()
+                                    {
+                                        window.location.replace("index.html");
+                                    })
                             }
                         if (result['status'] == 'No Date Selected')
                             {
-                                alert("No Date Selected. Please select a date.")
-                                window.location.replace("select_animal.html");
-                            }
-                        
+                                bootbox.alert("No Date Selected. Please select a date.",function()
+                                    {
+                                        window.location.replace("select_animal.html");
+                                    })
+                            }  
                     }
                 else
                 {

@@ -17,26 +17,21 @@ import random
 
 
 global session
-
-
 app = Flask(__name__)
 app.secret_key=str(random.getrandbits(256))
 
 
 @app.route('/register',methods=['POST','GET'])
-def func():
+def register_user():
     x='You are in register'
     print(x)
     global session
 
     tempUser = request.form['registerUserName'].lower()
-    print('tempUser ' + tempUser)
     tempPassword = request.form['registerUserPassword'].lower()
     tempConfirmedPassword = request.form['confirmRegisterUserPassword'].lower()
-    
     result = register(tempUser,tempPassword,tempConfirmedPassword)
     for k,v in json.loads(result).items():
-        print('Result: ' + str(result))
         if v == 'ok':
             session['user'] = tempUser
             session['userPassword'] = tempPassword
@@ -50,7 +45,7 @@ def func():
 
     
 @app.route('/changePassword',methods=['POST','GET'])
-def func2():
+def change_password():
     x='You are in change password'
     print(x)
     global session
@@ -75,7 +70,7 @@ def func2():
 
 
 @app.route('/userlogin',methods=['POST','GET'])
-def func3():
+def user_login():
     x='You are in login'
     print(x)
     global session
@@ -95,7 +90,7 @@ def func3():
 
         
 @app.route('/animalProfile',methods=['POST','GET'])
-def func4():
+def add_animal():
     x='You are in animalProfile'
     print(x)
     global session
@@ -117,16 +112,15 @@ def func4():
 
     
 @app.route('/currentLocation',methods=['POST','GET'])
-def func5():
+def current_Location():
     x='You are in currentLocation'
     print(x)
     result = location(session['user'])
-    
     return json.dumps(result)#mysql datetime objects not json serializeable
 
 
 @app.route('/analyse_paths',methods=['POST','GET'])
-def func6():
+def analyse_paths():
     x='You are in analyse_paths'
     print(x)
     global session
@@ -148,7 +142,7 @@ def func6():
 
 
 @app.route('/logout',methods=['POST','GET'])
-def func7():
+def logout():
     global session
     print(session['loggedIn'])
     if session['loggedIn'] == 'true':
@@ -161,7 +155,7 @@ def func7():
     
     
 @app.route('/update_gps',methods=['POST','GET'])
-def func8():
+def update_gps():
     global session
     print('In update gps')
     if session['loggedIn'] == 'true':
@@ -177,7 +171,7 @@ def func8():
         
         
 @app.route('/update_animals',methods=['POST','GET'])
-def func9():
+def update_animals():
     global session
     print('In update animals')
     if session['loggedIn'] == 'true':
@@ -193,7 +187,7 @@ def func9():
     
     
 @app.route('/update_animals_details',methods=['POST','GET'])
-def func10():
+def update_animal_details():
     global session
     print('In update animals details')
     animalIdentifier = request.form['animalID'].lower()
@@ -214,7 +208,7 @@ def func10():
     
             
 @app.route('/delete_details',methods=['POST','GET'])
-def func11():
+def delete_animal():
     global session
     print('In delete_details')
     animalIdentifier = request.form['animal'].lower()
@@ -229,7 +223,7 @@ def func11():
 
     
 @app.route('/get_animal_data',methods=['POST','GET'])
-def func12():
+def animal_data():
     global session
     print('In graph details')
     
@@ -247,7 +241,7 @@ def func12():
     
     
 @app.route('/get_graph_data',methods=['POST','GET'])
-def func13():
+def graph_data():
     global session
     print('In graph data')
     animalIdentifier = request.form['animal'].lower()
@@ -263,12 +257,11 @@ def func13():
     
 
 @app.route('/insert',methods=['POST','GET'])
-def func14():
+def insert_coordinates():
     global session
     print('In Insert')
     payload = request.get_data()
     insert_coord(payload.decode())
-    print('payload: ' + str(payload))
     return ''
 
     

@@ -1,4 +1,3 @@
-//$("#profileForm").submit(function() {//.submit allows required and pattern attributes work as .submit does not ignore the required or pattern attributes like onclick
 function add_animal()
 {
     event.preventDefault()
@@ -9,39 +8,42 @@ function add_animal()
             async: false})
             .done(function(response) {
                 console.log(response);
-
                 var result = JSON.parse(response);
-            
                 if (result["status"] == "ok") 
                     {
-                        alert("Animal profile added successfully");
-                        window.location.replace("home.html");
-
+                        bootbox.alert("Animal profile added successfully",function()
+                            {
+                                window.location.replace("home.html");
+                            })
                     } 
                 if(result["status"] == "Animal id already exists") 
                     {
-                        alert("The animal id already exists please try again");
-                        window.location.replace ("addAnimalProfile.html");
-
+                        bootbox.alert("The animal id already exists please try again",function()
+                            {
+                                window.location.replace ("addAnimalProfile.html");
+                            })
                     }
                 if(result["status"] == "Empty fields")
                     {
-                        alert("Please fill in all the fields");
-                        window.location.replace ("addAnimalProfile.html");
+                        bootbox.alert("Please fill in all the fields",function()
+                            {
+                                window.location.replace ("addAnimalProfile.html");
+                            })
                     }
                 if(result["status"] == "logged out")
                     {
-                        alert("You need to login");
-                        window.location.replace ("index.html");
-
+                        bootbox.alert("You need to login",function()
+                            {
+                                window.location.replace ("index.html");
+                            })
                     }
                 if(result["status"] == "Session timed out, please log in again")
                     {
-                        alert("You need to login");
-                        window.location.replace ("index.html");
-
-                    }
-            
+                        bootbox.alert("You need to login",function()
+                            {
+                                window.location.replace ("index.html");
+                            })
+                    }          
         })
 }
 function back()

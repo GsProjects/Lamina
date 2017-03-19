@@ -12,18 +12,13 @@ function animal_location()
                 var result = JSON.parse(response);
                 process_data(result)
                 window.location.replace ("currentLocation.html");
-            
-                
-        })
-        
+        })        
 };
 function back()
 {
     window.location.replace ("home.html");
 };
 function process_data(location_data)
-{
-    
+{ 
     window.localStorage.setItem("coordinates", JSON.stringify(location_data));
-    
 }

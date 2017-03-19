@@ -3,16 +3,9 @@ from connector import create_connection
 
 def insert_coord(data):
     values = data.split(' ')
-    print('Values: ' + str(values))
-    
     trackingId = values[0]
-    print('TrackingID: ' + str(trackingId))
-    names = get_names(trackingId)
-    print('Names: ' + str(names))
-    #trackingID   | longitude | latitude  | time     | date       | username 
+    names = get_names(trackingId) 
     insert_data(trackingId,values[3],values[4],values[2],values[1],names[0][0])
-    
-    
     
     
 def get_names(trackingId):
@@ -33,7 +26,4 @@ def insert_data(trackingId,longitude,latitude,time,date,owner):
     cnx2.commit()
     cursor.close()
     cnx2.close()
-    
-#extract tracking id
-#search for the associated animal name and user name in the table return those in array
-#send data to insert function
+

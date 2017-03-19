@@ -32,7 +32,7 @@
                     var start_coordinates = Object.values(temp_start);
                     var id_array =[];
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
+                    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
                     var map = new mapboxgl.Map({
                         container: 'map', // container id
                         style: 'mapbox://styles/garl94/ciya2fzm200692roox15xpp7q', //stylesheet location
@@ -41,152 +41,151 @@
                     });
 
 
-    map.on('load', function () {
+                    map.on('load', function () {
 
-        var i = 0;
-        var ii = 0;
-        var animal_ids=[];
-        var details ="";
-        var id_value ="";
-        
-        var id =0;
-        
-        //GET UNIQUE ANIMAL ID'S
-        for(i;i<coordinate_array.length;i++)
-            {
-                var temp_object = coordinate_array[i];
-                var temp_array = Object.values(temp_object);
-                
-                if(temp_array.length == 5)
-                    {
-                        if(animal_ids.indexOf(temp_array[4]) == -1 | animal_ids.length == 0)
+                        var i = 0;
+                        var ii = 0;
+                        var animal_ids=[];
+                        var details ="";
+                        var id_value ="";
+
+                        var id =0;
+
+                        //GET UNIQUE ANIMAL ID'S
+                        for(i;i<coordinate_array.length;i++)
                             {
-                                animal_ids.push(temp_array[4]);
-                            }
-                    }
-                
-            }
-        
-        i = 0;//reset value of i
-        var animal_coordintes=[];
-        var animal_data=[];
-        
-        for(i;i<animal_ids.length;i++)
-            {
-                //FOR EACH ANIMAL ID GET THE COORDINATES ASSOCIATED WITH IT AND STORE IN AN ARRAY OF ARRAYS
-                var animal = animal_ids[i];
-                
-                ii = 0;
-                for(ii;ii<coordinate_array.length;ii++)
-                    {
-                        var temp_object = coordinate_array[ii];
-                        var temp_array = Object.values(temp_object);
-                        if(temp_array.length == 5 & temp_array[4] == animal )
-                            {
-                                animal_data.push([temp_array[0],temp_array[1],temp_array[2],temp_array[3],temp_array[4]]);
-                                animal_coordintes.push([temp_array[0],temp_array[1]]);
-                            }
+                                var temp_object = coordinate_array[i];
+                                var temp_array = Object.values(temp_object);
 
-                    }
-
-                id = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
-                        
-                                map.addLayer({
-                                        "id": id,
-                                        "type": "line",
-                                        "source": {
-                                            "type": "geojson",
-                                            "data": {
-                                                "type": "Feature",
-                                                "properties": {
-                                                },
-                                                "geometry": {
-                                                    "type": "LineString",
-                                                    "coordinates":animal_coordintes
-                                                }
+                                if(temp_array.length == 5)
+                                    {
+                                        if(animal_ids.indexOf(temp_array[4]) == -1 | animal_ids.length == 0)
+                                            {
+                                                animal_ids.push(temp_array[4]);
                                             }
-                                        },
-                                        "layout": {
-                                            "line-join": "round",
-                                            "line-cap": "round"
-                                        },
-                                        "paint": {
-                                            "line-color": "#500",
-                                            "line-width": 8
-                                        }
-                                    });
-                        
-                            
-                id = 0;
-                for(ii=0;ii <animal_data.length; ii++)
-                    {
-                        var separated_coordinates = Object.values(animal_data[ii]) 
-                        id_value = separated_coordinates[4];
-                        id_array.push(id_value);
-                        details = "Time: " + separated_coordinates[2] + " " + "Date: " + separated_coordinates[3]
-                       
-                        id = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
-                        map.addLayer({
-                                        "id": id,
-                                        "type": "symbol",
-                                        "source": {
-                                            "type": "geojson",
-                                            "data": {
-                                                "type": "FeatureCollection",
-                                                "features": [{
-                                                    "type": "Feature",
-                                                    "geometry": {
-                                                        "type": "Point",
-                                                        "cluster":true,
-                                                        "coordinates": [parseFloat(separated_coordinates[0]),parseFloat(separated_coordinates[1])]
-                                                    },
-                                                    "properties": {
-                                                        "description": details,
-                                                        "title": id_value,
-                                                        "icon": "dog-park"
-                                                    }
-                                                }]
-                                            }
-                                        },
-                                        "layout": {
-                                            "icon-image": "{icon}-15",
-                                            "text-field": "{title}",
-                                            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                                            "text-offset": [0, 0.6],
-                                            "text-anchor": "top"
-                                        }
-                                    });
-                        id = 0;
-                    }
-                animal_coordintes.length = 0;
-                ii =0;
-                
-            }
-            for(var i =0; i < id_array.length; i++)
-                {
-                    map.on('click', function (e) 
-                                   {
-                                    var features = map.queryRenderedFeatures(e.point, { layers: id_array[i] });
-
-                                    if (!features.length) {
-                                        return;
                                     }
 
-                                    var feature = features[0];
-                                    // Populate the popup and set its coordinates
-                                    // based on the feature found.
-                                    var popup = new mapboxgl.Popup()
-                                        .setLngLat(feature.geometry.coordinates)
-                                        .setHTML(feature.properties.description)
-                                        .addTo(map);  
-                                });
+                            }
 
-                }
+                        i = 0;//reset value of i
+                        var animal_coordintes=[];
+                        var animal_data=[];
 
-        
-    });
-                window.localStorage.clear();
-                   
+                        for(i;i<animal_ids.length;i++)
+                            {
+                                //FOR EACH ANIMAL ID GET THE COORDINATES ASSOCIATED WITH IT AND STORE IN AN ARRAY OF ARRAYS
+                                var animal = animal_ids[i];
+
+                                ii = 0;
+                                for(ii;ii<coordinate_array.length;ii++)
+                                    {
+                                        var temp_object = coordinate_array[ii];
+                                        var temp_array = Object.values(temp_object);
+                                        if(temp_array.length == 5 & temp_array[4] == animal )
+                                            {
+                                                animal_data.push([temp_array[0],temp_array[1],temp_array[2],temp_array[3],temp_array[4]]);
+                                                animal_coordintes.push([temp_array[0],temp_array[1]]);
+                                            }
+
+                                    }
+
+                                id = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
+
+                                                map.addLayer({
+                                                        "id": id,
+                                                        "type": "line",
+                                                        "source": {
+                                                            "type": "geojson",
+                                                            "data": {
+                                                                "type": "Feature",
+                                                                "properties": {
+                                                                },
+                                                                "geometry": {
+                                                                    "type": "LineString",
+                                                                    "coordinates":animal_coordintes
+                                                                }
+                                                            }
+                                                    },
+                                                    "layout": {
+                                                        "line-join": "round",
+                                                        "line-cap": "round"
+                                                    },
+                                                    "paint": {
+                                                        "line-color": "#500",
+                                                        "line-width": 8
+                                                    }
+                                                });
+
+
+                            id = 0;
+                            for(ii=0;ii <animal_data.length; ii++)
+                                {
+                                    var separated_coordinates = Object.values(animal_data[ii]) 
+                                    id_value = separated_coordinates[4];
+                                    id_array.push(id_value);
+                                    details = "Time: " + separated_coordinates[2] + " " + "Date: " + separated_coordinates[3]
+
+                                    id = parseInt(Math.floor((Math.random() * 100000) + 1)).toString();
+                                    map.addLayer({
+                                                    "id": id,
+                                                    "type": "symbol",
+                                                    "source": {
+                                                        "type": "geojson",
+                                                        "data": {
+                                                            "type": "FeatureCollection",
+                                                            "features": [{
+                                                                "type": "Feature",
+                                                                "geometry": {
+                                                                    "type": "Point",
+                                                                    "cluster":true,
+                                                                    "coordinates": [parseFloat(separated_coordinates[0]),parseFloat(separated_coordinates[1])]
+                                                                },
+                                                                "properties": {
+                                                                    "description": details,
+                                                                    "title": id_value,
+                                                                    "icon": "dog-park"
+                                                                }
+                                                            }]
+                                                        }
+                                                    },
+                                                    "layout": {
+                                                        "icon-image": "{icon}-15",
+                                                        "text-field": "{title}",
+                                                        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                                                        "text-offset": [0, 0.6],
+                                                        "text-anchor": "top"
+                                                    }
+                                                });
+                                    id = 0;
+                                }
+                            animal_coordintes.length = 0;
+                            ii =0;
+
+                        }
+                        for(var i =0; i < id_array.length; i++)
+                            {
+                                map.on('click', function (e) 
+                                               {
+                                                var features = map.queryRenderedFeatures(e.point, { layers: id_array[i] });
+
+                                                if (!features.length) {
+                                                    return;
+                                                }
+
+                                                var feature = features[0];
+                                                // Populate the popup and set its coordinates
+                                                // based on the feature found.
+                                                var popup = new mapboxgl.Popup()
+                                                    .setLngLat(feature.geometry.coordinates)
+                                                    .setHTML(feature.properties.description)
+                                                    .addTo(map);  
+                                            });
+
+                            }
+
+
+                });
+                window.localStorage.clear();                   
                 </script>
         </div>    
     </body>

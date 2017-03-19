@@ -29,7 +29,6 @@ function process_animal()
             select_tag.add(option);
         }
    
-   // document.getElementById("animalID") = animal_array[1] ;
 }
 function populate_fields()
 {

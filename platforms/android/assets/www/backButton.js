@@ -4,14 +4,12 @@ function onLoad() {
     }
 
     // device APIs are available
-    //
     function onDeviceReady() {
         // Register the event listener
         document.addEventListener("backbutton", onBackKeyDown, false);
     }
 
     // Handle the back button
-    //
     function onBackKeyDown() 
     {
 

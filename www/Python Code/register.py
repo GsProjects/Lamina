@@ -1,21 +1,17 @@
-from flask import Flask, render_template, request,json
+from flask import Flask,json
 from connector import create_connection
 
 
 def register(username,password,confirmedPassword):
-    x='You are in register'
-    print(x)
     if(username == '' or password == '' or confirmedPassword == ''):
+        print('Yes')
         Result = json.dumps({"status": "Empty fields"})
         return Result
     else:
         exists = check_existance(username)
-        print('Exists: ' + str(exists))
         if(len(exists) < 1):
             ids = get_current_id()
-            print('IDs: ' + str(ids))
-
-            result = add_user(str(username), str(password),str(confirmedPassword))
+            add_user(str(username), str(password),str(confirmedPassword))
             overallResult = json.dumps({"status": "ok"})
             return overallResult
         else:
@@ -43,7 +39,6 @@ def add_user(username:str, password:str,confirmedPassword:str):
     cnx2.commit()
     cursor.close()
     cnx2.close()
-    return True
 
 
 def check_existance(username:str):

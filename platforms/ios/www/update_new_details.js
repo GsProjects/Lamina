@@ -14,28 +14,38 @@ function update_details()
                     {
                         if (result["status"] == "Your session has timed out, please log in again") 
                             {
-                                alert("Your session has timed out, please log in again");
-                                 window.location.replace("index.html");
+                                bootbox.alert("Your session has timed out, please log in again",function()
+                                    {
+                                        window.location.replace("index.html");
+                                    })
                             }
                         if (result["status"] == "Updated Successfully") 
                             {
-                                alert("Animal details updated successfully");
-                                 window.location.replace("home.html");
+                                bootbox.alert("Animal details updated successfully",function()
+                                    {
+                                        window.location.replace("home.html");
+                                    })
                             } 
                         if (result["status"] == "Empty fields") 
                             {
-                                alert("Please fill in all the fields");
-                                 window.location.replace("update_animal_profile.html");
+                                bootbox.alert("Please fill in all the fields",function()
+                                    {
+                                        window.location.replace("update_animal_profile.html");
+                                    })
                             }
                         if (result["status"] == "Tracking number already in use") 
                             {
-                                alert("Tracking number already in use.");
-                                 window.location.replace("update_animal_profile.html");
+                                bootbox.alert("Tracking number already in use.",function()
+                                    {
+                                        window.location.replace("update_animal_profile.html");
+                                    })
                             } 
                         if (result["status"] == "Animal ID associated with another animal") 
                             {
-                                alert("Animal ID associated with another animal");
-                                 window.location.replace("update_animal_profile.html");
+                                bootbox.alert("Animal ID associated with another animal",function()
+                                    {
+                                        window.location.replace("update_animal_profile.html");
+                                    })
                             }      
                     }                  
         })

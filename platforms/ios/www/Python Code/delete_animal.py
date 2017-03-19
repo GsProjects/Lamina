@@ -3,7 +3,6 @@ from connector import create_connection
 
 
 def remove_profiles(animalIdentifier, trackingNumber,owner):
-    
     if animalIdentifier =='' or trackingNumber == '':
         overallResult = json.dumps({"status": "Empty fields"})
         return overallResult

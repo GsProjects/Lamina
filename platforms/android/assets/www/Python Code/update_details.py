@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,json
+from flask import Flask,json
 from connector import create_connection
 
 

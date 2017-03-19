@@ -19,29 +19,37 @@ function userlogFunction()
             
                 if (result["status"] == loggedIn) 
                 {
-                    alert("Login successful");
-                     window.location.replace("home.html");
+                    bootbox.alert("Login successful", function()
+                        {
+                            window.location.replace("home.html");
+                        })
                    
                 } 
                 else if(result["status"] == wrongPass) 
                 {
-                    alert("The password is incorrect");
-                    window.location.replace ("Login.html");
+                    bootbox.alert("The password is incorrect", function()
+                        {
+                            window.location.replace ("Login.html");
+                        })
                    
                 }
                 else if(result["status"] == empty)
                 {
-                    alert("Please fill in all the fields");
-                    window.location.replace ("Login.html");
+                    
+                    bootbox.alert("Please fill in all the fields", function()
+                        {
+                            window.location.replace ("Login.html");
+                        })
                 
                 }
                 else if(result["status"] == wrongUserName)
                 {
-                    alert("The user name is incorrect");
-                    window.location.replace ("Login.html");
+                    bootbox.alert("The user name is incorrect", function()
+                        {                       
+                            window.location.replace ("Login.html");
+                        })
                 
-                }
-                
+                }       
         })
         
 };

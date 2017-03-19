@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,json
+from flask import Flask,json
 from connector import create_connection
 
 
@@ -8,7 +8,6 @@ def change_password(user, password, confirmedPassword, oldPassword):
         return Result
     else:
         exists = check_existance(user)
-
         if(len(exists) >= 1):
             temp=exists[0]
             data=temp[2]
@@ -19,15 +18,13 @@ def change_password(user, password, confirmedPassword, oldPassword):
                 return overallResult
 
             if(password == confirmedPassword):
-                result = update_user(str(user), str(password),str(confirmedPassword),userID)
+                update_user(str(user), str(password),str(confirmedPassword),userID)
 
                 overallResult = json.dumps({"status": "updated"})
                 return overallResult
             else:
                 overallResult = json.dumps({"status": "The new passwords do not match"})
                 return overallResult
-
-
         else:
             overallResult = json.dumps({"status": "Username does not exist"})
             return overallResult
@@ -53,7 +50,6 @@ def update_user(user:str, password:str,confirmedPassword:str, userID):
     cnx2.commit()
     cursor.close()
     cnx2.close()
-    return True
 
 
 def check_existance(user:str):

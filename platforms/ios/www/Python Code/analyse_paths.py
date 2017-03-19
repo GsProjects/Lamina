@@ -1,12 +1,9 @@
-from flask import Flask, render_template, request,json
+from flask import Flask,json
 from connector import create_connection
 import datetime
 
 
 def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber,start_date):
-    x='You are in analyse'
-    print(x)
-    
     if animalIdentifier == '--select an animal--' or second_animalIdentifier == '--select an animal--':
         return json.dumps({'status':'No Animal Selected'})
     
@@ -14,7 +11,6 @@ def analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_track
         return json.dumps({'status':'No Date Selected'})
 
     locations = get_current_location(trackingNumber,second_trackingNumber,start_date)
-
     coordinates= []
     temp_list =[]
     for items in locations:

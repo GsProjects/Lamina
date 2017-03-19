@@ -10,9 +10,7 @@ def add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender
         exists = check_animal_existance(animalIdentifier)
         if(len(exists) <= 1):
             ids = get_current_animal_id()
-
-            result = update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber)
-
+            update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber)
             overallResult = json.dumps({"status": "ok"})
             return overallResult
         else:
@@ -40,7 +38,6 @@ def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight
     cnx2.commit()
     cursor.close()
     cnx2.close()
-    return True
 
 
 def check_animal_existance(animalIdentifier:str):

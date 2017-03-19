@@ -10,7 +10,9 @@
         <link href="https://fonts.googleapis.com/css?family=Rajdhani:300" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
-    
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="bootbox.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="bootbox.min.js">
         <script type="text/javascript" src="process_animals.js"></script>
         <script type="text/javascript" src="get_graph_details.js"></script>
     </head>
@@ -21,7 +23,7 @@
             <form id ="graph_form">
             
             
-                <label class="labels">Animal Movement Graph</label>
+                <label class="labels">Cluster Animal Data</label>
                 <select type="choose" name = "animal" required class="select" id="animal" onchange="populate_select()">
                 </select>
                 
@@ -31,7 +33,7 @@
                 <input type="hidden" name ="trackingNum" required class="input" id="trackingNum">
                 
             
-                <button class="btn btn-default btn-lg a" id="registerButton" onclick=get_graph_data()>Generate Graph</button>
+                <button class="btn btn-default btn-lg a" id="registerButton" onclick=get_graph_data()>Display Cluster Locations</button>
                 
                 <button class="btn btn-default btn-lg a" id="backButton" onclick=back()>Back</button>
             </form>

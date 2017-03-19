@@ -9,31 +9,34 @@ function register()
             async: false})
             .done(function(response) {
                 console.log(response);
-
                 var result = JSON.parse(response);
-            
                 if (result["status"] == "ok") 
                 {
-                    alert("Registration successful");
-                     window.location.replace("home.html");
-                   
+                    bootbox.alert("Registration successful",function()
+                        {
+                            window.location.replace("home.html");
+                        }) 
                 } 
                 else if(result["status"] == "Username already exists") 
                 {
-                    alert("The user name already exists please try again");
-                    window.location.replace ("register.html");
-                   
+                    bootbox.alert("The user name already exists please try again",function()
+                        {
+                            window.location.replace ("register.html");
+                        })                  
                 }
                 else if(result["status"] == "Empty fields")
                 {
-                    alert("Please fill in all the fields");
-                    window.location.replace ("register.html");
-                
+                    bootbox.alert("Please fill in all the fields",function()
+                        {
+                            window.location.replace ("register.html");
+                        })               
             }
             else if(result["status"] == "You are already logged in as another user")
                 {
-                    alert("You are already logged in as another user");
-                    window.location.replace ("index.html");      
+                    bootbox.alert("You are already logged in as another user",function()
+                        {
+                            window.location.replace ("index.html");      
+                        })
             }
         })
         

@@ -3,9 +3,6 @@ from connector import create_connection
 
 
 def location(user):
-    x='You are in currentLocation'
-    print(x)
-
     locations = get_current_location(user)#get all locations associated with the current user
     trackID = set()
     animals= []
