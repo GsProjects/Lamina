@@ -104,6 +104,7 @@ var geojson = {
 };
 
 function mouseDown() {
+    console.log("In mouse down");
     if (!isCursorOverPoint) return;
 
     isDragging = true;
@@ -117,8 +118,11 @@ function mouseDown() {
 }
 
 function onMove(e) {
+    console.log("In on move");
+
     if (!isDragging) return;
     var coords = e.lngLat;
+    console.log(coords);
 
     // Set a UI indicator for dragging.
     canvas.style.cursor = 'grabbing';
@@ -130,6 +134,8 @@ function onMove(e) {
 }
 
 function onUp(e) {
+    console.log("In on up");
+
     if (!isDragging) return;
     var coords = e.lngLat;
 
@@ -145,6 +151,8 @@ function onUp(e) {
 }
 
 map.on('load', function() {
+        console.log("In on load");
+
 
     // Add a single point to the map
     map.addSource('point', {
@@ -165,6 +173,8 @@ map.on('load', function() {
     // If a feature is found on map movement,
     // set a flag to permit a mousedown events.
     map.on('touchstart', function(e) {
+            console.log("In on click");
+
         var features = map.queryRenderedFeatures(e.point, { layers: ['point'] });
 
         // Change point and cursor style as a UI indicator

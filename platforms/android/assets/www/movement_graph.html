@@ -37,67 +37,113 @@
                 <script>
                     var gps =JSON.parse(window.localStorage.getItem("graph_Data"));            
                     var coordinate_array = Object.values(gps);
-                    if(coordinate_array.length < 1)
+                    if(coordinate_array.length <= 1)
                         {
                             bootbox.alert("No data available, try again later",function()
                                 {
-                                    window.location.replace("home.html")
-                                })
-                        }
-                    var start = Object.values(coordinate_array[0])
-                    
-
-                mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
-                                var map = new mapboxgl.Map({
-                                    container: 'map', // container id
-                                    style: 'mapbox://styles/mapbox/satellite-v9', //stylesheet location
-                                    center: [start[0],start[1]], // starting position longitude followed by latitude
-                                    zoom: 10 // starting zoom
+                                    window.location.replace("home.html");
                                 });
-
-
-                map.on('load', function () 
-                       {
-                            for(var i = 0; i< coordinate_array.length;i++)
-                                {
-                                    var separated_coordinates = Object.values(coordinate_array[i]);
-                                    console.log(separated_coordinates);
-                                    var id_value = parseInt(Math.floor((Math.random() * 10000) + 1)).toString();
-                                    map.addLayer({
-                                        "id": id_value,
-                                        "type": "symbol",
-                                        "source": {
-                                            "type": "geojson",
-                                            "data": {
-                                                "type": "FeatureCollection",
-                                                "features": [{
-                                                    "type": "Feature",
-                                                    "geometry": {
-                                                        "type": "Point",
-                                                        "cluster":true,
-                                                        "coordinates": [parseFloat(separated_coordinates[0]),parseFloat(separated_coordinates[1])]
-                                                    },
-                                                     "properties":{
-                                                        "icon": "triangle"
-                                                     }
-                                                   
-                                                }]
-                                            }
-                                        },
-                                        "layout": {
-                                            "icon-image": "{icon}-15",
-                                            "text-field": "{title}",
-                                            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                                            "text-offset": [0, 0.6],
-                                            "text-anchor": "top"
-                                        }
-                                
-                                    });
-                                }
-                });  
-                        
-
+                        }
+                    else
+                    {
+                        var id_array=[];
+                        var start = Object.values(coordinate_array[0][0])
                     
+
+                        mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FybDk0IiwiYSI6ImNpeTVucXc5YzAwNG0ycW82MTFqeWl5bmQifQ.L3m2Ue3OOucOI3XrhwjUIQ';
+                                        var map = new mapboxgl.Map({
+                                            container: 'map', // container id
+                                            style: 'mapbox://styles/mapbox/satellite-v9', //stylesheet location
+                                            center: [start[0],start[1]], // starting position longitude followed by latitude
+                                            zoom: 10 // starting zoom
+                                        });
+                        
+                        map.on('load', function () 
+                               {
+                                    for(var i = 0; i< coordinate_array.length;i++)
+                                        {
+                                            
+                                            var separated_coordinates = Object.values(coordinate_array[i]);
+                                            if(separated_coordinates != " ")
+                                                {
+                                                    var data = Object.values(separated_coordinates)
+                                                    var details =data[1];
+                                                    
+                                                    var id_value = Object.values(details);
+                                                    
+                                                    var animal_description = 'Name: ' + id_value[0] + "\n";
+                                                    animal_description = animal_description + 'Animal Type: ' + id_value[1] + "\n";
+                                                    animal_description = animal_description + 'Animal Breed: ' + id_value[2] + "\n";
+                                                    animal_description = animal_description + 'Animal Weight: ' + id_value[3] + "\n";
+                                                    animal_description = animal_description + 'Animal Breed: ' + id_value[4] + "\n";
+                                                    animal_description = animal_description + 'Animal Tracking Number: ' + id_value[5] + "\n";
+                                                        
+
+                                                    id_array.push(id_value[0])
+                                                    var id = parseInt(Math.floor((Math.random() * 1000000) + 1)).toString();
+                                                    map.addLayer({
+                                                        "id": id,
+                                                        "type": "symbol",
+                                                        "source": {
+                                                            "type": "geojson",
+                                                            "data": {
+                                                                "type": "FeatureCollection",
+                                                                "features": [{
+                                                                    "type": "Feature",
+                                                                    "geometry": {
+                                                                        "type": "Point",
+                                                                        "cluster":true,
+                                                                        "coordinates": [parseFloat(data[0][0]),parseFloat(data[0][1])]
+                                                                    },
+                                                                     "properties":{
+                                                                         "description": animal_description,
+                                                                        "icon": "triangle"
+                                                                     }
+
+                                                                }]
+                                                            }
+                                                        },
+                                                        "layout": {
+                                                            "icon-image": "{icon}-15",
+                                                            "text-field": "{title}",
+                                                            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                                                            "text-offset": [0, 0.6],
+                                                            "text-anchor": "top"
+                                                        }
+
+                                                    });
+                                                }
+                                        }
+                            
+                            for(var i =0; i < id_array.length; i++)
+                            {
+                                map.on('click', function (e) 
+                                               {
+                                                var features = map.queryRenderedFeatures(e.point, { layers: id_array[i] });
+
+                                                if (!features.length) {
+                                                    return;
+                                                }
+
+                                                var feature = features[0];
+                                                // Populate the popup and set its coordinates
+                                                // based on the feature found.
+                                                var popup = new mapboxgl.Popup()
+                                                    .setLngLat(feature.geometry.coordinates)
+                                                    .setHTML(feature.properties.description)
+                                                    .addTo(map);  
+                                            });
+
+                            }
+                            
+                            
+                            
+                            
+                            
+                        }); 
+
+
+                    }
 
                 window.localStorage.clear();
                 </script>

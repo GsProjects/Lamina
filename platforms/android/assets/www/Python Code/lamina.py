@@ -238,16 +238,16 @@ def animal_data():
         return overallResult
     
     
-@app.route('/get_graph_data',methods=['POST','GET'])
+@app.route('/get_cluster_data',methods=['POST','GET'])
 def cluster_data():
     global session
-    print('In graph data')
-    animalIdentifier = request.form['animal'].lower()
-    trackingNumber = request.form['trackingNum']
+    print('In get cluster data')
+    eps = request.form['eps']
+    num_loc = request.form['num_loc']
     date = request.form['start_date']
 
     if session['loggedIn'] == 'true':
-        result = cluster(animalIdentifier,trackingNumber,date)
+        result = cluster(int(eps),int(num_loc),date,session['user'])
         return json.dumps(result)   
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})

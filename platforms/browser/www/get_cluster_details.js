@@ -1,9 +1,9 @@
-function get_graph_data()
+function get_cluster_data()
 {
     event.preventDefault();
 
     $.ajax({
-            url: "http://gProject.pythonanywhere.com/get_graph_data",
+            url: "http://gProject.pythonanywhere.com/get_cluster_data",
             data: $('#graph_form').serialize(),
             type: 'POST',
             async: false})
