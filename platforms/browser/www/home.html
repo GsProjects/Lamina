@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Lamina</title>
+        <title>AniMap</title>
         <link rel="stylesheet" type="text/css" href="loginform.css">
         <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="bootstrap.css">
@@ -21,13 +21,16 @@
         </script>
          <script type="text/javascript" src="storage.js">
         </script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="bootbox.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="bootbox.min.js">
 
         
     </head>
     <body class="body" onload="clear_storage();">
         
         <button class=" a menubutton button1" id="addAnimalProfileButton" onclick="window.location='addAnimalProfile.html';">Add Animal Profile</button>
-        <button class=" a menubutton button2" id="createBoundaryButton" >Create Boundary</button>
+        <button class=" a menubutton button2" id="createBoundaryButton" onclick="window.location='create_boundary.html';">Create Boundary</button>
         <button class=" a menubutton button3" id="currentLocationButton"  onclick="animal_location()">Current Location</button>
         <!-- <button class=" a menubutton button4" id="latestPathButton" onclick="animal_paths()">Analyse Paths</button> -->
         <button class=" a menubutton button4" id="latestPathButton" onclick="get_animal_data()">Analyse Paths</button>

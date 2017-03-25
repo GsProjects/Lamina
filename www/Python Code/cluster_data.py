@@ -9,13 +9,17 @@ from sklearn.preprocessing import StandardScaler
 from collections import defaultdict
 
 
-def graph_info(animalIdentifier, trackingNumber,date):
+def cluster(animalIdentifier, trackingNumber,date):
     #http://geoffboeing.com/2014/08/clustering-to-reduce-spatial-data-set-size/
     if animalIdentifier =='' or trackingNumber =='' or date == '':
         overallResult = json.dumps({"status": "Empty Fields"})
         return overallResult
         
     data = get_coordinates(trackingNumber,date)
+    if len(data)<=1:
+        overallResult = json.dumps({"status": "No Data"})
+        return overallResult
+        
     kms_per_radian = 6371.0088
     eps = .005/kms_per_radian
     coordinates =[]

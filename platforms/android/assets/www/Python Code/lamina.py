@@ -4,6 +4,7 @@ from register import register
 from changePassword import change_password
 from connector import create_connection
 from login import login
+from logout import logout
 from animalProfile import add_animal
 from analyse_paths import analyse
 from update_gps_config import associated_animals
@@ -11,7 +12,7 @@ from update_animal_profile import get_animal_profiles
 from update_details import update_animal_details
 from delete_animal import remove_profiles
 from graph_movement import get_graph_details
-from graph_data import graph_info
+from cluster_data import cluster
 from insert_coordinates import insert_coord
 import random
 
@@ -142,13 +143,10 @@ def analyse_paths():
 
 
 @app.route('/logout',methods=['POST','GET'])
-def logout():
-    global session
-    print(session['loggedIn'])
+def logout_user():
     if session['loggedIn'] == 'true':
-        session.pop('loggedIn')
-        overallResult = json.dumps({"status": "You have logged out successfully"})
-        return overallResult
+        result = logout(session)
+        return result
     else:
         overallResult = json.dumps({"status": "Logout failed"})
         return overallResult
@@ -241,7 +239,7 @@ def animal_data():
     
     
 @app.route('/get_graph_data',methods=['POST','GET'])
-def graph_data():
+def cluster_data():
     global session
     print('In graph data')
     animalIdentifier = request.form['animal'].lower()
@@ -249,7 +247,7 @@ def graph_data():
     date = request.form['start_date']
 
     if session['loggedIn'] == 'true':
-        result = graph_info(animalIdentifier,trackingNumber,date)
+        result = cluster(animalIdentifier,trackingNumber,date)
         return json.dumps(result)   
     else:
         overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
