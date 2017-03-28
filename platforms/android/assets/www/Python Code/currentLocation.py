@@ -1,17 +1,16 @@
-from flask import Flask, render_template, request,json
 from connector import create_connection
 
 
 def location(user):
     locations = get_current_location(user)#get all locations associated with the current user
-    trackID = set()
+    track_id = set()
     animals= []
     coordinates= []
     for items in locations:
-        trackID.add(items[1])
+        track_id.add(items[1])
     
-    for ids in trackID:
-        animals.append( get_associated_animals(ids) )
+    for ids in track_id:
+        animals.append(get_associated_animals(ids))
         
     for animal in animals:
         for elements in animal:
@@ -25,13 +24,13 @@ def location(user):
     return coordinates
    
 
-def get_max_id(trackingID):
+def get_max_id(tracking_id):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("SELECT MAX(id) from currentCoordinates where trackingID = %s")
-    cursor.execute(query,(trackingID, ))
-    theID = cursor.fetchone()
-    result = theID[0]
+    cursor.execute(query, (tracking_id, ))
+    the_id = cursor.fetchone()
+    result = the_id[0]
     cursor.close()
     cnx2.close()
     return result
@@ -41,29 +40,29 @@ def get_latest_location(max_id):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("SELECT currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date, Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.id = %s")
-    cursor.execute(query,(max_id, ))
+    cursor.execute(query, (max_id, ))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
     return result
 
 
-def get_current_location(userID:str):
+def get_current_location(user_id):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select * from currentCoordinates where username = %s")
-    cursor.execute(query,(userID, ))
+    cursor.execute(query, (user_id, ))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
     return result
 
 
-def get_associated_animals(trackID):
+def get_associated_animals(track_id):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select * from Animal where trackingID = %s")
-    cursor.execute(query,(trackID, ))
+    cursor.execute(query, (track_id, ))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

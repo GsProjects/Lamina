@@ -1,4 +1,3 @@
-from flask import Flask,json
 from connector import create_connection
 
 
@@ -8,7 +7,6 @@ def get_animal_profiles(owner):
     for items in animals:
         animal_data.append(items)
         animal_data.append(' ')
-    
     return animal_data
     
     
@@ -16,7 +14,7 @@ def associated_animal_info(owner:str):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select animalIdentifier,typeAnimal,breedAnimal,weightAnimal,genderAnimal,trackingID from Animal where ownerID = %s")
-    cursor.execute(query,(owner, ))
+    cursor.execute(query, (owner, ))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

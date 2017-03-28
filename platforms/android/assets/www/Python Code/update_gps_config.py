@@ -1,4 +1,3 @@
-from flask import Flask,json
 from connector import create_connection
 
 
@@ -8,7 +7,6 @@ def associated_animals(owner):
     for items in animals:
         animal_data.append(items)
         animal_data.append(' ')
-    
     return animal_data
     
     
@@ -21,5 +19,3 @@ def associated_animal_info(owner:str):
     cursor.close()
     cnx2.close()
     return result
-    
-    

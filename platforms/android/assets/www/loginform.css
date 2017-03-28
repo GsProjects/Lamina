@@ -2,9 +2,7 @@
 {
 	height: 100%;
 	background: linear-gradient(to top, rgba(185, 236, 250, 1), rgba(255, 255, 255, 0));	
-	height: 100%;
     margin: 0;
-    background-color:white;
     background-repeat: no-repeat;
     overflow:scroll;
 }
@@ -13,9 +11,7 @@
 {
 	height: 100%;
 	background: linear-gradient(to top, rgba(185, 236, 250, 1), rgba(255, 255, 255, 0));	
-	height: 100%;
     margin: 0;
-    background-color:white;
     background-repeat: no-repeat;
     overflow:scroll;
  

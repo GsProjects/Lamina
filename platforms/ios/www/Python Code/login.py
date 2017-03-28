@@ -1,32 +1,32 @@
-from flask import Flask,json
+from flask import json
 from connector import create_connection
 
 
 def login(username,password):
-    if(username == '' or password == '' ):
-        Result = json.dumps({"status": "Empty fields"})
-        return Result
+    if username == '' or password == '':
+        result = json.dumps({"status": "Empty fields"})
+        return result
     else:
         exists = check_existance(username)
-        if(len(exists) == 1):
-            temp=exists[0]
-            data=temp[2]
-            if(password == data[0]):
-                overallResult = json.dumps({"status": "successful"})
-                return overallResult
+        if len(exists) == 1:
+            temp = exists[0]
+            data = temp[2]
+            if password == data[0]:
+                overall_result = json.dumps({"status": "successful"})
+                return overall_result
             else:
-                overallResult = json.dumps({"status": "Incorrect Password"})
-                return overallResult
+                overall_result = json.dumps({"status": "Incorrect Password"})
+                return overall_result
         else:
-            overallResult = json.dumps({"status": "Incorrect user name"})
-            return overallResult
+            overall_result = json.dumps({"status": "Incorrect user name"})
+            return overall_result
 
 
-def check_existance(username:str):
+def check_existance(username):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select * from Register where registerUserName = %s")
-    cursor.execute(query,(username, ))
+    cursor.execute(query, (username, ))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

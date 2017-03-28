@@ -1,123 +1,120 @@
-from flask import Flask,json
+from flask import json
 from connector import create_connection
 
 
-def update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber,oldanimalIdentifier,owner):
-    if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender =='' or trackingNumber ==''):
+def update_animal_details(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number, oldanimal_identifier, owner):
+    if animal_identifier == '' or animal_type == '' or animal_breed == '' or animal_weight =='' or animal_gender =='' or tracking_number =='':
         Result = json.dumps({"status": "Empty fields"})
         return Result
     
-    if animalIdentifier == oldanimalIdentifier  and trackingNumber == oldtrackingNumber:
-        update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-        update_coordinates_table(trackingNumber,oldtrackingNumber)
+    if animal_identifier == oldanimal_identifier  and tracking_number == oldtracking_number:
+        update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+        update_coordinates_table(tracking_number, oldtracking_number)
         Result = json.dumps({"status": "Updated Successfully"})
         return Result
         
-    if animalIdentifier == oldanimalIdentifier and trackingNumber != oldtrackingNumber:
-        associated_owners = check_id_existance(trackingNumber)
+    if animal_identifier == oldanimal_identifier and tracking_number != oldtracking_number:
+        associated_owners = check_id_existance(tracking_number)
         if len(associated_owners) != 0:
             for item in associated_owners:
                 if item[0] == owner:
-                    update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-                    update_coordinates_table(trackingNumber,oldtrackingNumber)
+                    update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+                    update_coordinates_table(tracking_number, oldtracking_number)
                     Result = json.dumps({"status": "Updated Successfully"})
                     return Result
                 else:
                     Result = json.dumps({"status": "Tracking number already in use"})
                     return Result
         else:
-            update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-            update_coordinates_table(trackingNumber,oldtrackingNumber)
+            update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+            update_coordinates_table(tracking_number, oldtracking_number)
             Result = json.dumps({"status": "Updated Successfully"})
             return Result
                     
-    if trackingNumber == oldtrackingNumber and animalIdentifier != oldanimalIdentifier:
-        associated_owners = check_name_existance(animalIdentifier)
+    if tracking_number == oldtracking_number and animal_identifier != oldanimal_identifier:
+        associated_owners = check_name_existance(animal_identifier)
         if len(associated_owners) != 0:
             for ids in associated_owners:
-                if ids[0] == trackingNumber:
-                    update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-                    update_coordinates_table(trackingNumber,oldtrackingNumber)
+                if ids[0] == tracking_number:
+                    update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+                    update_coordinates_table(tracking_number, oldtracking_number)
                     Result = json.dumps({"status": "Updated Successfully"})
                     return Result
                 else:
                     Result = json.dumps({"status": "Animal ID associated with another animal"})
                     return Result
         else:
-            update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-            update_coordinates_table(trackingNumber,oldtrackingNumber)
+            update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+            update_coordinates_table(tracking_number, oldtracking_number)
             Result = json.dumps({"status": "Updated Successfully"})
             return Result
         
-    if trackingNumber != oldtrackingNumber and animalIdentifier != oldanimalIdentifier:
-        associated_animal_names = check_name_existance(animalIdentifier)
-        associated_owners_ids = check_id_existance(trackingNumber)
+    if tracking_number != oldtracking_number and animal_identifier != oldanimal_identifier:
+        associated_animal_names = check_name_existance(animal_identifier)
+        associated_owners_ids = check_id_existance(tracking_number)
         if len(associated_animal_names) != 0 and len(associated_owners_ids) != 0:
             for ids in associated_animal_names:#each trackingID
                 for item in associated_owners_ids:#each name
-                    if item[0] == owner and ids[0] == trackingNumber:
-                        update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-                        update_coordinates_table(trackingNumber,oldtrackingNumber)
+                    if item[0] == owner and ids[0] == tracking_number:
+                        update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+                        update_coordinates_table(tracking_number, oldtracking_number)
                         Result = json.dumps({"status": "Updated Successfully"})
                         return Result
                     else:
                         if item[0] != owner:
                             Result = json.dumps({"status": "Tracking number already in use"})
                             return Result
-                        if ids[0] != trackingNumber:
+                        if ids[0] != tracking_number:
                             Result = json.dumps({"status": "Animal ID associated with another animal"})
                             return Result
                             
         else:
-            update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber)
-            update_coordinates_table(trackingNumber,oldtrackingNumber)
+            update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
+            update_coordinates_table(tracking_number, oldtracking_number)
             Result = json.dumps({"status": "Updated Successfully"})
             return Result    
             
 
-def update_animal_table(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber):
+def update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Update Animal set animalIdentifier = %s,typeAnimal = %s,breedAnimal = %s,weightAnimal = %s,genderAnimal = %s,trackingID = %s where trackingID = %s")
-    cursor.execute(query,(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber))
+    query = ("Update Animal set animal_identifier = %s,typeAnimal = %s,breedAnimal = %s,weightAnimal = %s,genderAnimal = %s,trackingID = %s where trackingID = %s")
+    cursor.execute(query, (animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number))
     cnx2.commit()
     cursor.close()
     cnx2.close()
 
     
-def update_coordinates_table(trackingNumber,oldtrackingNumber):
+def update_coordinates_table(tracking_number, oldtracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Update currentCoordinates set trackingID = %s where trackingID = %s")
-    cursor.execute(query,(trackingNumber,oldtrackingNumber))
+    cursor.execute(query, (tracking_number, oldtracking_number))
     cnx2.commit()
     cursor.close()
     cnx2.close()
 
     
-def check_name_existance(animalIdentifier):
+def check_name_existance(animal_identifier):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select trackingID from Animal where animalIdentifier = %s")
-    cursor.execute(query,(animalIdentifier,))
+    query = ("Select trackingID from Animal where animal_identifier = %s")
+    cursor.execute(query, (animal_identifier,))
     result = cursor.fetchall()
-    print("result" + str(result))
-    print(type(result))
     cursor.close()
     cnx2.close()
     return result
     
 
-def check_id_existance(trackingNumber):
+def check_id_existance(tracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select ownerID from Animal where trackingID = %s")
-    cursor.execute(query,(trackingNumber,))
+    cursor.execute(query,(tracking_number,))
     result = cursor.fetchall()
     print("result" + str(result))
     print(type(result))
     cursor.close()
     cnx2.close()
     return result
-    
-    
+

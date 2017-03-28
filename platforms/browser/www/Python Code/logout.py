@@ -1,11 +1,11 @@
-from flask import Flask,session,json
+from flask import json
 
 
 def logout(session):
     if session['loggedIn'] == 'true':
         session['loggedIn'] = 'false'
-        overallResult = json.dumps({"status": "You have logged out successfully"})
-        return overallResult
+        overall_result = json.dumps({"status": "You have logged out successfully"})
+        return overall_result
     else:
-        overallResult = json.dumps({"status": "Logout failed"})
-        return overallResult
+        overall_result = json.dumps({"status": "Logout failed"})
+        return overall_result

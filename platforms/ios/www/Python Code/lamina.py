@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request,json,session
+from flask import Flask, request, json, session
 from currentLocation import location
 from register import register
 from changePassword import change_password
-from connector import create_connection
 from login import login
 from logout import logout
 from animalProfile import add_animal
@@ -19,23 +18,21 @@ import random
 
 global session
 app = Flask(__name__)
-app.secret_key=str(random.getrandbits(256))
+app.secret_key = str(random.getrandbits(256))
 
 
-@app.route('/register',methods=['POST','GET'])
+@app.route('/register', methods=['POST', 'GET'])
 def register_user():
-    x='You are in register'
-    print(x)
     global session
 
-    tempUser = request.form['registerUserName'].lower()
-    tempPassword = request.form['registerUserPassword'].lower()
-    tempConfirmedPassword = request.form['confirmRegisterUserPassword'].lower()
-    result = register(tempUser,tempPassword,tempConfirmedPassword)
-    for k,v in json.loads(result).items():
+    temp_user = request.form['registerUserName'].lower()
+    temp_password = request.form['registerUserPassword'].lower()
+    temp_confirmed_password = request.form['confirmRegisterUserPassword'].lower()
+    result = register(temp_user, temp_password, temp_confirmed_password)
+    for k, v in json.loads(result).items():
         if v == 'ok':
-            session['user'] = tempUser
-            session['userPassword'] = tempPassword
+            session['user'] = temp_user
+            session['userPassword'] = temp_password
             session['loggedIn'] = 'true'
             return result
         else:
@@ -45,19 +42,17 @@ def register_user():
             return result
 
     
-@app.route('/changePassword',methods=['POST','GET'])
+@app.route('/changePassword', methods=['POST', 'GET'])
 def change_password():
-    x='You are in change password'
-    print(x)
     global session
 
     user = request.form['changeUserName'].lower()
-    oldPassword = request.form['oldUserPassword'].lower()
+    old_password = request.form['oldUserPassword'].lower()
     password = request.form['changeUserPassword'].lower()
-    confirmedPassword = request.form['confirmChangeUserPassword'].lower()
+    confirmed_password = request.form['confirmChangeUserPassword'].lower()
 
-    result = change_password(user, password, confirmedPassword, oldPassword )
-    for k,v in json.loads(result).items():
+    result = change_password(user, password, confirmed_password, old_password)
+    for k, v in json.loads(result).items():
         if v == 'updated':
             session['user'] = user
             session['userPassword'] = password
@@ -70,17 +65,15 @@ def change_password():
             return result
 
 
-@app.route('/userlogin',methods=['POST','GET'])
+@app.route('/userlogin', methods=['POST', 'GET'])
 def user_login():
-    x='You are in login'
-    print(x)
     global session
 
     username = request.form['userName'].lower()
     password = request.form['userPassword'].lower()
 
-    result = login(username,password)
-    for k,v in json.loads(result).items():
+    result = login(username, password)
+    for k, v in json.loads(result).items():
         if v == 'successful':
             session['user'] = username
             session['userPassword'] = password
@@ -90,174 +83,170 @@ def user_login():
             return result
 
         
-@app.route('/animalProfile',methods=['POST','GET'])
+@app.route('/animalProfile', methods=['POST', 'GET'])
 def add_animal():
-    x='You are in animalProfile'
-    print(x)
     global session
 
-    animalIdentifier = request.form['animalID'].lower()
-    animalType= request.form['animalType'].lower()
-    animalBreed = request.form['animalBreed'].lower()
-    animalWeight = request.form['animalWeight'].lower()
-    animalGender= request.form['animalGender'].lower()
-    trackingNumber = request.form['trackingNum']
+    animal_identifier = request.form['animalID'].lower()
+    animal_type = request.form['animalType'].lower()
+    animal_breed = request.form['animalBreed'].lower()
+    animal_weight = request.form['animalWeight'].lower()
+    animal_gender = request.form['animalGender'].lower()
+    tracking_number = request.form['trackingNum']
     owner = session['user']
 
-    if(session['loggedIn'] == 'true'):
-        result = add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,owner)    
+    if session['loggedIn'] == 'true':
+        result = add_animal(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, owner)
         return result
     else:
-        overallResult = json.dumps({"status": "Session timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Session timed out, please log in again"})
+        return overall_result
 
     
-@app.route('/currentLocation',methods=['POST','GET'])
+@app.route('/currentLocation', methods=['POST', 'GET'])
 def current_Location():
-    x='You are in currentLocation'
-    print(x)
+
     result = location(session['user'])
     return json.dumps(result)#mysql datetime objects not json serializeable
 
 
-@app.route('/analyse_paths',methods=['POST','GET'])
+@app.route('/analyse_paths', methods=['POST', 'GET'])
 def analyse_paths():
-    x='You are in analyse_paths'
-    print(x)
+
     global session
     if session['loggedIn'] == 'true':
-        animalIdentifier = request.form['animal'].lower()
-        trackingNumber = request.form['trackingNum']
+        animal_identifier = request.form['animal'].lower()
+        tracking_number = request.form['trackingNum']
 
-        second_animalIdentifier = request.form['animalTwo'].lower()
-        second_trackingNumber = request.form['trackingNumTwo']
+        second_animal_identifier = request.form['animalTwo'].lower()
+        second_tracking_number = request.form['trackingNumTwo']
         start_date = request.form['date']
         
-        result = analyse(animalIdentifier,trackingNumber,second_animalIdentifier,second_trackingNumber, start_date)
+        result = analyse(animal_identifier, tracking_number, second_animal_identifier, second_tracking_number, start_date)
         return result
         
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
         
 
-
-@app.route('/logout',methods=['POST','GET'])
+@app.route('/logout', methods=['POST', 'GET'])
 def logout_user():
+
     if session['loggedIn'] == 'true':
         result = logout(session)
         return result
     else:
-        overallResult = json.dumps({"status": "Logout failed"})
-        return overallResult
+        overall_result = json.dumps({"status": "Logout failed"})
+        return overall_result
     
     
-@app.route('/update_gps',methods=['POST','GET'])
+@app.route('/update_gps', methods=['POST', 'GET'])
 def update_gps():
+
     global session
-    print('In update gps')
     if session['loggedIn'] == 'true':
         result = associated_animals(session['user'])
         if result != [[]]:
             return json.dumps(result)
         else:
-            overallResult = json.dumps({"status": "No animals"})
-            return overallResult      
+            overall_result = json.dumps({"status": "No animals"})
+            return overall_result
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
         
         
-@app.route('/update_animals',methods=['POST','GET'])
+@app.route('/update_animals', methods=['POST', 'GET'])
 def update_animals():
+
     global session
-    print('In update animals')
     if session['loggedIn'] == 'true':
         result = get_animal_profiles(session['user'])
         if len(result) != 0:
             return json.dumps(result)
         else:
-            overallResult = json.dumps({"status": "No animals"})
-            return overallResult      
+            overall_result = json.dumps({"status": "No animals"})
+            return overall_result
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
     
     
-@app.route('/update_animals_details',methods=['POST','GET'])
+@app.route('/update_animals_details', methods=['POST', 'GET'])
 def update_animal_details():
+
     global session
     print('In update animals details')
-    animalIdentifier = request.form['animalID'].lower()
-    animalType= request.form['animalType'].lower()
-    animalBreed = request.form['animalBreed'].lower()
-    animalWeight = request.form['animalWeight'].lower()
-    animalGender= request.form['animalGender'].lower()
-    trackingNumber = request.form['trackingNum']
-    oldtrackingNumber = request.form['oldTrackingId']
-    oldanimalIdentifier = request.form['oldanimalIdentifier'].lower()
+    animal_identifier = request.form['animalID'].lower()
+    animal_type = request.form['animalType'].lower()
+    animal_breed = request.form['animalBreed'].lower()
+    animal_weight = request.form['animalWeight'].lower()
+    animal_gender = request.form['animalGender'].lower()
+    tracking_number = request.form['trackingNum']
+    oldtracking_number = request.form['oldTrackingId']
+    oldanimal_identifier = request.form['oldanimalIdentifier'].lower()
 
     if session['loggedIn'] == 'true':
-        result = update_animal_details(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,oldtrackingNumber,oldanimalIdentifier,session['user'])
+        result = update_animal_details(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number, oldanimal_identifier, session['user'])
         return result
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
     
             
-@app.route('/delete_details',methods=['POST','GET'])
+@app.route('/delete_details', methods=['POST', 'GET'])
 def delete_animal():
+
     global session
-    print('In delete_details')
-    animalIdentifier = request.form['animal'].lower()
-    trackingNumber = request.form['trackingNum']
+    animal_identifier = request.form['animal'].lower()
+    tracking_number = request.form['trackingNum']
     
     if session['loggedIn'] == 'true':
-        result = remove_profiles(animalIdentifier, trackingNumber, session['user'])
+        result = remove_profiles(animal_identifier, tracking_number)
         return result     
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
 
     
-@app.route('/get_animal_data',methods=['POST','GET'])
+@app.route('/get_animal_data', methods=['POST', 'GET'])
 def animal_data():
+
     global session
-    print('In graph details')
-    
     if session['loggedIn'] == 'true':
         result = get_graph_details(session['user'])
         print(result)
         if len(result) != 0:
             return json.dumps(result)
         else:
-            overallResult = json.dumps({"status": "No animals"})
-            return overallResult      
+            overall_result = json.dumps({"status": "No animals"})
+            return overall_result
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
     
     
-@app.route('/get_cluster_data',methods=['POST','GET'])
+@app.route('/get_cluster_data', methods=['POST', 'GET'])
 def cluster_data():
+
     global session
-    print('In get cluster data')
     eps = request.form['eps']
     num_loc = request.form['num_loc']
     date = request.form['start_date']
 
     if session['loggedIn'] == 'true':
-        result = cluster(int(eps),int(num_loc),date,session['user'])
+        result = cluster(int(eps), int(num_loc), date, session['user'])
         return json.dumps(result)   
     else:
-        overallResult = json.dumps({"status": "Your session has timed out, please log in again"})
-        return overallResult
+        overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
+        return overall_result
     
 
-@app.route('/insert',methods=['POST','GET'])
+@app.route('/insert', methods=['POST', 'GET'])
 def insert_coordinates():
+
     global session
-    print('In Insert')
     payload = request.get_data()
     insert_coord(payload.decode())
     return ''

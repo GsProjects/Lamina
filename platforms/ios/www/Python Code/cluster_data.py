@@ -1,41 +1,36 @@
-from flask import Flask,json
+from flask import json
 from connector import create_connection
 import numpy as np
-import pandas as pd
 from sklearn.cluster import DBSCAN
-from sklearn import metrics
-from sklearn.datasets.samples_generator import make_blobs
-from sklearn.preprocessing import StandardScaler
 from collections import defaultdict
 
 
-def cluster(distance, num_locations,date,user):
-    coordinate_data =[]
-    cluster_data=[]
+def cluster(distance, num_locations, date, user):
+    coordinate_data = []
+    cluster_data = []
     animal_ids = get_associated_animals(user)
     for animal in animal_ids:
-        
 
         #http://geoffboeing.com/2014/08/clustering-to-reduce-spatial-data-set-size/
-        if distance =='' or num_locations =='' or date == '':
-            overallResult = json.dumps({"status": "Empty Fields"})
-            return overallResult
+        if distance == '' or num_locations == '' or date == '':
+            overall_result = json.dumps({"status": "Empty Fields"})
+            return overall_result
         if animal[0] != '':
-            data = get_coordinates(animal[0],date)
-        if len(data)<=1:
-            overallResult = json.dumps({"status": "No Data"})
-            return overallResult
+            data = get_coordinates(animal[0], date)
+        if len(data) <= 1:
+            overall_result = json.dumps({"status": "No Data"})
+            return overall_result
 
         kms_per_radian = 6371.0088
         value = float(distance)/1000
         eps = value/kms_per_radian
-        coordinates =[]
-        temp_data =[]
+        coordinates = []
+        temp_data = []
         for elements in data:
             for items in elements:
                 temp_data.append(float(items))
             coordinates.append(temp_data)
-            temp_data=[]
+            temp_data = []
 
         coords = np.matrix(coordinates)
         #min_samples =1 means every point get assigned to a cluster or becomes a cluster itself
@@ -45,23 +40,20 @@ def cluster(distance, num_locations,date,user):
         #kmeans requires you to specify the number of clusters in advance which dbscan doesnt it uses eps and min_samples
    
         cluster_labels = db.labels_
-        clusters = set(cluster_labels)
-        num_clusters = len(set(cluster_labels))
         #core samples:  A point is a core point if it has more than a specified number of points (MinPts) within Eps—These are points that are at the interior of a cluster.
-        temp =[]
-        elements = {}
-        for i,element in enumerate(cluster_labels):
-            coordinate = data[i]
-            temp.append((str(element),[coordinate[0],coordinate[1]]))
 
+        temp = []
+        for i, element in enumerate(cluster_labels):
+            coordinate = data[i]
+            temp.append((str(element), [coordinate[0], coordinate[1]]))
 
         d = defaultdict(list)
-        for k,v in temp:
+        for k, \
+            v in temp:
             d[k].append(v)
 
-            
         animal_info = get_animal_info(user)
-        animal_data=[]
+        animal_data = []
         for the_animal in animal_info:
             for info in the_animal:
                 animal_data.append(info)
@@ -72,16 +64,16 @@ def cluster(distance, num_locations,date,user):
                 coordinate_data.append(animal_data)
                 cluster_data.append(coordinate_data)   
                 cluster_data.append(' ')
-                coordinate_data =[]
+                coordinate_data = []
     
     return cluster_data
 
 
-def get_coordinates(trackingID,date):
+def get_coordinates(tracking_id, date):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select longitude,latitude from currentCoordinates where trackingID = %s and date >= %s")
-    cursor.execute(query,(trackingID,date))
+    cursor.execute(query, (tracking_id, date))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
@@ -92,7 +84,7 @@ def get_associated_animals(user):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select trackingID from Animal where ownerID = %s")
-    cursor.execute(query,(user,))
+    cursor.execute(query, (user,))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
@@ -102,7 +94,7 @@ def get_animal_info(user):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select animalIdentifier, typeAnimal , breedAnimal , weightAnimal , genderAnimal , trackingID  from Animal where ownerID = %s")
-    cursor.execute(query,(user,))
+    cursor.execute(query, (user,))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

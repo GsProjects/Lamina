@@ -1,21 +1,21 @@
-from flask import Flask,json
+from flask import json
 from connector import create_connection
 
 
-def add_animal(animalIdentifier,animalType,animalBreed,animalWeight,animalGender,trackingNumber,owner):
-    if(animalIdentifier == '' or animalType == '' or animalBreed == '' or animalWeight =='' or animalGender =='' or trackingNumber ==''):
+def add_animal(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, owner):
+    if animal_identifier == '' or animal_type == '' or animal_breed == '' or animal_weight == '' or animal_gender == '' or tracking_number == '':
             Result = json.dumps({"status": "Empty fields"})
             return Result
     else:
-        exists = check_animal_existance(animalIdentifier)
-        if(len(exists) <= 1):
+        exists = check_animal_existance(animal_identifier)
+        if len(exists) <= 1:
             ids = get_current_animal_id()
-            update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber)
-            overallResult = json.dumps({"status": "ok"})
-            return overallResult
+            update_animal_profile(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, owner, tracking_number)
+            overall_result = json.dumps({"status": "ok"})
+            return overall_result
         else:
-            overallResult = json.dumps({"status": "Animal id already exists"})
-            return overallResult
+            overall_result = json.dumps({"status": "Animal id already exists"})
+            return overall_result
         
         
 def get_current_animal_id():
@@ -23,28 +23,28 @@ def get_current_animal_id():
     cursor = cnx2.cursor()
     query = ("SELECT MAX(id) from Animal")
     cursor.execute(query)
-    theID = cursor.fetchone()
-    result = theID[0]
+    the_id = cursor.fetchone()
+    result = the_id[0]
     cursor.close()
     cnx2.close()
     return result
 
 
-def update_animal_profile(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber):
+def update_animal_profile(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, owner, tracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Insert into Animal (animalIdentifier , typeAnimal, breedAnimal, weightAnimal,genderAnimal,ownerID,trackingID) values(%s,%s, %s, %s,%s, %s, %s)")
-    cursor.execute(query,(animalIdentifier, animalType,animalBreed, animalWeight, animalGender,owner,trackingNumber))
+    cursor.execute(query, (animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, owner, tracking_number))
     cnx2.commit()
     cursor.close()
     cnx2.close()
 
 
-def check_animal_existance(animalIdentifier:str):
+def check_animal_existance(animal_identifier):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select * from Animal where animalIdentifier = %s")
-    cursor.execute(query,(animalIdentifier, ))
+    cursor.execute(query, (animal_identifier, ))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
