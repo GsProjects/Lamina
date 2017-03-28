@@ -48,8 +48,7 @@ def cluster(distance, num_locations, date, user):
             temp.append((str(element), [coordinate[0], coordinate[1]]))
 
         d = defaultdict(list)
-        for k, \
-            v in temp:
+        for k, v in temp:
             d[k].append(v)
 
         animal_info = get_animal_info(user)

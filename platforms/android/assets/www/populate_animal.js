@@ -63,7 +63,6 @@ function sendSMS()
                 })
         }
     var distance = document.getElementById("distance").value;
-    console.log(distance);
     var phone_number = document.getElementById("trackingNum").value;
     if(distance == "")
         {
@@ -84,9 +83,8 @@ function sendSMS()
                 })
         }
 
-    var message ="distance:"
-    message = message + distance + '_' + longitude +'_' + latitude + ',';
-    console.log(message);
+    var message ="distance:";
+    message = message + distance.toString() + " " + longitude.toString() + " " + latitude.toString() + ",";
     
     https://github.com/cordova-sms/cordova-sms-plugin
 
