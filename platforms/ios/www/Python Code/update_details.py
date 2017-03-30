@@ -6,6 +6,9 @@ def update_animal_details(animal_identifier, animal_type, animal_breed, animal_w
     if animal_identifier == '' or animal_type == '' or animal_breed == '' or animal_weight =='' or animal_gender =='' or tracking_number =='':
         Result = json.dumps({"status": "Empty fields"})
         return Result
+    if animal_gender != 'M' and animal_gender != 'F' and animal_gender != 'm' and animal_gender != 'f':
+            overall_result = json.dumps({"status": "Wrong gender"})
+            return overall_result
     
     if animal_identifier == oldanimal_identifier  and tracking_number == oldtracking_number:
         update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number)
@@ -78,7 +81,7 @@ def update_animal_details(animal_identifier, animal_type, animal_breed, animal_w
 def update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Update Animal set animal_identifier = %s,typeAnimal = %s,breedAnimal = %s,weightAnimal = %s,genderAnimal = %s,trackingID = %s where trackingID = %s")
+    query = ("Update Animal set animal_identifier = BINARY %s,typeAnimal = BINARY %s,breedAnimal = BINARY %s,weightAnimal = %s,genderAnimal = BINARY %s,trackingID = %s where trackingID = %s")
     cursor.execute(query, (animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number))
     cnx2.commit()
     cursor.close()
@@ -98,7 +101,7 @@ def update_coordinates_table(tracking_number, oldtracking_number):
 def check_name_existance(animal_identifier):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select trackingID from Animal where animal_identifier = %s")
+    query = ("Select trackingID from Animal where animal_identifier = BINARY %s")
     cursor.execute(query, (animal_identifier,))
     result = cursor.fetchall()
     cursor.close()

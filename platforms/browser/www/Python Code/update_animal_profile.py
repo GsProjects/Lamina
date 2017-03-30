@@ -13,7 +13,7 @@ def get_animal_profiles(owner):
 def associated_animal_info(owner:str):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select animalIdentifier,typeAnimal,breedAnimal,weightAnimal,genderAnimal,trackingID from Animal where ownerID = %s")
+    query = ("Select animalIdentifier,typeAnimal,breedAnimal,weightAnimal,genderAnimal,trackingID from Animal where ownerID = BINARY %s")
     cursor.execute(query, (owner, ))
     result = cursor.fetchall()
     cursor.close()

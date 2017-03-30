@@ -9,7 +9,7 @@ def analyse(animal_identifier, tracking_number, second_animal_identifier, second
     if start_date == '':
         return json.dumps({'status': 'No Date Selected'})
 
-    locations = get_current_location(tracking_number, second_animal_identifier, start_date)
+    locations = get_current_location(tracking_number, second_tracking_number, start_date)
     coordinates= []
     temp_list = []
     for items in locations:
@@ -22,11 +22,11 @@ def analyse(animal_identifier, tracking_number, second_animal_identifier, second
     return json.dumps(coordinates)
 
 
-def get_current_location(tracking_number, second_animal_identifier, start_date):
+def get_current_location(tracking_number, second_tracking_number, start_date):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
     query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s and currentCoordinates.trackingID = %s  and currentCoordinates.date >= %s")
-    cursor.execute(query, (tracking_number, second_animal_identifier, str(start_date)))
+    cursor.execute(query, (tracking_number, second_tracking_number, str(start_date)))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

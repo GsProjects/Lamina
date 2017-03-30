@@ -16,7 +16,14 @@ function register()
                         {
                             window.location.replace("home.html");
                         }) 
-                } 
+                }
+                else if(result["status"] == "Passwords incorrect") 
+                    {
+                        bootbox.alert("The passwords do not match please try again",function()
+                            {
+                                window.location.replace ("register.html");
+                            })                  
+                    }
                 else if(result["status"] == "Username already exists") 
                 {
                     bootbox.alert("The user name already exists please try again",function()

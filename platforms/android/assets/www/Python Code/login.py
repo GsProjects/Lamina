@@ -11,7 +11,7 @@ def login(username,password):
         if len(exists) == 1:
             temp = exists[0]
             data = temp[2]
-            if password == data[0]:
+            if password == data:
                 overall_result = json.dumps({"status": "successful"})
                 return overall_result
             else:
@@ -25,7 +25,7 @@ def login(username,password):
 def check_existance(username):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select * from Register where registerUserName = %s")
+    query = ("Select * from Register where registerUserName = BINARY %s")
     cursor.execute(query, (username, ))
     result = cursor.fetchall()
     cursor.close()

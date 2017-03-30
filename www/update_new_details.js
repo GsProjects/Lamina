@@ -26,6 +26,13 @@ function update_details()
                                         window.location.replace("home.html");
                                     })
                             } 
+                        if (result["status"] == "Wrong gender") 
+                            {
+                                bootbox.alert("Animal gender must be M or F",function()
+                                    {
+                                        window.location.replace("update_animal_profile.html");
+                                    })
+                            } 
                         if (result["status"] == "Empty fields") 
                             {
                                 bootbox.alert("Please fill in all the fields",function()

@@ -9,7 +9,7 @@ def get_graph_details(owner):
 def graph_data(owner):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select * from Animal where ownerID = %s")
+    query = ("Select * from Animal where ownerID = BINARY %s")
     cursor.execute(query, (owner, ))
     result = cursor.fetchall()
     cursor.close()

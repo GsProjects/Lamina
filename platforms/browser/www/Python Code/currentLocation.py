@@ -50,7 +50,7 @@ def get_latest_location(max_id):
 def get_current_location(user_id):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select * from currentCoordinates where username = %s")
+    query = ("Select * from currentCoordinates where username = BINARY %s")
     cursor.execute(query, (user_id, ))
     result = cursor.fetchall()
     cursor.close()

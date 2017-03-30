@@ -82,7 +82,7 @@ def get_coordinates(tracking_id, date):
 def get_associated_animals(user):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select trackingID from Animal where ownerID = %s")
+    query = ("Select trackingID from Animal where ownerID = BINARY %s")
     cursor.execute(query, (user,))
     result = cursor.fetchall()
     cursor.close()
@@ -92,7 +92,7 @@ def get_associated_animals(user):
 def get_animal_info(user):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select animalIdentifier, typeAnimal , breedAnimal , weightAnimal , genderAnimal , trackingID  from Animal where ownerID = %s")
+    query = ("Select animalIdentifier, typeAnimal , breedAnimal , weightAnimal , genderAnimal , trackingID  from Animal where ownerID = BINARY %s")
     cursor.execute(query, (user,))
     result = cursor.fetchall()
     cursor.close()

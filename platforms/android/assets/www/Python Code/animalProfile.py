@@ -7,6 +7,10 @@ def add_animal(animal_identifier, animal_type, animal_breed, animal_weight, anim
             Result = json.dumps({"status": "Empty fields"})
             return Result
     else:
+        if animal_gender != 'M' and animal_gender != 'F' and animal_gender != 'm' and animal_gender != 'f':
+            overall_result = json.dumps({"status": "Wrong gender"})
+            return overall_result
+            
         exists = check_animal_existance(animal_identifier)
         if len(exists) <= 1:
             ids = get_current_animal_id()
@@ -33,7 +37,7 @@ def get_current_animal_id():
 def update_animal_profile(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, owner, tracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Insert into Animal (animalIdentifier , typeAnimal, breedAnimal, weightAnimal,genderAnimal,ownerID,trackingID) values(%s,%s, %s, %s,%s, %s, %s)")
+    query = ("Insert into Animal (animalIdentifier , typeAnimal, breedAnimal, weightAnimal,genderAnimal,ownerID,trackingID) values(BINARY %s, BINARY %s, BINARY %s, %s, BINARY %s, BINARY %s, %s)")
     cursor.execute(query, (animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, owner, tracking_number))
     cnx2.commit()
     cursor.close()
@@ -43,7 +47,7 @@ def update_animal_profile(animal_identifier, animal_type, animal_breed, animal_w
 def check_animal_existance(animal_identifier):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select * from Animal where animalIdentifier = %s")
+    query = ("Select * from Animal where animalIdentifier = BINARY %s")
     cursor.execute(query, (animal_identifier, ))
     result = cursor.fetchall()
     cursor.close()

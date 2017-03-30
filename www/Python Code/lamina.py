@@ -14,6 +14,7 @@ from graph_movement import get_graph_details
 from cluster_data import cluster
 from insert_coordinates import insert_coord
 import random
+import hashlib
 
 
 global session
@@ -25,9 +26,12 @@ app.secret_key = str(random.getrandbits(256))
 def register_user():
     global session
 
-    temp_user = request.form['registerUserName'].lower()
-    temp_password = request.form['registerUserPassword'].lower()
-    temp_confirmed_password = request.form['confirmRegisterUserPassword'].lower()
+    temp_user = request.form['registerUserName']
+    if temp_user == '' or request.form['registerUserPassword'] == '' or request.form['confirmRegisterUserPassword'] == '':
+        Result = json.dumps({"status": "Empty fields"})
+        return Result
+    temp_password = hashlib.sha256(request.form['registerUserPassword'].encode('utf-8')).hexdigest()
+    temp_confirmed_password = hashlib.sha256(request.form['confirmRegisterUserPassword'].encode('utf-8')).hexdigest()
     result = register(temp_user, temp_password, temp_confirmed_password)
     for k, v in json.loads(result).items():
         if v == 'ok':
@@ -43,13 +47,16 @@ def register_user():
 
     
 @app.route('/changePassword', methods=['POST', 'GET'])
-def change_password():
+def change_pass():
     global session
-
-    user = request.form['changeUserName'].lower()
-    old_password = request.form['oldUserPassword'].lower()
-    password = request.form['changeUserPassword'].lower()
-    confirmed_password = request.form['confirmChangeUserPassword'].lower()
+    user = request.form['changeUserName']
+    if user == '' or request.form['oldUserPassword'] == '' or request.form['changeUserPassword'] == '' or request.form['confirmChangeUserPassword'] == '':
+        Result = json.dumps({"status": "Empty fields"})
+        return Result
+    
+    old_password = hashlib.sha256(request.form['oldUserPassword'].encode('utf-8')).hexdigest()
+    password = hashlib.sha256(request.form['changeUserPassword'].encode('utf-8')).hexdigest() 
+    confirmed_password = hashlib.sha256(request.form['confirmChangeUserPassword'].encode('utf-8')).hexdigest()
 
     result = change_password(user, password, confirmed_password, old_password)
     for k, v in json.loads(result).items():
@@ -69,8 +76,8 @@ def change_password():
 def user_login():
     global session
 
-    username = request.form['userName'].lower()
-    password = request.form['userPassword'].lower()
+    username = request.form['userName']
+    password = hashlib.sha256(request.form['userPassword'].encode('utf-8')).hexdigest()
 
     result = login(username, password)
     for k, v in json.loads(result).items():
@@ -84,14 +91,14 @@ def user_login():
 
         
 @app.route('/animalProfile', methods=['POST', 'GET'])
-def add_animal():
+def add_animals():
     global session
 
-    animal_identifier = request.form['animalID'].lower()
-    animal_type = request.form['animalType'].lower()
-    animal_breed = request.form['animalBreed'].lower()
-    animal_weight = request.form['animalWeight'].lower()
-    animal_gender = request.form['animalGender'].lower()
+    animal_identifier = request.form['animalID']
+    animal_type = request.form['animalType']
+    animal_breed = request.form['animalBreed']
+    animal_weight = request.form['animalWeight']
+    animal_gender = request.form['animalGender']
     tracking_number = request.form['trackingNum']
     owner = session['user']
 
@@ -111,14 +118,14 @@ def current_Location():
 
 
 @app.route('/analyse_paths', methods=['POST', 'GET'])
-def analyse_paths():
+def analyse_path():
 
     global session
     if session['loggedIn'] == 'true':
-        animal_identifier = request.form['animal'].lower()
+        animal_identifier = request.form['animal']
         tracking_number = request.form['trackingNum']
 
-        second_animal_identifier = request.form['animalTwo'].lower()
+        second_animal_identifier = request.form['animalTwo']
         second_tracking_number = request.form['trackingNumTwo']
         start_date = request.form['date']
         
@@ -174,18 +181,18 @@ def update_animals():
     
     
 @app.route('/update_animals_details', methods=['POST', 'GET'])
-def update_animal_details():
+def update_animal():
 
     global session
     print('In update animals details')
-    animal_identifier = request.form['animalID'].lower()
-    animal_type = request.form['animalType'].lower()
-    animal_breed = request.form['animalBreed'].lower()
-    animal_weight = request.form['animalWeight'].lower()
-    animal_gender = request.form['animalGender'].lower()
+    animal_identifier = request.form['animalID']
+    animal_type = request.form['animalType']
+    animal_breed = request.form['animalBreed']
+    animal_weight = request.form['animalWeight']
+    animal_gender = request.form['animalGender']
     tracking_number = request.form['trackingNum']
     oldtracking_number = request.form['oldTrackingId']
-    oldanimal_identifier = request.form['oldanimalIdentifier'].lower()
+    oldanimal_identifier = request.form['oldanimalIdentifier']
 
     if session['loggedIn'] == 'true':
         result = update_animal_details(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number, oldanimal_identifier, session['user'])
@@ -196,10 +203,10 @@ def update_animal_details():
     
             
 @app.route('/delete_details', methods=['POST', 'GET'])
-def delete_animal():
+def delete_animals():
 
     global session
-    animal_identifier = request.form['animal'].lower()
+    animal_identifier = request.form['animal']
     tracking_number = request.form['trackingNum']
     
     if session['loggedIn'] == 'true':

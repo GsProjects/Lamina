@@ -7,7 +7,6 @@ function add_animal()
             type: 'POST',
             async: false})
             .done(function(response) {
-                console.log(response);
                 var result = JSON.parse(response);
                 if (result["status"] == "ok") 
                     {
@@ -19,6 +18,13 @@ function add_animal()
                 if(result["status"] == "Animal id already exists") 
                     {
                         bootbox.alert("The animal id already exists please try again",function()
+                            {
+                                window.location.replace ("addAnimalProfile.html");
+                            })
+                    }
+                if(result["status"] == "Wrong gender") 
+                    {
+                        bootbox.alert("The animal gender can only be M or F",function()
                             {
                                 window.location.replace ("addAnimalProfile.html");
                             })
