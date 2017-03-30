@@ -7,9 +7,8 @@ function animal_paths()
             data: $('#select_form').serialize(),
             async: true})
             .done(function(response) {
-                console.log(response);
                 var result = JSON.parse(response);
-            
+                console.log(result);
                 if(result['status'])
                     {
                         if (result['status'] == 'No Animal Selected')

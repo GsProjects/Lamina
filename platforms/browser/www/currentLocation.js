@@ -10,8 +10,19 @@ function animal_location()
             .done(function(response) {
                 console.log(response);
                 var result = JSON.parse(response);
-                process_data(result)
-                window.location.replace ("currentLocation.html");
+                if (result["status"] == "Not logged In") 
+                    {
+                        bootbox.alert("Session timeout. Please Login.",function()
+                            {
+                                window.location.replace("index.html");
+                            }) 
+                    }
+                else
+                    {
+                        process_data(result)
+                        window.location.replace ("currentLocation.html");
+                    }
+                
         })        
 };
 function back()
