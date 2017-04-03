@@ -84,6 +84,7 @@ function change_gps()
     //https://github.com/cordova-sms/cordova-sms-plugin
 
     var success = function () { alert('Message sent successfully'); };
+    
     var error = function (e) { alert('Message Failed:' + e); };       
     SMS.sendSMS(phone_number, message, success, error);
     window.location.replace("home.html");

@@ -78,11 +78,11 @@ def update_animal_details(animal_identifier, animal_type, animal_breed, animal_w
             return Result    
             
 
-def update_animal_table(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number):
+def update_animal_table(animalIdentifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Update Animal set animal_identifier = BINARY %s,typeAnimal = BINARY %s,breedAnimal = BINARY %s,weightAnimal = %s,genderAnimal = BINARY %s,trackingID = %s where trackingID = %s")
-    cursor.execute(query, (animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number))
+    query = ("Update Animal set animalIdentifier = BINARY %s,typeAnimal = BINARY %s,breedAnimal = BINARY %s,weightAnimal = %s,genderAnimal = BINARY %s,trackingID = %s where trackingID = %s")
+    cursor.execute(query, (animalIdentifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number))
     cnx2.commit()
     cursor.close()
     cnx2.close()
@@ -98,11 +98,11 @@ def update_coordinates_table(tracking_number, oldtracking_number):
     cnx2.close()
 
     
-def check_name_existance(animal_identifier):
+def check_name_existance(animalIdentifier):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select trackingID from Animal where animal_identifier = BINARY %s")
-    cursor.execute(query, (animal_identifier,))
+    query = ("Select trackingID from Animal where animalIdentifier = BINARY %s")
+    cursor.execute(query, (animalIdentifier,))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
@@ -115,8 +115,6 @@ def check_id_existance(tracking_number):
     query = ("Select ownerID from Animal where trackingID = %s")
     cursor.execute(query,(tracking_number,))
     result = cursor.fetchall()
-    print("result" + str(result))
-    print(type(result))
     cursor.close()
     cnx2.close()
     return result

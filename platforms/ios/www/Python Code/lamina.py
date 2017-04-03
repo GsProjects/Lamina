@@ -178,7 +178,6 @@ def update_animals():
     
 @app.route('/update_animals_details', methods=['POST', 'GET'])
 def update_animal():
-
     global session_user
     animal_identifier = request.form['animalID']
     animal_type = request.form['animalType']
@@ -188,7 +187,6 @@ def update_animal():
     tracking_number = request.form['trackingNum']
     oldtracking_number = request.form['oldTrackingId']
     oldanimal_identifier = request.form['oldanimalIdentifier']
-
     if check_flag(session_user) == 1:
         result = update_animal_details(animal_identifier, animal_type, animal_breed, animal_weight, animal_gender, tracking_number, oldtracking_number, oldanimal_identifier, session_user)
         return result

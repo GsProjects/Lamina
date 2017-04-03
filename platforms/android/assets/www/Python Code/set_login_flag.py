@@ -11,7 +11,7 @@ def check_flag(username):
     cnx2.close()
     return result[0]
   
-  
+    
 def is_logged_in(username):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
@@ -21,8 +21,7 @@ def is_logged_in(username):
     cursor.close()
     cnx2.close()
  
-    
-    
+        
 def is_logged_out(username):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
