@@ -21,13 +21,27 @@ function get_cluster_data()
                                     })
                             }
                        
-                        if (result["status"] == "Empty fields") 
+                        if (result["status"] == "Empty Fields") 
                             {
                                 bootbox.alert("Please select an animal",function()
                                     { 
-                                        window.location.replace("myprofile.html");
+                                        window.location.replace("cluster.html");
                                     })
                             }
+                        if (result['status'] == 'Date order')
+                            {
+                                bootbox.alert("The end date cannot be before the start date",function()
+                                    {
+                                        window.location.replace("cluster.html");
+                                    })
+                            }
+                        if (result['status'] == 'Same Dates')
+                            {
+                                bootbox.alert("The dates cannot be the same",function()
+                                    {
+                                        window.location.replace("cluster.html");
+                                    })
+                            }  
                        
                     }
                 else

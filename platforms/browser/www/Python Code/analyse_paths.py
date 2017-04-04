@@ -1,15 +1,22 @@
 from flask import json
+from datetime import datetime
 from connector import create_connection
 
 
-def analyse(animal_identifier, tracking_number, second_animal_identifier, second_tracking_number, start_date):
+def analyse(animal_identifier, tracking_number, second_animal_identifier, second_tracking_number, start_date, end_date):
     if animal_identifier == '--select an animal--' or second_animal_identifier == '--select an animal--':
         return json.dumps({'status': 'No Animal Selected'})
     
-    if start_date == '':
+    if start_date == '' or end_date == '':
         return json.dumps({'status': 'No Date Selected'})
+    
+    if start_date == end_date:
+        return json.dumps({'status': 'Same Dates'})
+    
+    if start_date > end_date:
+        return json.dumps({'status': 'Date order'})
 
-    locations = get_current_location(tracking_number, second_tracking_number, start_date)
+    locations = get_current_location(tracking_number, second_tracking_number, start_date,end_date)
     coordinates= []
     temp_list = []
     for items in locations:
@@ -22,11 +29,11 @@ def analyse(animal_identifier, tracking_number, second_animal_identifier, second
     return json.dumps(coordinates)
 
 
-def get_current_location(tracking_number, second_tracking_number, start_date):
+def get_current_location(tracking_number, second_tracking_number, start_date,end_date):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s and currentCoordinates.trackingID = %s  and currentCoordinates.date >= %s")
-    cursor.execute(query, (tracking_number, second_tracking_number, str(start_date)))
+    query = ("Select currentCoordinates.longitude,currentCoordinates.latitude,currentCoordinates.time,currentCoordinates.date,Animal.animalIdentifier from currentCoordinates INNER JOIN Animal ON currentCoordinates.trackingID=Animal.trackingID where currentCoordinates.trackingID = %s and currentCoordinates.trackingID = %s  and currentCoordinates.date >= %s and currentCoordinates.date < %s")
+    cursor.execute(query, (tracking_number, second_tracking_number, str(start_date),str(end_date)))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()

@@ -31,7 +31,22 @@ function animal_paths()
                                     {
                                         window.location.replace("select_animal.html");
                                     })
+                            }
+                        if (result['status'] == 'Date order')
+                            {
+                                bootbox.alert("The end date cannot be before the start date",function()
+                                    {
+                                        window.location.replace("select_animal.html");
+                                    })
+                            }
+                        if (result['status'] == 'Same Dates')
+                            {
+                                bootbox.alert("The dates cannot be the same",function()
+                                    {
+                                        window.location.replace("select_animal.html");
+                                    })
                             }  
+                        
                     }
                 else
                 {

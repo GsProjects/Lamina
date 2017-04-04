@@ -124,8 +124,8 @@ def analyse_path():
         second_animal_identifier = request.form['animalTwo']
         second_tracking_number = request.form['trackingNumTwo']
         start_date = request.form['date']
-        
-        result = analyse(animal_identifier, tracking_number, second_animal_identifier, second_tracking_number, start_date)
+        end_date = request.form['enddate']
+        result = analyse(animal_identifier, tracking_number, second_animal_identifier, second_tracking_number, start_date,end_date)
         return result
         
     else:
@@ -233,10 +233,12 @@ def cluster_data():
     eps = request.form['eps']
     num_loc = request.form['num_loc']
     date = request.form['start_date']
+    end_date = request.form['end_date']
 
     if check_flag(session_user) == 1:
-        result = cluster(int(eps), int(num_loc), date, session_user)
-        return json.dumps(result)   
+        result = cluster(int(eps), int(num_loc), date, end_date, session_user)
+        print(result)
+        return json.dumps(result) 
     else:
         overall_result = json.dumps({"status": "Your session has timed out, please log in again"})
         return overall_result

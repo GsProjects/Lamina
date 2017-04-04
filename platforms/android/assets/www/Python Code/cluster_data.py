@@ -5,20 +5,28 @@ from sklearn.cluster import DBSCAN
 from collections import defaultdict
 
 
-def cluster(distance, num_locations, date, user):
+def cluster(distance, num_locations, date, end_date, user):
     coordinate_data = []
     cluster_data = []
     animal_ids = get_associated_animals(user)
     for animal in animal_ids:
 
-        #http://geoffboeing.com/2014/08/clustering-to-reduce-spatial-data-set-size/
-        if distance == '' or num_locations == '' or date == '':
-            overall_result = json.dumps({"status": "Empty Fields"})
+        #http://geoffboeing.com/2014/08/clustering-to-reduce-spatial-data-set-size/   
+        if distance == '' or num_locations == '' or date == '' or end_date == '':
+            overall_result = {"status": "Empty Fields"}
             return overall_result
+        
         if animal[0] != '':
-            data = get_coordinates(animal[0], date)
+            data = get_coordinates(animal[0], date,end_date)
+            
+        if date == end_date:
+            return {'status': 'Same Dates'}
+        
+        if date > end_date:
+            return {'status': 'Date order'}
+        
         if len(data) <= 1:
-            overall_result = json.dumps({"status": "No Data"})
+            overall_result = {"status": "No Data"}
             return overall_result
 
         kms_per_radian = 6371.0088
@@ -68,11 +76,11 @@ def cluster(distance, num_locations, date, user):
     return cluster_data
 
 
-def get_coordinates(tracking_id, date):
+def get_coordinates(tracking_id, date,end_date):
     cnx2 = create_connection()
     cursor = cnx2.cursor()
-    query = ("Select longitude,latitude from currentCoordinates where trackingID = %s and date >= %s")
-    cursor.execute(query, (tracking_id, date))
+    query = ("Select longitude,latitude from currentCoordinates where trackingID = %s and date >= %s and date < %s")
+    cursor.execute(query, (tracking_id, date,end_date))
     result = cursor.fetchall()
     cursor.close()
     cnx2.close()
